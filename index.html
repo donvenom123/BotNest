@@ -18,9 +18,13 @@
       --muted: #aab6cc;
     }
 
-    * { box-sizing: border-box; }
+    * {
+      box-sizing: border-box;
+    }
 
-    html { scroll-behavior: smooth; }
+    html {
+      scroll-behavior: smooth;
+    }
 
     body {
       margin: 0;
@@ -30,7 +34,9 @@
       line-height: 1.6;
     }
 
-    a { text-decoration: none; }
+    a {
+      text-decoration: none;
+    }
 
     /* CUSTOM BOTNEST BRAND */
     header {
@@ -102,7 +108,9 @@
       transition: color .2s;
     }
 
-    nav a:hover { color: #c4b5fd; }
+    nav a:hover {
+      color: #c4b5fd;
+    }
 
     /* HERO */
     .hero {
@@ -128,7 +136,9 @@
       letter-spacing: -1.8px;
     }
 
-    h1 span { color: #a78bfa; }
+    h1 span {
+      color: #a78bfa;
+    }
 
     .hero p {
       max-width: 600px;
@@ -146,7 +156,6 @@
       background: var(--purple);
       color: white;
       font-weight: bold;
-      text-decoration: none;
       border: 1px solid transparent;
       cursor: pointer;
       transition: background .2s, transform .2s;
@@ -163,10 +172,14 @@
       margin-left: 8px;
     }
 
-    .secondary:hover { background: #252044; }
+    .secondary:hover {
+      background: #252044;
+    }
 
     /* CONTENT SECTIONS */
-    section { padding: 55px 7%; }
+    section {
+      padding: 55px 7%;
+    }
 
     .section-title {
       text-align: center;
@@ -400,7 +413,9 @@
       font-size: 27px;
     }
 
-    .cta .muted { margin-bottom: 22px; }
+    .cta .muted {
+      margin-bottom: 22px;
+    }
 
     footer {
       padding: 25px 7%;
@@ -425,25 +440,43 @@
         gap: 18px;
       }
 
-      nav a { margin: 0; }
+      nav a {
+        margin: 0;
+      }
 
-      .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
 
-      .hero { padding: 65px 5% 55px; }
+      .hero {
+        padding: 65px 5% 55px;
+      }
 
-      section { padding: 45px 5%; }
+      section {
+        padding: 45px 5%;
+      }
 
-      .cta { margin: 10px 5% 40px; }
+      .cta {
+        margin: 10px 5% 40px;
+      }
     }
 
     @media (max-width: 480px) {
-      .brand { font-size: 23px; }
+      .brand {
+        font-size: 23px;
+      }
 
-      nav { gap: 15px; }
+      nav {
+        gap: 15px;
+      }
 
-      nav a { font-size: 13px; }
+      nav a {
+        font-size: 13px;
+      }
 
-      .hero { padding: 55px 5% 48px; }
+      .hero {
+        padding: 55px 5% 48px;
+      }
 
       .tag {
         font-size: 10px;
@@ -455,7 +488,9 @@
         letter-spacing: -1px;
       }
 
-      .hero p { font-size: 15px; }
+      .hero p {
+        font-size: 15px;
+      }
 
       .hero .btn {
         width: 100%;
@@ -463,21 +498,32 @@
         margin: 5px 0;
       }
 
-      .grid { grid-template-columns: 1fr; }
+      .grid {
+        grid-template-columns: 1fr;
+      }
 
       .card {
         padding: 21px;
         border-radius: 14px;
       }
 
-      .section-title { font-size: 26px; }
+      .section-title {
+        font-size: 26px;
+      }
 
-      .cta { padding: 30px 17px; }
+      .cta {
+        padding: 30px 17px;
+      }
     }
 
     @media (prefers-reduced-motion: reduce) {
-      html { scroll-behavior: auto; }
-      *, *::before, *::after {
+      html {
+        scroll-behavior: auto;
+      }
+
+      *,
+      *::before,
+      *::after {
         transition-duration: .01ms !important;
       }
     }
@@ -494,7 +540,7 @@
     <nav aria-label="Main navigation">
       <a href="#features">Features</a>
       <a href="#platforms">Platforms</a>
-      <a href="#dashboard">Dashboard</a>
+      <a href="dashboard.html">Dashboard</a>
     </nav>
   </header>
 
@@ -589,4 +635,4 @@
     &copy; 2026 BotNest. Built for creators who build bots.
   </footer>
 </body>
-      </html>
+  </html>
