@@ -1,0 +1,256 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0b1020">
+<title>BotNest Dashboard</title>
+<style>
+:root {
+  --bg: #0b1020;
+  --panel: #141c31;
+  --border: #293550;
+  --purple: #9360ff;
+  --text: #f5f6ff;
+  --muted: #a3aec8;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: Arial, sans-serif;
+}
+button, a { font: inherit; }
+a { color: inherit; text-decoration: none; }
+.layout { min-height: 100vh; }
+.sidebar {
+  padding: 22px;
+  border-bottom: 1px solid var(--border);
+  background: #0e1528;
+}
+.brand {
+  font-size: 25px;
+  font-weight: 800;
+  color: #ad8aff;
+}
+.brand-mark {
+  display: inline-block;
+  width: 13px;
+  height: 13px;
+  background: var(--purple);
+  transform: rotate(45deg);
+  margin-right: 10px;
+  border-radius: 3px;
+}
+.nav {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 24px;
+}
+.nav a {
+  padding: 11px 13px;
+  border-radius: 10px;
+  color: var(--muted);
+}
+.nav a.active, .nav a:hover {
+  background: #252044;
+  color: #c8b0ff;
+}
+main { padding: 25px 18px 50px; max-width: 1100px; margin: auto; }
+.topline {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+h1 { font-size: 30px; margin: 0 0 8px; }
+p { color: var(--muted); line-height: 1.6; }
+.primary {
+  display: inline-block;
+  border: 0;
+  border-radius: 11px;
+  background: var(--purple);
+  color: white;
+  padding: 13px 17px;
+  font-weight: 700;
+  cursor: pointer;
+}
+.stats {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin: 27px 0;
+}
+.card {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 18px;
+  min-width: 0;
+}
+.stat-label { color: var(--muted); font-size: 13px; }
+.stat-number { font-size: 29px; font-weight: 800; margin-top: 12px; }
+.stat-note { color: #a98bff; font-size: 12px; margin-top: 8px; }
+.section-title {
+  font-size: 20px;
+  margin: 32px 0 15px;
+}
+.bot-list { display: grid; gap: 12px; }
+.bot-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.bot-icon {
+  width: 44px;
+  height: 44px;
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  border: 1px solid #4b3c7c;
+  border-radius: 12px;
+  color: #c4aaff;
+  background: #252044;
+  font-weight: 800;
+}
+.bot-info { flex: 1; min-width: 0; }
+.bot-info strong { display: block; margin-bottom: 6px; }
+.bot-info small { color: var(--muted); }
+.status {
+  font-size: 11px;
+  color: #e4c17a;
+  border: 1px solid #725d37;
+  padding: 5px 8px;
+  border-radius: 20px;
+  white-space: nowrap;
+}
+.empty {
+  text-align: center;
+  padding: 28px 16px;
+  border: 1px dashed #3b4560;
+  border-radius: 14px;
+}
+.empty-mark {
+  width: 38px;
+  height: 38px;
+  margin: 0 auto 14px;
+  border: 2px solid var(--purple);
+  border-radius: 12px;
+  transform: rotate(45deg) scale(.7);
+}
+.footer { color: #75819c; text-align: center; font-size: 12px; margin-top: 40px; }
+@media (min-width: 700px) {
+  .layout { display: grid; grid-template-columns: 220px 1fr; }
+  .sidebar { border-bottom: 0; border-right: 1px solid var(--border); }
+  .nav { display: grid; }
+  main { width: 100%; padding: 38px; }
+  .stats { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
+</style>
+</head>
+<body>
+<div class="layout">
+<aside class="sidebar">
+  <a class="brand" href="index.html"><span class="brand-mark"></span>BotNest</a>
+  <nav class="nav">
+    <a class="active" href="#overview">Overview</a>
+    <a href="#bots">My Bots</a>
+    <a href="#deployments">Deployments</a>
+    <a href="#settings">Settings</a>
+    <a href="index.html">Back to website</a>
+  </nav>
+</aside>
+
+<main>
+  <section id="overview">
+    <div class="topline">
+      <div>
+        <h1>Dashboard</h1>
+        <p>Welcome to your bot workspace.</p>
+      </div>
+      <a class="primary" href="#bots">+ Add a bot</a>
+    </div>
+
+    <div class="stats">
+      <div class="card">
+        <div class="stat-label">Total bots</div>
+        <div class="stat-number">0</div>
+        <div class="stat-note">Your workspace</div>
+      </div>
+      <div class="card">
+        <div class="stat-label">Running</div>
+        <div class="stat-number">0</div>
+        <div class="stat-note">No bots running yet</div>
+      </div>
+      <div class="card">
+        <div class="stat-label">Stopped</div>
+        <div class="stat-number">0</div>
+        <div class="stat-note">Ready when you are</div>
+      </div>
+      <div class="card">
+        <div class="stat-label">Deployments</div>
+        <div class="stat-number">0</div>
+        <div class="stat-note">No deployments yet</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="bots">
+    <div class="topline">
+      <h2 class="section-title">My Bots</h2>
+      <span class="status">Setup required</span>
+    </div>
+    <div class="bot-list">
+      <div class="card bot-row">
+        <div class="bot-icon">D</div>
+        <div class="bot-info">
+          <strong>Discord Bot</strong>
+          <small>Connect a Discord project</small>
+        </div>
+        <span class="status">Coming soon</span>
+      </div>
+      <div class="card bot-row">
+        <div class="bot-icon">W</div>
+        <div class="bot-info">
+          <strong>WhatsApp Bot</strong>
+          <small>Connect a WhatsApp project</small>
+        </div>
+        <span class="status">Coming soon</span>
+      </div>
+      <div class="card bot-row">
+        <div class="bot-icon">T</div>
+        <div class="bot-info">
+          <strong>Telegram Bot</strong>
+          <small>Connect a Telegram project</small>
+        </div>
+        <span class="status">Coming soon</span>
+      </div>
+    </div>
+  </section>
+
+  <section id="deployments">
+    <h2 class="section-title">Recent deployments</h2>
+    <div class="card empty">
+      <div class="empty-mark"></div>
+      <strong>No deployments yet</strong>
+      <p>Your deployment activity will appear here when hosting is connected.</p>
+    </div>
+  </section>
+
+  <section id="settings">
+    <h2 class="section-title">Workspace settings</h2>
+    <div class="card">
+      <strong>BotNest workspace</strong>
+      <p>Your dashboard interface is ready. Account login and live hosting will be added later.</p>
+    </div>
+  </section>
+
+  <div class="footer">BotNest Dashboard · Built for your bots</div>
+</main>
+</div>
+</body>
+</html>
