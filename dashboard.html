@@ -1,37 +1,453 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="theme-color" content="#0b1020">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0b1020">
 <title>BotNest Dashboard</title>
 <style>
-:root{--bg:#0b1020;--panel:#141c31;--border:#293550;--purple:#9360ff;--text:#f5f6ff;--muted:#a3aec8}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:Arial,sans-serif}button,input,select{font:inherit}button{cursor:pointer}a{color:inherit;text-decoration:none}.layout{min-height:100vh}.sidebar{padding:22px;background:#0e1528;border-bottom:1px solid var(--border)}.brand{font-size:25px;font-weight:800;color:#ad8aff}.brand-mark{display:inline-block;width:13px;height:13px;background:var(--purple);transform:rotate(45deg);margin-right:10px;border-radius:3px}.nav{display:flex;gap:8px;flex-wrap:wrap;margin-top:24px}.nav a{padding:11px 13px;border-radius:10px;color:var(--muted)}.nav a.active,.nav a:hover{background:#252044;color:#c8b0ff}main{padding:25px 18px 50px;max-width:1100px;margin:auto}.topline{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}h1{font-size:30px;margin:0 0 8px}h2{font-size:21px}p{color:var(--muted);line-height:1.6}.primary,.secondary,.danger{border-radius:11px;padding:12px 16px;font-weight:700}.primary{border:0;background:var(--purple);color:white}.primary:hover{background:#a27aff}.secondary{border:1px solid var(--border);background:#1a2339;color:var(--text)}.danger{border:1px solid #754052;background:#351c2a;color:#ffb6c5}.danger:hover{background:#4b2435}.stats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:27px 0}.card{background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:18px;min-width:0}.stat-label{color:var(--muted);font-size:13px}.stat-number{font-size:29px;font-weight:800;margin-top:12px}.stat-note{color:#a98bff;font-size:12px;margin-top:8px}.section-title{font-size:20px;margin:32px 0 15px}.bot-list{display:grid;gap:12px}.bot-card{display:flex;align-items:center;gap:12px;flex-wrap:wrap;cursor:pointer;transition:border-color .15s}.bot-card:hover,.bot-card:focus{border-color:var(--purple);outline:none}.bot-icon{width:46px;height:46px;display:grid;place-items:center;border:1px solid #4b3c7c;border-radius:12px;color:#c4aaff;background:#252044;font-weight:800;flex-shrink:0}.bot-info{flex:1;min-width:120px}.bot-info strong{display:block;margin-bottom:6px;overflow-wrap:anywhere}.muted{color:var(--muted);font-size:13px;line-height:1.6}.status{font-size:11px;color:#e4c17a;border:1px solid #725d37;padding:6px 9px;border-radius:20px;white-space:nowrap}.empty{text-align:center;padding:28px 16px;border:1px dashed #3b4560;border-radius:14px}.empty-mark{width:38px;height:38px;margin:0 auto 14px;border:2px solid var(--purple);border-radius:12px;transform:rotate(45deg) scale(.7)}.footer{color:#75819c;text-align:center;font-size:12px;margin-top:40px}.field{margin-top:18px}.field label{display:block;margin-bottom:9px;font-weight:700;font-size:14px}.field input,.field select{width:100%;min-height:48px;padding:12px;border-radius:10px;border:1px solid #394563;background:#0b1020;color:var(--text);outline:none}.field input:focus,.field select:focus{border-color:var(--purple);box-shadow:0 0 0 2px rgba(147,96,255,.18)}.modal{position:fixed;inset:0;z-index:1000;display:none;align-items:center;justify-content:center;padding:18px;background:rgba(3,6,17,.82);overflow-y:auto}.modal.open{display:flex}.modal-box{width:100%;max-width:460px;background:var(--panel);border:1px solid #394365;border-radius:18px;padding:23px;box-shadow:0 20px 60px rgba(0,0,0,.4)}.modal-heading{display:flex;align-items:center;justify-content:space-between;gap:12px}.modal-heading h2{margin:0;font-size:23px}.close-btn{background:#252044;color:#d9ccff;border:1px solid #4b3c7c;border-radius:9px;width:40px;height:40px;font-size:24px}.form-actions,.detail-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px}.form-actions button,.detail-actions button{flex:1}.form-note{font-size:13px;margin:15px 0}.notice{color:#c8b0ff;font-size:13px;margin-top:12px;line-height:1.5}.detail-grid{display:grid;gap:14px;margin-top:18px}.checklist{display:grid;gap:13px;margin-top:16px}.check-row{display:flex;align-items:flex-start;gap:10px;color:var(--muted);line-height:1.5}.check-row input{margin-top:4px;accent-color:var(--purple);width:18px;height:18px;flex-shrink:0}.hint{font-size:13px;color:var(--muted)}.back-button{margin-bottom:20px}[hidden]{display:none!important}button:focus-visible,a:focus-visible,[role=button]:focus-visible{outline:2px solid #c8b0ff;outline-offset:3px}@media(min-width:700px){.layout{display:grid;grid-template-columns:220px 1fr}.sidebar{border-bottom:0;border-right:1px solid var(--border)}.nav{display:grid}main{width:100%;padding:38px}.stats{grid-template-columns:repeat(4,minmax(0,1fr))}.detail-grid{grid-template-columns:1fr 1fr}}
+:root{--bg:#0b1020;--panel:#141c31;--border:#293550;--purple:#9360ff;--text:#f5f6ff;--muted:#a3aec8}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Arial,sans-serif}
+button,input,select{font:inherit}
+button{cursor:pointer}
+a{color:inherit;text-decoration:none}
+.layout{min-height:100vh}
+.sidebar{padding:22px;background:#0e1528;border-bottom:1px solid var(--border)}
+.brand{font-size:25px;font-weight:800;color:#ad8aff}
+.brand-mark{display:inline-block;width:13px;height:13px;background:var(--purple);transform:rotate(45deg);margin-right:10px;border-radius:3px}
+.nav{display:flex;gap:8px;flex-wrap:wrap;margin-top:24px}
+.nav a{padding:11px 13px;border-radius:10px;color:var(--muted)}
+.nav a.active,.nav a:hover{background:#252044;color:#c8b0ff}
+main{padding:25px 18px 50px;max-width:1100px;margin:auto}
+.topline{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+h1{font-size:30px;margin:0 0 8px}
+h2{font-size:21px}
+p{color:var(--muted);line-height:1.6}
+.primary,.secondary,.danger{border-radius:11px;padding:12px 16px;font-weight:700}
+.primary{border:0;background:var(--purple);color:white}
+.primary:hover{background:#a27aff}
+.secondary{border:1px solid var(--border);background:#1a2339;color:var(--text)}
+.danger{border:1px solid #754052;background:#351c2a;color:#ffb6c5}
+.danger:hover{background:#4b2435}
+.stats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:27px 0}
+.card{background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:18px;min-width:0}
+.stat-label{color:var(--muted);font-size:13px}
+.stat-number{font-size:29px;font-weight:800;margin-top:12px}
+.stat-note{color:#a98bff;font-size:12px;margin-top:8px}
+.section-title{font-size:20px;margin:32px 0 15px}
+.bot-list{display:grid;gap:12px}
+.bot-card{display:flex;align-items:center;gap:12px;flex-wrap:wrap;cursor:pointer;transition:border-color .15s}
+.bot-card:hover,.bot-card:focus{border-color:var(--purple);outline:none}
+.bot-icon{width:46px;height:46px;display:grid;place-items:center;border:1px solid #4b3c7c;border-radius:12px;color:#c4aaff;background:#252044;font-weight:800;flex-shrink:0}
+.bot-info{flex:1;min-width:120px}
+.bot-info strong{display:block;margin-bottom:6px;overflow-wrap:anywhere}
+.muted{color:var(--muted);font-size:13px;line-height:1.6}
+.status{font-size:11px;color:#e4c17a;border:1px solid #725d37;padding:6px 9px;border-radius:20px;white-space:nowrap}
+.empty{text-align:center;padding:28px 16px;border:1px dashed #3b4560;border-radius:14px}
+.empty-mark{width:38px;height:38px;margin:0 auto 14px;border:2px solid var(--purple);border-radius:12px;transform:rotate(45deg) scale(.7)}
+.footer{color:#75819c;text-align:center;font-size:12px;margin-top:40px}
+.field{margin-top:18px}
+.field label{display:block;margin-bottom:9px;font-weight:700;font-size:14px}
+.field input,.field select{width:100%;min-height:48px;padding:12px;border-radius:10px;border:1px solid #394563;background:#0b1020;color:var(--text);outline:none}
+.field input:focus,.field select:focus{border-color:var(--purple);box-shadow:0 0 0 2px rgba(147,96,255,.18)}
+.modal{position:fixed;inset:0;z-index:1000;display:none;align-items:center;justify-content:center;padding:18px;background:rgba(3,6,17,.82);overflow-y:auto}
+.modal.open{display:flex}
+.modal-box{width:100%;max-width:460px;background:var(--panel);border:1px solid #394365;border-radius:18px;padding:23px;box-shadow:0 20px 60px rgba(0,0,0,.4)}
+.modal-heading{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.modal-heading h2{margin:0;font-size:23px}
+.close-btn{background:#252044;color:#d9ccff;border:1px solid #4b3c7c;border-radius:9px;width:40px;height:40px;font-size:24px}
+.form-actions,.detail-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px}
+.form-actions button,.detail-actions button{flex:1}
+.form-note{font-size:13px;margin:15px 0}
+.notice{color:#c8b0ff;font-size:13px;margin-top:12px;line-height:1.5}
+.detail-grid{display:grid;gap:14px;margin-top:18px}
+.checklist{display:grid;gap:13px;margin-top:16px}
+.check-row{display:flex;align-items:flex-start;gap:10px;color:var(--muted);line-height:1.5}
+.check-row input{margin-top:4px;accent-color:var(--purple);width:18px;height:18px;flex-shrink:0}
+.hint{font-size:13px;color:var(--muted)}
+.back-button{margin-bottom:20px}
+[hidden]{display:none!important}
+button:focus-visible,a:focus-visible,[role=button]:focus-visible{outline:2px solid #c8b0ff;outline-offset:3px}
+
+/* BotNest mobile dashboard card improvements */
+@media (max-width: 520px) {
+  .bot-list {
+    gap: 14px;
+  }
+
+  .bot-card {
+    display: grid;
+    grid-template-columns: 46px minmax(0, 1fr);
+    align-items: start;
+    gap: 12px;
+    padding: 16px;
+    border-radius: 16px;
+  }
+
+  .bot-icon {
+    grid-column: 1;
+    grid-row: 1;
+    width: 46px;
+    height: 46px;
+  }
+
+  .bot-info {
+    grid-column: 2;
+    grid-row: 1;
+    min-width: 0;
+    width: 100%;
+  }
+
+  .bot-info strong {
+    font-size: 17px;
+    line-height: 1.4;
+    margin-bottom: 5px;
+    overflow-wrap: anywhere;
+  }
+
+  .bot-info .muted {
+    overflow-wrap: anywhere;
+  }
+
+  .bot-card .status {
+    grid-column: 2;
+    grid-row: 2;
+    justify-self: start;
+    white-space: normal;
+    text-align: center;
+    margin-top: 0;
+  }
+
+  .bot-card button {
+    grid-column: 1 / -1;
+    width: 100%;
+    min-height: 48px;
+    margin-top: 2px;
+  }
+}
+
+@media(min-width:700px){
+  .layout{display:grid;grid-template-columns:220px 1fr}
+  .sidebar{border-bottom:0;border-right:1px solid var(--border)}
+  .nav{display:grid}
+  main{width:100%;padding:38px}
+  .stats{grid-template-columns:repeat(4,minmax(0,1fr))}
+  .detail-grid{grid-template-columns:1fr 1fr}
+}
 </style>
 </head>
-<body><div class="layout"><aside class="sidebar"><a class="brand" href="index.html"><span class="brand-mark"></span>BotNest</a><nav class="nav" aria-label="Main navigation"><a class="active" href="#overview" data-nav="overview">Overview</a><a href="#bots" data-nav="bots">My Bots</a><a href="#deployments" data-nav="deployments">Deployments</a><a href="#settings" data-nav="settings">Settings</a><a href="index.html">Back to website</a></nav></aside>
-<main><div id="dashboardView"><section id="overview"><div class="topline"><div><h1>Dashboard</h1><p>Welcome to your bot workspace.</p></div><button class="primary" id="openBotForm" type="button">+ Add a bot</button></div><div class="stats"><div class="card"><div class="stat-label">Total bots</div><div class="stat-number" id="totalBots">0</div><div class="stat-note">Your workspace</div></div><div class="card"><div class="stat-label">Running</div><div class="stat-number">0</div><div class="stat-note">Live hosting not connected</div></div><div class="card"><div class="stat-label">Stopped</div><div class="stat-number" id="stoppedBots">0</div><div class="stat-note">Saved bot projects</div></div><div class="card"><div class="stat-label">Deployments</div><div class="stat-number">0</div><div class="stat-note">No deployments yet</div></div></div></section>
-<section id="bots"><div class="topline"><h2 class="section-title">My Bots</h2><span class="status" id="setupStatus">No bots yet</span></div><div class="bot-list" id="botList"></div><div class="card empty" id="noBots"><div class="empty-mark"></div><strong>No bots added yet</strong><p>Create your first bot project to see it here.</p><button class="primary" type="button" id="emptyAddBot">+ Create your first bot</button></div></section>
-<section id="deployments"><h2 class="section-title">Recent deployments</h2><div class="card empty"><div class="empty-mark"></div><strong>No deployments yet</strong><p>Your deployment activity will appear here when hosting is connected.</p></div></section><section id="settings"><h2 class="section-title">Workspace settings</h2><div class="card"><strong>BotNest workspace</strong><p>Projects are saved in this browser. Account login and live hosting require a backend.</p></div></section><div class="footer">BotNest Dashboard · Built for your bots</div></div>
-<section id="detailsView" hidden><button class="secondary back-button" id="backToDashboard" type="button">← Back to dashboard</button><div class="topline"><div><h1 id="detailTitle">Bot details</h1><p id="detailSub">Configure this project and prepare it for hosting.</p></div><span class="status">Setup required</span></div><div class="detail-grid"><div class="card"><h2>Project settings</h2><form id="editForm"><div class="field"><label for="editName">Bot name</label><input id="editName" maxlength="60" required></div><div class="field"><label for="editPlatform">Platform</label><select id="editPlatform" required><option>Discord</option><option>WhatsApp</option><option>Telegram</option></select></div><div class="form-actions"><button class="primary" type="submit">Save changes</button></div><div class="notice" id="editNotice" role="status" aria-live="polite"></div></form></div><div class="card"><h2>Prepare for hosting</h2><p id="guide">Complete these steps before deploying.</p><div class="checklist" id="checklist"></div><p class="hint" id="progress">0 of 4 steps complete</p><button class="primary" id="saveChecks" type="button">Save checklist</button><div class="notice" id="checkNotice" role="status" aria-live="polite"></div></div></div><div class="card" style="margin-top:14px"><h2>Important before deploying</h2><p>This GitHub Pages dashboard can save project details, but it cannot run bot processes. Running a bot requires separate hosting and backend deployment.</p><p><strong>Keep credentials private.</strong> Never put bot tokens or WhatsApp session secrets in this dashboard or public GitHub files. Add secrets through your hosting provider's environment-variable settings.</p></div><div class="detail-actions"><button class="danger" id="deleteDetail" type="button">Delete this project</button></div></section></main></div>
-<div class="modal" id="botModal" role="dialog" aria-modal="true" aria-labelledby="formTitle"><div class="modal-box"><div class="modal-heading"><h2 id="formTitle">Add a bot</h2><button type="button" class="close-btn" id="closeBotForm" aria-label="Close form">&times;</button></div><p>Create a project for the bot you want to manage.</p><form id="botForm"><div class="field"><label for="botName">Bot name</label><input id="botName" name="botName" type="text" placeholder="e.g. My Community Bot" maxlength="60" required></div><div class="field"><label for="botPlatform">Choose a platform</label><select id="botPlatform" name="botPlatform" required><option value="">Select a platform</option><option value="Discord">Discord</option><option value="WhatsApp">WhatsApp</option><option value="Telegram">Telegram</option></select></div><p class="form-note hint">Saving creates a project entry only. Connecting the platform and running the bot require backend hosting.</p><div class="form-actions"><button class="secondary" type="button" id="cancelBotForm">Cancel</button><button class="primary" type="submit">Save bot</button></div><div class="notice" id="formNotice" role="status" aria-live="polite"></div></form></div></div>
+<body>
+<div class="layout">
+<aside class="sidebar">
+<a class="brand" href="index.html"><span class="brand-mark"></span>BotNest</a>
+<nav class="nav" aria-label="Main navigation">
+<a class="active" href="#overview" data-nav="overview">Overview</a>
+<a href="#bots" data-nav="bots">My Bots</a>
+<a href="#deployments" data-nav="deployments">Deployments</a>
+<a href="#settings" data-nav="settings">Settings</a>
+<a href="index.html">Back to website</a>
+</nav>
+</aside>
+
+<main>
+<div id="dashboardView">
+<section id="overview">
+<div class="topline">
+<div><h1>Dashboard</h1><p>Welcome to your bot workspace.</p></div>
+<button class="primary" id="openBotForm" type="button">+ Add a bot</button>
+</div>
+<div class="stats">
+<div class="card"><div class="stat-label">Total bots</div><div class="stat-number" id="totalBots">0</div><div class="stat-note">Your workspace</div></div>
+<div class="card"><div class="stat-label">Running</div><div class="stat-number">0</div><div class="stat-note">Live hosting not connected</div></div>
+<div class="card"><div class="stat-label">Stopped</div><div class="stat-number" id="stoppedBots">0</div><div class="stat-note">Saved bot projects</div></div>
+<div class="card"><div class="stat-label">Deployments</div><div class="stat-number">0</div><div class="stat-note">No deployments yet</div></div>
+</div>
+</section>
+
+<section id="bots">
+<div class="topline"><h2 class="section-title">My Bots</h2><span class="status" id="setupStatus">No bots yet</span></div>
+<div class="bot-list" id="botList"></div>
+<div class="card empty" id="noBots"><div class="empty-mark"></div><strong>No bots added yet</strong><p>Create your first bot project to see it here.</p><button class="primary" type="button" id="emptyAddBot">+ Create your first bot</button></div>
+</section>
+
+<section id="deployments">
+<h2 class="section-title">Recent deployments</h2>
+<div class="card empty"><div class="empty-mark"></div><strong>No deployments yet</strong><p>Your deployment activity will appear here when hosting is connected.</p></div>
+</section>
+
+<section id="settings">
+<h2 class="section-title">Workspace settings</h2>
+<div class="card"><strong>BotNest workspace</strong><p>Projects are saved in this browser. Account login and live hosting require a backend.</p></div>
+</section>
+<div class="footer">BotNest Dashboard · Built for your bots</div>
+</div>
+
+<section id="detailsView" hidden>
+<button class="secondary back-button" id="backToDashboard" type="button">← Back to dashboard</button>
+<div class="topline">
+<div><h1 id="detailTitle">Bot details</h1><p id="detailSub">Configure this project and prepare it for hosting.</p></div>
+<span class="status">Setup required</span>
+</div>
+<div class="detail-grid">
+<div class="card">
+<h2>Project settings</h2>
+<form id="editForm">
+<div class="field"><label for="editName">Bot name</label><input id="editName" maxlength="60" required></div>
+<div class="field"><label for="editPlatform">Platform</label><select id="editPlatform" required><option>Discord</option><option>WhatsApp</option><option>Telegram</option></select></div>
+<div class="form-actions"><button class="primary" type="submit">Save changes</button></div>
+<div class="notice" id="editNotice" role="status" aria-live="polite"></div>
+</form>
+</div>
+<div class="card">
+<h2>Prepare for hosting</h2><p id="guide">Complete these steps before deploying.</p>
+<div class="checklist" id="checklist"></div>
+<p class="hint" id="progress">0 of 4 steps complete</p>
+<button class="primary" id="saveChecks" type="button">Save checklist</button>
+<div class="notice" id="checkNotice" role="status" aria-live="polite"></div>
+</div>
+</div>
+<div class="card" style="margin-top:14px">
+<h2>Important before deploying</h2>
+<p>This GitHub Pages dashboard can save project details, but it cannot run bot processes. Running a bot requires separate hosting and backend deployment.</p>
+<p><strong>Keep credentials private.</strong> Never put bot tokens or WhatsApp session secrets in this dashboard or public GitHub files. Add secrets through your hosting provider's environment-variable settings.</p>
+</div>
+<div class="detail-actions"><button class="danger" id="deleteDetail" type="button">Delete this project</button></div>
+</section>
+</main>
+</div>
+
+<div class="modal" id="botModal" role="dialog" aria-modal="true" aria-labelledby="formTitle">
+<div class="modal-box">
+<div class="modal-heading"><h2 id="formTitle">Add a bot</h2><button type="button" class="close-btn" id="closeBotForm" aria-label="Close form">&times;</button></div>
+<p>Create a project for the bot you want to manage.</p>
+<form id="botForm">
+<div class="field"><label for="botName">Bot name</label><input id="botName" name="botName" type="text" placeholder="e.g. My Community Bot" maxlength="60" required></div>
+<div class="field"><label for="botPlatform">Choose a platform</label><select id="botPlatform" name="botPlatform" required><option value="">Select a platform</option><option value="Discord">Discord</option><option value="WhatsApp">WhatsApp</option><option value="Telegram">Telegram</option></select></div>
+<p class="form-note hint">Saving creates a project entry only. Connecting the platform and running the bot require backend hosting.</p>
+<div class="form-actions"><button class="secondary" type="button" id="cancelBotForm">Cancel</button><button class="primary" type="submit">Save bot</button></div>
+<div class="notice" id="formNotice" role="status" aria-live="polite"></div>
+</form>
+</div>
+</div>
+
 <script>
 (function(){'use strict';
-const KEY='botnest_bots_v1',OLD_KEYS=['botnestBots','botnest-bots','botnest_bots','botnestBotsData'];const $=id=>document.getElementById(id);let bots=[],selectedId=null,lastFocused=null;
-function makeId(){return String(Date.now())+'-'+Math.random().toString(36).slice(2,9)}function validPlatform(p){return ['Discord','WhatsApp','Telegram'].includes(p)}
-function normalize(b,i){if(!b||typeof b!=='object')return null;const name=String(b.name||b.botName||'').trim();if(!name)return null;return{id:String(b.id||makeId()+'-'+i),name:name.slice(0,60),platform:validPlatform(b.platform)?b.platform:'Discord',createdAt:b.createdAt||new Date().toISOString(),checks:Array.isArray(b.checks)?[0,1,2,3].map(i=>Boolean(b.checks[i])):[false,false,false,false]}}
-function load(){try{const raw=localStorage.getItem(KEY);if(raw){const data=JSON.parse(raw);if(Array.isArray(data))return data.map(normalize).filter(Boolean)}for(const k of OLD_KEYS){const rawOld=localStorage.getItem(k);if(!rawOld)continue;const old=JSON.parse(rawOld);if(Array.isArray(old)&&old.length){const migrated=old.map(normalize).filter(Boolean);if(migrated.length){localStorage.setItem(KEY,JSON.stringify(migrated));return migrated}}}}catch(e){console.warn('Could not read saved BotNest projects.',e)}return[]}bots=load();
-function save(){try{localStorage.setItem(KEY,JSON.stringify(bots));return true}catch(e){alert('BotNest could not save in this browser. Check browser storage settings and try again.');return false}}
+const KEY='botnest_bots_v1',OLD_KEYS=['botnestBots','botnest-bots','botnest_bots','botnestBotsData'];
+const $=id=>document.getElementById(id);
+let bots=[],selectedId=null,lastFocused=null;
+
+function makeId(){return String(Date.now())+'-'+Math.random().toString(36).slice(2,9)}
+function validPlatform(p){return ['Discord','WhatsApp','Telegram'].includes(p)}
+function normalize(b,i){
+if(!b||typeof b!=='object')return null;
+const name=String(b.name||b.botName||'').trim();
+if(!name)return null;
+return{id:String(b.id||makeId()+'-'+i),name:name.slice(0,60),platform:validPlatform(b.platform)?b.platform:'Discord',createdAt:b.createdAt||new Date().toISOString(),checks:Array.isArray(b.checks)?[0,1,2,3].map(i=>Boolean(b.checks[i])):[false,false,false,false]}
+}
+function load(){
+try{
+const raw=localStorage.getItem(KEY);
+if(raw){const data=JSON.parse(raw);if(Array.isArray(data))return data.map(normalize).filter(Boolean)}
+for(const k of OLD_KEYS){
+const rawOld=localStorage.getItem(k);
+if(!rawOld)continue;
+const old=JSON.parse(rawOld);
+if(Array.isArray(old)&&old.length){
+const migrated=old.map(normalize).filter(Boolean);
+if(migrated.length){localStorage.setItem(KEY,JSON.stringify(migrated));return migrated}
+}
+}
+}catch(e){console.warn('Could not read saved BotNest projects.',e)}
+return[]
+}
+bots=load();
+
+function save(){
+try{localStorage.setItem(KEY,JSON.stringify(bots));return true}
+catch(e){alert('BotNest could not save in this browser. Check browser storage settings and try again.');return false}
+}
 function letter(p){return p==='WhatsApp'?'W':p==='Telegram'?'T':'D'}
-function render(){const list=$('botList');list.replaceChildren();$('totalBots').textContent=bots.length;$('stoppedBots').textContent=bots.length;$('noBots').hidden=bots.length>0;$('setupStatus').textContent=bots.length?'Setup required':'No bots yet';bots.forEach(b=>{const c=document.createElement('div');c.className='card bot-card';c.tabIndex=0;c.setAttribute('role','button');c.setAttribute('aria-label','Open details for '+b.name);const i=document.createElement('div');i.className='bot-icon';i.setAttribute('aria-hidden','true');i.textContent=letter(b.platform);const info=document.createElement('div');info.className='bot-info';const n=document.createElement('strong');n.textContent=b.name;const p=document.createElement('div');p.className='muted';p.textContent=b.platform+' bot project';const sub=document.createElement('div');sub.className='muted';sub.style.marginTop='6px';sub.textContent='Not connected · Hosting not configured';info.append(n,p,sub);const status=document.createElement('span');status.className='status';status.textContent='Setup required';const manage=document.createElement('button');manage.type='button';manage.className='secondary';manage.textContent='Manage';manage.addEventListener('click',e=>{e.stopPropagation();openDetails(b.id)});c.append(i,info,status,manage);c.addEventListener('click',()=>openDetails(b.id));c.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();openDetails(b.id)}});list.append(c)})}
-function steps(p){if(p==='Telegram')return['Create a bot with BotFather and keep its token private.','Prepare and test your bot code locally.','Add the Telegram token as a private environment variable on your host.','Choose a Node.js/Python host, deploy, and check the logs.'];if(p==='WhatsApp')return['Choose a WhatsApp integration library or approved Business API provider.','Prepare and test your code and WhatsApp connection flow.','Store API credentials and session secrets privately on your host.','Deploy to a compatible host and verify connection logs.'];return['Create your application and bot in the Discord Developer Portal.','Prepare and test your bot code locally.','Add the Discord token as a private environment variable on your host.','Choose a Node.js/Python host, deploy, and check the logs.']}
-function progress(b){$('progress').textContent=b.checks.filter(Boolean).length+' of 4 steps complete'}function renderChecks(b){const box=$('checklist');box.replaceChildren();while(b.checks.length<4)b.checks.push(false);b.checks=b.checks.slice(0,4);$('guide').textContent='Suggested steps for '+b.platform+'. Tick each item when complete.';steps(b.platform).forEach((label,i)=>{const row=document.createElement('label');row.className='check-row';const cb=document.createElement('input');cb.type='checkbox';cb.checked=!!b.checks[i];cb.addEventListener('change',()=>{b.checks[i]=cb.checked;progress(b)});const t=document.createElement('span');t.textContent=label;row.append(cb,t);box.append(row)});progress(b)}
-function openDetails(id){const b=bots.find(x=>x.id===id);if(!b)return;selectedId=id;$('detailTitle').textContent=b.name;$('detailSub').textContent=b.platform+' bot project · Details and hosting preparation';$('editName').value=b.name;$('editPlatform').value=b.platform;$('editNotice').textContent='';$('checkNotice').textContent='';renderChecks(b);$('dashboardView').hidden=true;$('detailsView').hidden=false;window.scrollTo({top:0,behavior:'smooth'})}
-function back(){ $('detailsView').hidden=true;$('dashboardView').hidden=false;selectedId=null;render();window.scrollTo({top:0,behavior:'smooth'})}
-function openForm(){lastFocused=document.activeElement;$('botForm').reset();$('formNotice').textContent='';$('botModal').classList.add('open');document.body.style.overflow='hidden';setTimeout(()=>$('botName').focus(),30)}function closeForm(){$('botModal').classList.remove('open');document.body.style.overflow='';if(lastFocused&&lastFocused.focus)lastFocused.focus()}
-$('openBotForm').addEventListener('click',openForm);$('emptyAddBot').addEventListener('click',openForm);$('closeBotForm').addEventListener('click',closeForm);$('cancelBotForm').addEventListener('click',closeForm);$('botModal').addEventListener('click',e=>{if(e.target===$('botModal'))closeForm()});document.addEventListener('keydown',e=>{if(e.key==='Escape'&&$('botModal').classList.contains('open'))closeForm()});
-$('botForm').addEventListener('submit',e=>{e.preventDefault();const name=$('botName').value.trim(),platform=$('botPlatform').value;if(!name){$('formNotice').textContent='Please enter a bot name.';$('botName').focus();return}if(!validPlatform(platform)){$('formNotice').textContent='Please choose Discord, WhatsApp, or Telegram.';$('botPlatform').focus();return}const b={id:makeId(),name:name.slice(0,60),platform,createdAt:new Date().toISOString(),checks:[false,false,false,false]};bots.push(b);if(!save()){bots.pop();return}render();closeForm();openDetails(b.id)});
-$('editForm').addEventListener('submit',e=>{e.preventDefault();const b=bots.find(x=>x.id===selectedId);if(!b)return;const name=$('editName').value.trim(),platform=$('editPlatform').value;if(!name){$('editNotice').textContent='Please enter a bot name.';$('editName').focus();return}if(!validPlatform(platform)){$('editNotice').textContent='Please choose a supported platform.';return}const old={name:b.name,platform:b.platform,checks:b.checks.slice()};b.name=name.slice(0,60);if(b.platform!==platform)b.checks=[false,false,false,false];b.platform=platform;if(save()){$('detailTitle').textContent=b.name;$('detailSub').textContent=b.platform+' bot project · Details and hosting preparation';$('editNotice').textContent='Project settings saved.';renderChecks(b);render()}else{b.name=old.name;b.platform=old.platform;b.checks=old.checks}});
-$('saveChecks').addEventListener('click',()=>{const b=bots.find(x=>x.id===selectedId);if(b&&save())$('checkNotice').textContent='Hosting checklist saved in this browser.'});$('backToDashboard').addEventListener('click',back);
-$('deleteDetail').addEventListener('click',()=>{const b=bots.find(x=>x.id===selectedId);if(!b||!confirm('Delete "'+b.name+'" from this browser dashboard?'))return;const previous=bots.slice();bots=bots.filter(x=>x.id!==selectedId);if(save())back();else bots=previous});
-document.querySelectorAll('[data-nav]').forEach(link=>link.addEventListener('click',()=>{if(!$('detailsView').hidden)back();document.querySelectorAll('[data-nav]').forEach(a=>a.classList.toggle('active',a===link))}));render();
+
+function render(){
+const list=$('botList');
+list.replaceChildren();
+$('totalBots').textContent=bots.length;
+$('stoppedBots').textContent=bots.length;
+$('noBots').hidden=bots.length>0;
+$('setupStatus').textContent=bots.length?'Setup required':'No bots yet';
+
+bots.forEach(b=>{
+const c=document.createElement('div');
+c.className='card bot-card';
+c.tabIndex=0;
+c.setAttribute('role','button');
+c.setAttribute('aria-label','Open details for '+b.name);
+
+const i=document.createElement('div');
+i.className='bot-icon';
+i.setAttribute('aria-hidden','true');
+i.textContent=letter(b.platform);
+
+const info=document.createElement('div');
+info.className='bot-info';
+const n=document.createElement('strong');
+n.textContent=b.name;
+const p=document.createElement('div');
+p.className='muted';
+p.textContent=b.platform+' bot project';
+const sub=document.createElement('div');
+sub.className='muted';
+sub.style.marginTop='6px';
+sub.textContent='Not connected · Hosting not configured';
+info.append(n,p,sub);
+
+const status=document.createElement('span');
+status.className='status';
+status.textContent='Setup required';
+
+const manage=document.createElement('button');
+manage.type='button';
+manage.className='secondary';
+manage.textContent='Manage';
+manage.addEventListener('click',e=>{e.stopPropagation();openDetails(b.id)});
+
+c.append(i,info,status,manage);
+c.addEventListener('click',()=>openDetails(b.id));
+c.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();openDetails(b.id)}});
+list.append(c);
+})
+}
+
+function steps(p){
+if(p==='Telegram')return['Create a bot with BotFather and keep its token private.','Prepare and test your bot code locally.','Add the Telegram token as a private environment variable on your host.','Choose a Node.js/Python host, deploy, and check the logs.'];
+if(p==='WhatsApp')return['Choose a WhatsApp integration library or approved Business API provider.','Prepare and test your code and WhatsApp connection flow.','Store API credentials and session secrets privately on your host.','Deploy to a compatible host and verify connection logs.'];
+return['Create your application and bot in the Discord Developer Portal.','Prepare and test your bot code locally.','Add the Discord token as a private environment variable on your host.','Choose a Node.js/Python host, deploy, and check the logs.']
+}
+
+function progress(b){$('progress').textContent=b.checks.filter(Boolean).length+' of 4 steps complete'}
+function renderChecks(b){
+const box=$('checklist');
+box.replaceChildren();
+while(b.checks.length<4)b.checks.push(false);
+b.checks=b.checks.slice(0,4);
+$('guide').textContent='Suggested steps for '+b.platform+'. Tick each item when complete.';
+steps(b.platform).forEach((label,i)=>{
+const row=document.createElement('label');
+row.className='check-row';
+const cb=document.createElement('input');
+cb.type='checkbox';
+cb.checked=!!b.checks[i];
+cb.addEventListener('change',()=>{b.checks[i]=cb.checked;progress(b)});
+const t=document.createElement('span');
+t.textContent=label;
+row.append(cb,t);
+box.append(row);
+});
+progress(b)
+}
+
+function openDetails(id){
+const b=bots.find(x=>x.id===id);
+if(!b)return;
+selectedId=id;
+$('detailTitle').textContent=b.name;
+$('detailSub').textContent=b.platform+' bot project · Details and hosting preparation';
+$('editName').value=b.name;
+$('editPlatform').value=b.platform;
+$('editNotice').textContent='';
+$('checkNotice').textContent='';
+renderChecks(b);
+$('dashboardView').hidden=true;
+$('detailsView').hidden=false;
+window.scrollTo({top:0,behavior:'smooth'})
+}
+function back(){
+$('detailsView').hidden=true;
+$('dashboardView').hidden=false;
+selectedId=null;
+render();
+window.scrollTo({top:0,behavior:'smooth'})
+}
+
+function openForm(){
+lastFocused=document.activeElement;
+$('botForm').reset();
+$('formNotice').textContent='';
+$('botModal').classList.add('open');
+document.body.style.overflow='hidden';
+setTimeout(()=>$('botName').focus(),30)
+}
+function closeForm(){
+$('botModal').classList.remove('open');
+document.body.style.overflow='';
+if(lastFocused&&lastFocused.focus)lastFocused.focus()
+}
+
+$('openBotForm').addEventListener('click',openForm);
+$('emptyAddBot').addEventListener('click',openForm);
+$('closeBotForm').addEventListener('click',closeForm);
+$('cancelBotForm').addEventListener('click',closeForm);
+$('botModal').addEventListener('click',e=>{if(e.target===$('botModal'))closeForm()});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&$('botModal').classList.contains('open'))closeForm()});
+
+$('botForm').addEventListener('submit',e=>{
+e.preventDefault();
+const name=$('botName').value.trim(),platform=$('botPlatform').value;
+if(!name){$('formNotice').textContent='Please enter a bot name.';$('botName').focus();return}
+if(!validPlatform(platform)){$('formNotice').textContent='Please choose Discord, WhatsApp, or Telegram.';$('botPlatform').focus();return}
+const b={id:makeId(),name:name.slice(0,60),platform,createdAt:new Date().toISOString(),checks:[false,false,false,false]};
+bots.push(b);
+if(!save()){bots.pop();return}
+render();
+closeForm();
+openDetails(b.id)
+});
+
+$('editForm').addEventListener('submit',e=>{
+e.preventDefault();
+const b=bots.find(x=>x.id===selectedId);
+if(!b)return;
+const name=$('editName').value.trim(),platform=$('editPlatform').value;
+if(!name){$('editNotice').textContent='Please enter a bot name.';$('editName').focus();return}
+if(!validPlatform(platform)){$('editNotice').textContent='Please choose a supported platform.';return}
+const old={name:b.name,platform:b.platform,checks:b.checks.slice()};
+b.name=name.slice(0,60);
+if(b.platform!==platform)b.checks=[false,false,false,false];
+b.platform=platform;
+if(save()){
+$('detailTitle').textContent=b.name;
+$('detailSub').textContent=b.platform+' bot project · Details and hosting preparation';
+$('editNotice').textContent='Project settings saved.';
+renderChecks(b);
+render()
+}else{
+b.name=old.name;
+b.platform=old.platform;
+b.checks=old.checks
+}
+});
+
+$('saveChecks').addEventListener('click',()=>{
+const b=bots.find(x=>x.id===selectedId);
+if(b&&save())$('checkNotice').textContent='Hosting checklist saved in this browser.'
+});
+$('backToDashboard').addEventListener('click',back);
+
+$('deleteDetail').addEventListener('click',()=>{
+const b=bots.find(x=>x.id===selectedId);
+if(!b||!confirm('Delete "'+b.name+'" from this browser dashboard?'))return;
+const previous=bots.slice();
+bots=bots.filter(x=>x.id!==selectedId);
+if(save())back();else bots=previous
+});
+
+document.querySelectorAll('[data-nav]').forEach(link=>link.addEventListener('click',()=>{
+if(!$('detailsView').hidden)back();
+document.querySelectorAll('[data-nav]').forEach(a=>a.classList.toggle('active',a===link))
+}));
+render();
 })();
-</script></body></html>
+</script>
+</body>
+  </html>
