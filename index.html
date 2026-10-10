@@ -1,90 +1,497 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#0b1020">
+  <meta name="description" content="BotNest brings your Discord, WhatsApp and Telegram bot projects together in one home.">
   <title>BotNest — Your Bots, One Home</title>
+
   <style>
+    :root {
+      --bg: #0b1020;
+      --panel: #121a2e;
+      --border: #29344f;
+      --purple: #8b5cf6;
+      --light-purple: #c4b5fd;
+      --text: #f5f7ff;
+      --muted: #aab6cc;
+    }
+
     * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
     body {
       margin: 0;
       font-family: Arial, sans-serif;
-      background: #0b1020;
-      color: #f5f7ff;
+      background: var(--bg);
+      color: var(--text);
       line-height: 1.6;
     }
+
+    a { text-decoration: none; }
+
+    /* CUSTOM BOTNEST BRAND */
     header {
       display: flex;
       justify-content: space-between;
       align-items: center;
+      gap: 18px;
       padding: 18px 7%;
       border-bottom: 1px solid #252d45;
+      background: rgba(11, 16, 32, .96);
     }
-    .logo { font-size: 25px; font-weight: 800; color: #a78bfa; }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 11px;
+      flex-shrink: 0;
+      color: #c4b5fd;
+      font-size: 25px;
+      font-weight: 800;
+      letter-spacing: -.8px;
+    }
+
+    .brand-mark {
+      position: relative;
+      display: inline-grid;
+      place-items: center;
+      width: 34px;
+      height: 34px;
+      flex-shrink: 0;
+      border: 2px solid #a78bfa;
+      border-radius: 10px;
+      background: linear-gradient(145deg, #30205e, #171b3c);
+      box-shadow: 0 0 18px #8b5cf633;
+      transform: rotate(45deg);
+    }
+
+    .brand-mark::before {
+      content: "";
+      width: 12px;
+      height: 12px;
+      border: 2px solid #e9ddff;
+      border-radius: 4px 7px 4px 7px;
+      transform: rotate(-45deg);
+    }
+
+    .brand-mark::after {
+      content: "";
+      position: absolute;
+      width: 5px;
+      height: 5px;
+      right: 5px;
+      top: 5px;
+      border-radius: 50%;
+      background: #a78bfa;
+    }
+
+    nav {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
     nav a {
       color: #cbd5e1;
-      text-decoration: none;
-      margin-left: 18px;
       font-size: 14px;
+      transition: color .2s;
     }
+
+    nav a:hover { color: #c4b5fd; }
+
+    /* HERO */
     .hero {
       padding: 85px 7% 70px;
       text-align: center;
       background: radial-gradient(ellipse at top, #202653, #0b1020 68%);
     }
+
     .tag {
+      display: inline-block;
       color: #c4b5fd;
       border: 1px solid #51458a;
       padding: 7px 14px;
       border-radius: 30px;
-      font-size: 13px;
+      font-size: 12px;
+      letter-spacing: 1px;
     }
-    h1 { font-size: clamp(38px, 7vw, 68px); line-height: 1.08; margin: 28px 0 18px; }
+
+    h1 {
+      font-size: clamp(38px, 7vw, 68px);
+      line-height: 1.08;
+      margin: 28px 0 18px;
+      letter-spacing: -1.8px;
+    }
+
     h1 span { color: #a78bfa; }
-    .hero p { max-width: 600px; margin: 0 auto 28px; color: #b8c2d8; font-size: 17px; }
+
+    .hero p {
+      max-width: 600px;
+      margin: 0 auto 28px;
+      color: #b8c2d8;
+      font-size: 17px;
+    }
+
     .btn {
-      display: inline-block;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
       padding: 12px 22px;
       border-radius: 10px;
-      background: #8b5cf6;
+      background: var(--purple);
       color: white;
       font-weight: bold;
       text-decoration: none;
-      border: 0;
+      border: 1px solid transparent;
       cursor: pointer;
+      transition: background .2s, transform .2s;
     }
-    .secondary { background: #171f35; border: 1px solid #35405c; margin-left: 8px; }
+
+    .btn:hover {
+      background: #a078ff;
+      transform: translateY(-2px);
+    }
+
+    .secondary {
+      background: #171f35;
+      border-color: #35405c;
+      margin-left: 8px;
+    }
+
+    .secondary:hover { background: #252044; }
+
+    /* CONTENT SECTIONS */
     section { padding: 55px 7%; }
-    .section-title { text-align: center; font-size: 30px; margin: 0 0 10px; }
-    .muted { text-align: center; color: #9eabc3; margin-bottom: 32px; }
-    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 18px; }
+
+    .section-title {
+      text-align: center;
+      font-size: 30px;
+      line-height: 1.25;
+      margin: 0 0 10px;
+    }
+
+    .muted {
+      text-align: center;
+      color: #9eabc3;
+      margin-bottom: 32px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+    }
+
     .card {
-      background: #121a2e;
-      border: 1px solid #29344f;
+      min-width: 0;
+      background: var(--panel);
+      border: 1px solid var(--border);
       padding: 24px;
       border-radius: 16px;
+      transition: border-color .2s, transform .2s;
     }
-    .card .emoji { font-size: 30px; }
-    .card h3 { margin-bottom: 6px; }
-    .card p { color: #aab6cc; font-size: 14px; }
-    .status { color: #fbbf24; font-size: 12px; }
-    .cta { text-align: center; background: #11182b; margin: 15px 7% 55px; border-radius: 20px; padding: 38px 20px; }
-    footer { padding: 25px 7%; border-top: 1px solid #252d45; color: #8491aa; text-align: center; font-size: 13px; }
-    @media (max-width: 560px) {
-      header { padding: 15px 5%; }
-      nav a { margin-left: 8px; font-size: 12px; }
+
+    .card:hover {
+      border-color: #51458a;
+      transform: translateY(-3px);
+    }
+
+    /* CSS-DRAWN ICON CONTAINERS */
+    .icon-box {
+      width: 54px;
+      height: 54px;
+      display: grid;
+      place-items: center;
+      border: 1px solid #4b3c7c;
+      border-radius: 15px;
+      background: linear-gradient(145deg, #29204e, #191d38);
+      color: #c4b5fd;
+      margin-bottom: 17px;
+    }
+
+    .css-icon {
+      position: relative;
+      display: block;
+      width: 29px;
+      height: 29px;
+      color: #c4b5fd;
+    }
+
+    /* Chat bubble */
+    .icon-chat {
+      width: 25px;
+      height: 20px;
+      border: 2px solid currentColor;
+      border-radius: 8px;
+    }
+
+    .icon-chat::before {
+      content: "";
+      position: absolute;
+      left: 3px;
+      bottom: -6px;
+      width: 8px;
+      height: 8px;
+      background: #29204e;
+      border-left: 2px solid currentColor;
+      transform: skewY(-35deg);
+    }
+
+    .icon-chat::after {
+      content: "";
+      position: absolute;
+      left: 6px;
+      top: 7px;
+      width: 3px;
+      height: 3px;
+      border-radius: 50%;
+      background: currentColor;
+      box-shadow: 6px 0 currentColor, 12px 0 currentColor;
+    }
+
+    /* Phone */
+    .icon-phone {
+      width: 19px;
+      height: 29px;
+      border: 2px solid currentColor;
+      border-radius: 5px;
+    }
+
+    .icon-phone::before {
+      content: "";
+      position: absolute;
+      top: 3px;
+      left: 5px;
+      width: 5px;
+      height: 2px;
+      border-radius: 2px;
+      background: currentColor;
+    }
+
+    .icon-phone::after {
+      content: "";
+      position: absolute;
+      bottom: 3px;
+      left: 7px;
+      width: 3px;
+      height: 3px;
+      border-radius: 50%;
+      background: currentColor;
+    }
+
+    /* Paper plane */
+    .icon-plane {
+      width: 0;
+      height: 0;
+      border-top: 14px solid transparent;
+      border-bottom: 14px solid transparent;
+      border-left: 28px solid currentColor;
+      transform: rotate(-25deg) scale(.85);
+    }
+
+    .icon-plane::after {
+      content: "";
+      position: absolute;
+      left: -24px;
+      top: -2px;
+      width: 17px;
+      height: 2px;
+      background: #29204e;
+      transform: rotate(-24deg);
+    }
+
+    /* Compass */
+    .icon-compass {
+      border: 2px solid currentColor;
+      border-radius: 50%;
+      width: 27px;
+      height: 27px;
+    }
+
+    .icon-compass::before {
+      content: "";
+      position: absolute;
+      left: 8px;
+      top: 3px;
+      width: 8px;
+      height: 15px;
+      background: currentColor;
+      clip-path: polygon(50% 0, 100% 100%, 50% 73%, 0 100%);
+      transform: rotate(35deg);
+    }
+
+    /* Lock */
+    .icon-lock {
+      width: 23px;
+      height: 18px;
+      margin-top: 8px;
+      border: 2px solid currentColor;
+      border-radius: 5px;
+    }
+
+    .icon-lock::before {
+      content: "";
+      position: absolute;
+      left: 4px;
+      top: -14px;
+      width: 11px;
+      height: 13px;
+      border: 2px solid currentColor;
+      border-bottom: 0;
+      border-radius: 9px 9px 0 0;
+    }
+
+    .icon-lock::after {
+      content: "";
+      position: absolute;
+      left: 9px;
+      top: 5px;
+      width: 3px;
+      height: 5px;
+      border-radius: 3px;
+      background: currentColor;
+    }
+
+    /* Lightning bolt */
+    .icon-bolt {
+      width: 16px;
+      height: 29px;
+      background: currentColor;
+      clip-path: polygon(58% 0, 4% 56%, 42% 56%, 27% 100%, 100% 37%, 59% 37%);
+    }
+
+    .card h3 {
+      margin: 0 0 6px;
+      font-size: 19px;
+    }
+
+    .card p {
+      color: var(--muted);
+      font-size: 14px;
+      margin: 0 0 16px;
+    }
+
+    .status {
+      display: inline-block;
+      color: #fbbf24;
+      font-size: 12px;
+      border: 1px solid #725d37;
+      border-radius: 20px;
+      padding: 4px 9px;
+    }
+
+    /* CALL TO ACTION */
+    .cta {
+      text-align: center;
+      background: #11182b;
+      border: 1px solid #29344f;
+      margin: 15px 7% 55px;
+      border-radius: 20px;
+      padding: 38px 20px;
+    }
+
+    .cta h2 {
+      margin-top: 0;
+      font-size: 27px;
+    }
+
+    .cta .muted { margin-bottom: 22px; }
+
+    footer {
+      padding: 25px 7%;
+      border-top: 1px solid #252d45;
+      color: #8491aa;
+      text-align: center;
+      font-size: 13px;
+    }
+
+    /* TABLET AND MOBILE */
+    @media (max-width: 760px) {
+      header {
+        padding: 16px 5%;
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 15px;
+      }
+
+      nav {
+        width: 100%;
+        justify-content: flex-start;
+        gap: 18px;
+      }
+
+      nav a { margin: 0; }
+
+      .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
       .hero { padding: 65px 5% 55px; }
+
       section { padding: 45px 5%; }
-      .secondary { margin: 12px 0 0; }
+
+      .cta { margin: 10px 5% 40px; }
+    }
+
+    @media (max-width: 480px) {
+      .brand { font-size: 23px; }
+
+      nav { gap: 15px; }
+
+      nav a { font-size: 13px; }
+
+      .hero { padding: 55px 5% 48px; }
+
+      .tag {
+        font-size: 10px;
+        letter-spacing: .7px;
+      }
+
+      h1 {
+        font-size: 43px;
+        letter-spacing: -1px;
+      }
+
+      .hero p { font-size: 15px; }
+
+      .hero .btn {
+        width: 100%;
+        max-width: 280px;
+        margin: 5px 0;
+      }
+
+      .grid { grid-template-columns: 1fr; }
+
+      .card {
+        padding: 21px;
+        border-radius: 14px;
+      }
+
+      .section-title { font-size: 26px; }
+
+      .cta { padding: 30px 17px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after {
+        transition-duration: .01ms !important;
+      }
     }
   </style>
 </head>
+
 <body>
   <header>
-    <div class="logo">✦ BotNest</div>
-    <nav>
+    <a class="brand" href="#" aria-label="BotNest home">
+      <span class="brand-mark" aria-hidden="true"></span>
+      <span>BotNest</span>
+    </a>
+
+    <nav aria-label="Main navigation">
       <a href="#features">Features</a>
       <a href="#platforms">Platforms</a>
       <a href="#dashboard">Dashboard</a>
@@ -94,30 +501,45 @@
   <main>
     <section class="hero">
       <span class="tag">ONE HOME FOR ALL YOUR BOTS</span>
+
       <h1>Your bots.<br><span>Your world.</span></h1>
-      <p>Manage your Discord, WhatsApp and Telegram bot projects from one simple, modern platform.</p>
-      <a class="btn" href="#platforms">Explore platforms ↗</a>
+
+      <p>
+        Manage your Discord, WhatsApp and Telegram bot projects
+        from one simple, modern platform.
+      </p>
+
+      <a class="btn" href="#platforms">Explore platforms &rarr;</a>
       <a class="btn secondary" href="#features">Discover features</a>
     </section>
 
     <section id="platforms">
       <h2 class="section-title">Built for your bots</h2>
       <p class="muted">Bring your favourite messaging platforms together.</p>
+
       <div class="grid">
         <article class="card">
-          <div class="emoji">💬</div>
+          <div class="icon-box" aria-hidden="true">
+            <span class="css-icon icon-chat"></span>
+          </div>
           <h3>Discord Bots</h3>
           <p>Plan tools, community commands and server automation.</p>
           <span class="status">Coming soon</span>
         </article>
+
         <article class="card">
-          <div class="emoji">📱</div>
+          <div class="icon-box" aria-hidden="true">
+            <span class="css-icon icon-phone"></span>
+          </div>
           <h3>WhatsApp Bots</h3>
           <p>Build helpful messaging automations and chat experiences.</p>
           <span class="status">Coming soon</span>
         </article>
+
         <article class="card">
-          <div class="emoji">✈️</div>
+          <div class="icon-box" aria-hidden="true">
+            <span class="css-icon icon-plane"></span>
+          </div>
           <h3>Telegram Bots</h3>
           <p>Prepare commands, utilities and group management tools.</p>
           <span class="status">Coming soon</span>
@@ -128,19 +550,28 @@
     <section id="features">
       <h2 class="section-title">Everything in one nest</h2>
       <p class="muted">A clear starting point for your bot-hosting journey.</p>
+
       <div class="grid">
         <article class="card">
-          <div class="emoji">🧭</div>
+          <div class="icon-box" aria-hidden="true">
+            <span class="css-icon icon-compass"></span>
+          </div>
           <h3>Simple management</h3>
           <p>Keep your projects organised in one place.</p>
         </article>
+
         <article class="card">
-          <div class="emoji">🔐</div>
+          <div class="icon-box" aria-hidden="true">
+            <span class="css-icon icon-lock"></span>
+          </div>
           <h3>Security first</h3>
           <p>Plan secure account access and protect bot credentials.</p>
         </article>
+
         <article class="card">
-          <div class="emoji">⚡</div>
+          <div class="icon-box" aria-hidden="true">
+            <span class="css-icon icon-bolt"></span>
+          </div>
           <h3>Hosting ready</h3>
           <p>Prepare for deployment when a runtime service is connected.</p>
         </article>
@@ -150,11 +581,12 @@
     <section id="dashboard" class="cta">
       <h2>Welcome to your nest.</h2>
       <p class="muted">Your BotNest journey starts here.</p>
-      <a class="btn" href="#platforms">View bot platforms</a>
+      <a class="btn" href="dashboard.html">Open dashboard</a>
     </section>
   </main>
 
-  <footer>© 2026 BotNest. Built for creators who build bots.</footer>
+  <footer>
+    &copy; 2026 BotNest. Built for creators who build bots.
+  </footer>
 </body>
-  </html>
-  
+      </html>
