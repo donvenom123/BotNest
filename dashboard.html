@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -17,17 +16,19 @@
   --muted: #a3aec8;
 }
 * { box-sizing: border-box; }
-[hidden] { display: none !important; }
+
 body {
   margin: 0;
   background: var(--bg);
   color: var(--text);
   font-family: Arial, sans-serif;
 }
-button, a, input, select { font: inherit; }
+button, input, select { font: inherit; }
 a { color: inherit; text-decoration: none; }
 button { cursor: pointer; }
+
 .layout { min-height: 100vh; }
+
 .sidebar {
   padding: 22px;
   border-bottom: 1px solid var(--border);
@@ -62,6 +63,7 @@ button { cursor: pointer; }
   background: #252044;
   color: #c8b0ff;
 }
+
 main {
   padding: 25px 18px 50px;
   max-width: 1100px;
@@ -76,23 +78,26 @@ main {
 }
 h1 { font-size: 30px; margin: 0 0 8px; }
 p { color: var(--muted); line-height: 1.6; }
-.primary, .secondary, .delete-button {
+
+.primary {
   display: inline-block;
   border: 0;
   border-radius: 11px;
+  background: var(--purple);
+  color: white;
   padding: 13px 17px;
   font-weight: 700;
 }
-.primary {
-  background: var(--purple);
-  color: white;
-}
-.primary:hover { background: #a47aff; }
+.primary:hover { background: #a27aff; }
+
 .secondary {
-  background: #202a42;
-  color: var(--text);
   border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 12px 16px;
+  color: var(--text);
+  background: #1a2339;
 }
+
 .stats {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -109,41 +114,17 @@ p { color: var(--muted); line-height: 1.6; }
 .stat-label { color: var(--muted); font-size: 13px; }
 .stat-number { font-size: 29px; font-weight: 800; margin-top: 12px; }
 .stat-note { color: #a98bff; font-size: 12px; margin-top: 8px; }
+
 .section-title {
   font-size: 20px;
   margin: 32px 0 15px;
 }
-#botFormCard { margin: 24px 0; }
-.form-intro { margin-top: 0; }
-.form-field { margin-top: 17px; }
-.form-field label {
-  display: block;
-  font-weight: 700;
-  margin-bottom: 8px;
-}
-.form-field input, .form-field select {
-  width: 100%;
-  padding: 13px;
-  color: var(--text);
-  background: #0b1020;
-  border: 1px solid #394665;
-  border-radius: 10px;
-  outline: none;
-}
-.form-field input:focus, .form-field select:focus {
-  border-color: var(--purple);
-}
-.form-actions {
-  display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
-  margin-top: 20px;
-}
-.form-message { min-height: 1em; }
 .bot-list { display: grid; gap: 12px; }
+
 .bot-row {
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
   gap: 12px;
 }
 .bot-icon {
@@ -158,32 +139,28 @@ p { color: var(--muted); line-height: 1.6; }
   background: #252044;
   font-weight: 800;
 }
-.bot-info { flex: 1; min-width: 0; }
-.bot-info strong { display: block; margin-bottom: 6px; overflow-wrap: anywhere; }
-.bot-info small { color: var(--muted); }
-.bot-meta { color: var(--muted); font-size: 12px; margin-top: 6px; }
+.bot-info { flex: 1; min-width: 110px; }
+.bot-info strong { display: block; margin-bottom: 6px; }
+.bot-info small { color: var(--muted); line-height: 1.6; }
+
 .status {
   font-size: 11px;
   color: #e4c17a;
   border: 1px solid #725d37;
-  padding: 5px 8px;
+  padding: 6px 9px;
   border-radius: 20px;
   white-space: nowrap;
 }
-.delete-button {
-  padding: 8px 10px;
-  color: #ffb6c0;
-  background: #39202f;
-  border: 1px solid #704052;
-  font-size: 12px;
+.delete-btn {
+  border: 1px solid #754052;
+  background: #351c2a;
+  color: #ffb6c5;
+  padding: 10px 14px;
+  border-radius: 11px;
+  font-weight: 700;
 }
-.bot-empty {
-  color: var(--muted);
-  padding: 18px;
-  text-align: center;
-  border: 1px dashed #3b4560;
-  border-radius: 14px;
-}
+.delete-btn:hover { background: #4b2435; }
+
 .empty {
   text-align: center;
   padding: 28px 16px;
@@ -204,13 +181,93 @@ p { color: var(--muted); line-height: 1.6; }
   font-size: 12px;
   margin-top: 40px;
 }
-@media (max-width: 420px) {
-  .bot-row { flex-wrap: wrap; }
-  .bot-info { min-width: 120px; }
-  .bot-row .delete-button { margin-left: auto; }
+
+/* Add-bot form */
+.modal {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 18px;
+  background: rgba(3, 6, 17, .82);
+  overflow-y: auto;
 }
+.modal.open { display: flex; }
+
+.modal-box {
+  width: 100%;
+  max-width: 440px;
+  background: #141c31;
+  border: 1px solid #394365;
+  border-radius: 18px;
+  padding: 23px;
+  box-shadow: 0 20px 60px rgba(0,0,0,.4);
+}
+.modal-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.modal-heading h2 { margin: 0; font-size: 23px; }
+
+.close-btn {
+  background: #252044;
+  color: #d9ccff;
+  border: 1px solid #4b3c7c;
+  border-radius: 9px;
+  width: 38px;
+  height: 38px;
+  font-size: 23px;
+}
+
+.field { margin-top: 20px; }
+.field label {
+  display: block;
+  margin-bottom: 9px;
+  font-weight: 700;
+  font-size: 14px;
+}
+.field input, .field select {
+  width: 100%;
+  min-height: 48px;
+  padding: 12px;
+  border-radius: 10px;
+  border: 1px solid #394563;
+  background: #0b1020;
+  color: var(--text);
+  outline: none;
+}
+.field input:focus, .field select:focus {
+  border-color: var(--purple);
+  box-shadow: 0 0 0 2px rgba(147,96,255,.18);
+}
+.form-note {
+  font-size: 13px;
+  margin: 15px 0;
+}
+.form-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 22px;
+}
+.form-actions button { flex: 1; }
+
+.notice {
+  color: #c8b0ff;
+  font-size: 13px;
+  margin-top: 12px;
+}
+[hidden] { display: none !important; }
+
 @media (min-width: 700px) {
-  .layout { display: grid; grid-template-columns: 220px 1fr; }
+  .layout {
+    display: grid;
+    grid-template-columns: 220px 1fr;
+  }
   .sidebar {
     border-bottom: 0;
     border-right: 1px solid var(--border);
@@ -224,10 +281,12 @@ p { color: var(--muted); line-height: 1.6; }
 
 <body>
 <div class="layout">
+
 <aside class="sidebar">
   <a class="brand" href="index.html">
     <span class="brand-mark"></span>BotNest
   </a>
+
   <nav class="nav">
     <a class="active" href="#overview">Overview</a>
     <a href="#bots">My Bots</a>
@@ -255,16 +314,19 @@ p { color: var(--muted); line-height: 1.6; }
         <div class="stat-number" id="totalBots">0</div>
         <div class="stat-note">Your workspace</div>
       </div>
+
       <div class="card">
         <div class="stat-label">Running</div>
         <div class="stat-number">0</div>
         <div class="stat-note">Live hosting not connected</div>
       </div>
+
       <div class="card">
         <div class="stat-label">Stopped</div>
         <div class="stat-number" id="stoppedBots">0</div>
         <div class="stat-note">Saved bot projects</div>
       </div>
+
       <div class="card">
         <div class="stat-label">Deployments</div>
         <div class="stat-number">0</div>
@@ -273,73 +335,21 @@ p { color: var(--muted); line-height: 1.6; }
     </div>
   </section>
 
-  <section id="botFormCard" class="card" hidden>
-    <h2 class="section-title" style="margin-top:0">Add a new bot</h2>
-    <p class="form-intro">Create a bot project in your BotNest workspace.</p>
-
-    <form id="botForm">
-      <div class="form-field">
-        <label for="botName">Bot name</label>
-        <input
-          id="botName"
-          name="botName"
-          type="text"
-          placeholder="e.g. My Support Bot"
-          maxlength="60"
-          required
-        >
-      </div>
-
-      <div class="form-field">
-        <label for="botPlatform">Choose platform</label>
-        <select id="botPlatform" name="botPlatform" required>
-          <option value="Discord">Discord</option>
-          <option value="WhatsApp">WhatsApp</option>
-          <option value="Telegram">Telegram</option>
-        </select>
-      </div>
-
-      <div class="form-actions">
-        <button class="primary" type="submit">Save bot</button>
-        <button class="secondary" id="cancelBotForm" type="button">
-          Cancel
-        </button>
-      </div>
-      <p class="form-message" id="botFormMessage" role="status"></p>
-    </form>
-  </section>
-
   <section id="bots">
     <div class="topline">
       <h2 class="section-title">My Bots</h2>
       <span class="status" id="setupStatus">Setup required</span>
     </div>
 
-    <div class="bot-list" id="botList">
-      <div class="card bot-row">
-        <div class="bot-icon">D</div>
-        <div class="bot-info">
-          <strong>Discord Bot</strong>
-          <small>Connect a Discord project</small>
-        </div>
-        <span class="status">Coming soon</span>
-      </div>
-      <div class="card bot-row">
-        <div class="bot-icon">W</div>
-        <div class="bot-info">
-          <strong>WhatsApp Bot</strong>
-          <small>Connect a WhatsApp project</small>
-        </div>
-        <span class="status">Coming soon</span>
-      </div>
-      <div class="card bot-row">
-        <div class="bot-icon">T</div>
-        <div class="bot-info">
-          <strong>Telegram Bot</strong>
-          <small>Connect a Telegram project</small>
-        </div>
-        <span class="status">Coming soon</span>
-      </div>
+    <div class="bot-list" id="botList"></div>
+
+    <div class="card empty" id="noBots">
+      <div class="empty-mark"></div>
+      <strong>No bots added yet</strong>
+      <p>Create your first bot project to see it here.</p>
+      <button class="primary" type="button" id="emptyAddBot">
+        + Create your first bot
+      </button>
     </div>
   </section>
 
@@ -356,7 +366,8 @@ p { color: var(--muted); line-height: 1.6; }
     <h2 class="section-title">Workspace settings</h2>
     <div class="card">
       <strong>BotNest workspace</strong>
-      <p>Your dashboard interface is ready. Account login and live hosting will be added later.</p>
+      <p>Your dashboard stores bot project details in this browser.
+      Account login and live hosting will be added later.</p>
     </div>
   </section>
 
@@ -364,160 +375,262 @@ p { color: var(--muted); line-height: 1.6; }
 </main>
 </div>
 
+<!-- Add a bot form -->
+<div class="modal" id="botModal" role="dialog"
+     aria-modal="true" aria-labelledby="formTitle">
+  <div class="modal-box">
+    <div class="modal-heading">
+      <h2 id="formTitle">Add a bot</h2>
+      <button type="button" class="close-btn" id="closeBotForm"
+              aria-label="Close form">&times;</button>
+    </div>
+
+    <p>Create a project for the bot you want to manage.</p>
+
+    <form id="botForm">
+      <div class="field">
+        <label for="botName">Bot name</label>
+        <input id="botName" name="botName" type="text"
+               placeholder="e.g. My Community Bot"
+               maxlength="60" required>
+      </div>
+
+      <div class="field">
+        <label for="botPlatform">Choose a platform</label>
+        <select id="botPlatform" name="botPlatform" required>
+          <option value="">Select a platform</option>
+          <option value="Discord">Discord</option>
+          <option value="WhatsApp">WhatsApp</option>
+          <option value="Telegram">Telegram</option>
+        </select>
+      </div>
+
+      <p class="form-note">
+        Saving creates a project entry only. Connecting the platform
+        and running the bot require backend hosting.
+      </p>
+
+      <div class="form-actions">
+        <button class="secondary" type="button" id="cancelBotForm">
+          Cancel
+        </button>
+        <button class="primary" type="submit">Save bot</button>
+      </div>
+
+      <div class="notice" id="formNotice" role="status"></div>
+    </form>
+  </div>
+</div>
+
 <script>
 (function () {
-  const STORAGE_KEY = "botnest-dashboard-bots-v1";
-  const formCard = document.getElementById("botFormCard");
+  const STORAGE_KEY = "botnest_bots_v1";
+
+  const botList = document.getElementById("botList");
+  const noBots = document.getElementById("noBots");
+  const modal = document.getElementById("botModal");
   const form = document.getElementById("botForm");
-  const nameInput = document.getElementById("botName");
-  const platformInput = document.getElementById("botPlatform");
-  const message = document.getElementById("botFormMessage");
-  const list = document.getElementById("botList");
-  const total = document.getElementById("totalBots");
-  const stopped = document.getElementById("stoppedBots");
-  const setupStatus = document.getElementById("setupStatus");
+  const botName = document.getElementById("botName");
+  const botPlatform = document.getElementById("botPlatform");
+  const formNotice = document.getElementById("formNotice");
 
   let bots = [];
-  let storageAvailable = true;
 
-  function loadBots() {
-    try {
-      const saved = localStorage.getItem(STORAGE_KEY);
-      const parsed = saved ? JSON.parse(saved) : [];
-      bots = Array.isArray(parsed)
-        ? parsed.filter(bot =>
-            bot &&
-            typeof bot.id === "string" &&
-            typeof bot.name === "string" &&
-            ["Discord", "WhatsApp", "Telegram"].includes(bot.platform)
-          )
-        : [];
-    } catch (error) {
-      storageAvailable = false;
-      bots = [];
+  // Recover bot projects from this dashboard or an older saved list.
+  try {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if (saved) {
+      const parsed = JSON.parse(saved);
+      if (Array.isArray(parsed)) bots = parsed;
     }
+
+    if (!bots.length) {
+      const oldKeys = [
+        "botnestBots",
+        "botnest-bots",
+        "botnest_bots",
+        "botnestBotsData"
+      ];
+
+      for (const key of oldKeys) {
+        const oldData = localStorage.getItem(key);
+        if (!oldData) continue;
+
+        const parsed = JSON.parse(oldData);
+        if (Array.isArray(parsed) && parsed.length) {
+          bots = parsed.filter(bot =>
+            bot && typeof bot === "object" &&
+            (bot.name || bot.botName)
+          ).map((bot, index) => ({
+            id: bot.id || String(Date.now() + index),
+            name: bot.name || bot.botName,
+            platform: bot.platform || botPlatformName || "Discord"
+          }));
+          if (bots.length) break;
+        }
+      }
+    }
+  } catch (error) {
+    bots = [];
   }
+
+  // Normalize any previously saved bot entries.
+  bots = bots.filter(bot =>
+    bot && typeof bot.name === "string" &&
+    typeof bot.platform === "string"
+  ).map((bot, index) => ({
+    id: String(bot.id || Date.now() + index),
+    name: bot.name,
+    platform: bot.platform,
+    createdAt: bot.createdAt || new Date().toISOString()
+  }));
 
   function saveBots() {
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(bots));
-      storageAvailable = true;
       return true;
     } catch (error) {
-      storageAvailable = false;
+      alert("BotNest could not save your bots in this browser.");
       return false;
     }
   }
 
-  function makeElement(tag, className, text) {
-    const element = document.createElement(tag);
-    if (className) element.className = className;
-    if (text !== undefined) element.textContent = text;
-    return element;
-  }
-
   function renderBots() {
-    list.replaceChildren();
+    botList.replaceChildren();
 
-    if (bots.length === 0) {
-      list.appendChild(makeElement(
-        "div",
-        "bot-empty",
-        "No custom bots yet. Tap “Add a bot” to create your first project."
-      ));
-    } else {
-      bots.forEach(function (bot) {
-        const row = makeElement("div", "card bot-row");
-        const icon = makeElement("div", "bot-icon", bot.platform.charAt(0));
-        const info = makeElement("div", "bot-info");
-        const title = makeElement("strong", "", bot.name);
-        const subtitle = makeElement(
-          "small",
-          "",
-          bot.platform + " bot project"
-        );
-        const meta = makeElement(
-          "div",
-          "bot-meta",
-          "Not connected · Hosting not configured"
-        );
-        const status = makeElement("span", "status", "Setup required");
-        const remove = makeElement("button", "delete-button", "Delete");
+    document.getElementById("totalBots").textContent = bots.length;
+    document.getElementById("stoppedBots").textContent = bots.length;
+    noBots.hidden = bots.length > 0;
 
-        info.append(title, subtitle, meta);
-        remove.type = "button";
-        remove.setAttribute("aria-label", "Delete " + bot.name);
+    document.getElementById("setupStatus").textContent =
+      bots.length ? "Setup required" : "No bots yet";
 
-        remove.addEventListener("click", function () {
-          const confirmed = window.confirm(
-            'Delete "' + bot.name + '" from this browser?'
-          );
-          if (!confirmed) return;
+    bots.forEach(function (bot) {
+      const card = document.createElement("div");
+      card.className = "card bot-row";
 
-          bots = bots.filter(item => item.id !== bot.id);
-          saveBots();
+      const icon = document.createElement("div");
+      icon.className = "bot-icon";
+      icon.setAttribute("aria-hidden", "true");
+      icon.textContent = bot.platform.charAt(0).toUpperCase();
+
+      const info = document.createElement("div");
+      info.className = "bot-info";
+
+      const name = document.createElement("strong");
+      name.textContent = bot.name;
+
+      const platform = document.createElement("small");
+      platform.textContent = bot.platform + " bot project";
+
+      const details = document.createElement("small");
+      details.style.display = "block";
+      details.style.marginTop = "6px";
+      details.textContent = "Not connected · Hosting not configured";
+
+      info.append(name, platform, details);
+
+      const status = document.createElement("span");
+      status.className = "status";
+      status.textContent = "Setup required";
+
+      const deleteButton = document.createElement("button");
+      deleteButton.type = "button";
+      deleteButton.className = "delete-btn";
+      deleteButton.textContent = "Delete";
+      deleteButton.setAttribute("aria-label", "Delete " + bot.name);
+
+      deleteButton.addEventListener("click", function () {
+        if (!confirm('Delete "' + bot.name + '" from your dashboard?')) {
+          return;
+        }
+
+        const previous = bots;
+        bots = bots.filter(item => item.id !== bot.id);
+
+        if (saveBots()) {
           renderBots();
-        });
-
-        row.append(icon, info, status, remove);
-        list.appendChild(row);
+        } else {
+          bots = previous;
+          renderBots();
+        }
       });
-    }
 
-    total.textContent = String(bots.length);
-    stopped.textContent = String(bots.length);
-    setupStatus.textContent = bots.length
-      ? "Setup required"
-      : "No bots added";
+      card.append(icon, info, status, deleteButton);
+      botList.appendChild(card);
+    });
   }
 
-  document.getElementById("openBotForm").addEventListener("click", function () {
-    formCard.hidden = false;
-    message.textContent = "";
-    nameInput.focus();
-    formCard.scrollIntoView({ behavior: "smooth", block: "start" });
+  function openForm() {
+    form.reset();
+    formNotice.textContent = "";
+    modal.classList.add("open");
+    document.body.style.overflow = "hidden";
+    setTimeout(() => botName.focus(), 50);
+  }
+
+  function closeForm() {
+    modal.classList.remove("open");
+    document.body.style.overflow = "";
+  }
+
+  document.getElementById("openBotForm")
+    .addEventListener("click", openForm);
+
+  document.getElementById("emptyAddBot")
+    .addEventListener("click", openForm);
+
+  document.getElementById("closeBotForm")
+    .addEventListener("click", closeForm);
+
+  document.getElementById("cancelBotForm")
+    .addEventListener("click", closeForm);
+
+  modal.addEventListener("click", function (event) {
+    if (event.target === modal) closeForm();
   });
 
-  document.getElementById("cancelBotForm").addEventListener("click", function () {
-    form.reset();
-    message.textContent = "";
-    formCard.hidden = true;
+  document.addEventListener("keydown", function (event) {
+    if (event.key === "Escape" && modal.classList.contains("open")) {
+      closeForm();
+    }
   });
 
   form.addEventListener("submit", function (event) {
     event.preventDefault();
 
-    const name = nameInput.value.trim();
-    const platform = platformInput.value;
+    const name = botName.value.trim();
+    const platform = botPlatform.value;
 
     if (!name) {
-      message.textContent = "Please enter a bot name.";
-      nameInput.focus();
+      formNotice.textContent = "Please enter a bot name.";
+      botName.focus();
       return;
     }
 
     if (!["Discord", "WhatsApp", "Telegram"].includes(platform)) {
-      message.textContent = "Please choose a valid platform.";
+      formNotice.textContent = "Please choose a platform.";
+      botPlatform.focus();
       return;
     }
 
-    bots.push({
-      id: Date.now().toString() + "-" + Math.random().toString(36).slice(2, 8),
+    const bot = {
+      id: String(Date.now()) + "-" +
+          Math.random().toString(36).slice(2, 8),
       name: name,
-      platform: platform
-    });
+      platform: platform,
+      createdAt: new Date().toISOString()
+    };
 
-    const persisted = saveBots();
-    renderBots();
-    form.reset();
-    formCard.hidden = true;
+    bots.push(bot);
 
-    if (persisted) {
-      message.textContent = "";
-    } else {
-      message.textContent =
-        "Bot added for this session, but browser storage is unavailable.";
+    if (!saveBots()) {
+      bots.pop();
+      return;
     }
+
+    renderBots();
+    closeForm();
 
     document.getElementById("bots").scrollIntoView({
       behavior: "smooth",
@@ -525,15 +638,8 @@ p { color: var(--muted); line-height: 1.6; }
     });
   });
 
-  loadBots();
   renderBots();
-
-  if (!storageAvailable) {
-    message.textContent =
-      "Browser storage is unavailable. Saved bots may not remain after leaving this page.";
-  }
 })();
 </script>
 </body>
-  </html>
-  
+</html>
