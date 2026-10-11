@@ -1,7 +1,7 @@
 
 {
   "name": "botnest-backend",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "private": true,
   "main": "server.js",
   "scripts": {
@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "cors": "^2.8.5",
-    "express": "^4.21.2"
+    "express": "^4.21.2",
+    "pg": "^8.13.1"
   }
 }
