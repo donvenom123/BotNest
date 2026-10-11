@@ -211,298 +211,732 @@ main{width:100%;padding:38px}
 </div>
 
 <script>
-(function(){
-'use strict';
 
-/* BotNest Render backend URL */
-const API_BASE = "https://botnest-backend.onrender.com";
+(function () {
+  "use strict";
 
-const KEY = "botnest_bots_v1";
-const OLD_KEYS = ["botnestBots","botnest-bots","botnest_bots","botnestBotsData"];
-const $ = id => document.getElementById(id);
-let bots = [];
-let selectedId = null;
-let lastFocused = null;
+  const API_BASE = "https://botnest-backend.onrender.com";
+  const STORAGE_KEY = "botnest_bots_v1";
+  const WORKSPACE_KEY = "botnest_workspace_id_v1";
+  const OLD_KEYS = [
+    "botnestBots",
+    "botnest-bots",
+    "botnest_bots",
+    "botnestBotsData"
+  ];
 
-function makeId(){
- return String(Date.now()) + "-" + Math.random().toString(36).slice(2,9);
-}
-function validPlatform(p){
- return ["Discord","WhatsApp","Telegram"].includes(p);
-}
-function normalize(b,i){
- if(!b || typeof b !== "object") return null;
- const name = String(b.name || b.botName || "").trim();
- if(!name) return null;
- return {
-  id:String(b.id || makeId()+"-"+i),
-  name:name.slice(0,60),
-  platform:validPlatform(b.platform)?b.platform:"Discord",
-  createdAt:b.createdAt || new Date().toISOString(),
-  checks:Array.isArray(b.checks)?[0,1,2,3].map(i=>Boolean(b.checks[i])):[false,false,false,false]
- };
-}
-function load(){
- try{
-  const raw=localStorage.getItem(KEY);
-  if(raw){
-   const data=JSON.parse(raw);
-   if(Array.isArray(data)) return data.map(normalize).filter(Boolean);
+  const $ = id => document.getElementById(id);
+  let bots = loadLocalProjects();
+  let selectedId = null;
+  let lastFocused = null;
+
+  function makeId() {
+    return Date.now() + "-" +
+      Math.random().toString(36).slice(2, 9);
   }
-  for(const k of OLD_KEYS){
-   const oldRaw=localStorage.getItem(k);
-   if(!oldRaw) continue;
-   const old=JSON.parse(oldRaw);
-   if(Array.isArray(old)&&old.length){
-    const migrated=old.map(normalize).filter(Boolean);
-    if(migrated.length){
-     localStorage.setItem(KEY,JSON.stringify(migrated));
-     return migrated;
+
+  function getWorkspaceId() {
+    let id = localStorage.getItem(WORKSPACE_KEY);
+
+    if (!id) {
+      id = typeof crypto.randomUUID === "function"
+        ? crypto.randomUUID()
+        : "bn-" + Date.now() + "-" +
+          Math.random().toString(36).slice(2);
+
+      localStorage.setItem(WORKSPACE_KEY, id);
     }
-   }
+
+    return id;
   }
- }catch(e){console.warn("Could not read saved projects.",e)}
- return [];
-}
-bots=load();
 
-function save(){
- try{
-  localStorage.setItem(KEY,JSON.stringify(bots));
-  return true;
- }catch(e){
-  alert("Could not save in this browser. Check your browser storage settings.");
-  return false;
- }
-}
-function letter(p){
- return p==="WhatsApp"?"W":p==="Telegram"?"T":"D";
-}
-function render(){
- const list=$("botList");
- list.replaceChildren();
- $("totalBots").textContent=bots.length;
- $("runningBots").textContent="0";
- $("stoppedBots").textContent=bots.length;
- $("noBots").hidden=bots.length>0;
- $("setupStatus").textContent=bots.length?"Setup required":"No bots yet";
+  function isServerId(id) {
+    return /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i
+      .test(String(id || ""));
+  }
 
- bots.forEach(b=>{
-  const c=document.createElement("div");
-  c.className="card bot-card";
-  const icon=document.createElement("div");
-  icon.className="bot-icon";
-  icon.textContent=letter(b.platform);
+  function validPlatform(platform) {
+    return ["Discord", "WhatsApp", "Telegram"]
+      .includes(platform);
+  }
 
-  const info=document.createElement("div");
-  info.className="bot-info";
-  const name=document.createElement("strong");
-  name.textContent=b.name;
-  const platform=document.createElement("div");
-  platform.className="muted";
-  platform.textContent=b.platform+" bot project";
-  const sub=document.createElement("div");
-  sub.className="muted";
-  sub.textContent="Not confirmed running";
-  info.append(name,platform,sub);
+  function normalize(project, index) {
+    if (!project || typeof project !== "object") {
+      return null;
+    }
 
-  const status=document.createElement("span");
-  status.className="status";
-  status.textContent="Setup required";
+    const name = String(
+      project.name || project.botName || ""
+    ).trim();
 
-  const manage=document.createElement("button");
-  manage.type="button";
-  manage.className="secondary";
-  manage.textContent="Manage";
-  manage.addEventListener("click",()=>openDetails(b.id));
-  c.append(icon,info,status,manage);
-  c.addEventListener("dblclick",()=>openDetails(b.id));
-  list.append(c);
- });
-}
-function steps(p){
- if(p==="Telegram")return[
- "Create a bot with BotFather and keep its token private.",
- "Prepare and test your bot code.",
- "Add the Telegram token as a private environment variable on your host.",
- "Deploy to a suitable host and check the logs."
- ];
- if(p==="WhatsApp")return[
- "Choose a WhatsApp integration library or approved Business API provider.",
- "Prepare and test your code and connection flow.",
- "Store API credentials and session secrets privately on your host.",
- "Deploy to a compatible host and verify connection logs."
- ];
- return[
- "Create your application and bot in the Discord Developer Portal.",
- "Prepare and test your bot code.",
- "Add the Discord token as a private environment variable on your host.",
- "Deploy to a suitable host and check the logs."
- ];
-}
-function progress(b){
- $("progress").textContent=b.checks.filter(Boolean).length+" of 4 steps complete";
-}
-function renderChecks(b){
- const box=$("checklist");
- box.replaceChildren();
- while(b.checks.length<4)b.checks.push(false);
- b.checks=b.checks.slice(0,4);
- $("guide").textContent="Suggested steps for "+b.platform+". Tick each item when complete.";
- steps(b.platform).forEach((label,i)=>{
-  const row=document.createElement("label");
-  row.className="check-row";
-  const cb=document.createElement("input");
-  cb.type="checkbox";
-  cb.checked=!!b.checks[i];
-  cb.addEventListener("change",()=>{
-   b.checks[i]=cb.checked;
-   progress(b);
+    if (!name) return null;
+
+    return {
+      id: String(project.id || makeId() + "-" + index),
+      name: name.slice(0, 60),
+      platform: validPlatform(project.platform)
+        ? project.platform
+        : "Discord",
+      status: project.status || "setup_required",
+      createdAt: project.createdAt ||
+        new Date().toISOString(),
+      checks: Array.isArray(project.checks)
+        ? [0, 1, 2, 3].map(i =>
+            Boolean(project.checks[i]))
+        : [false, false, false, false]
+    };
+  }
+
+  function loadLocalProjects() {
+    try {
+      const current = localStorage.getItem(STORAGE_KEY);
+
+      if (current) {
+        const data = JSON.parse(current);
+        if (Array.isArray(data)) {
+          return data.map(normalize).filter(Boolean);
+        }
+      }
+
+      for (const key of OLD_KEYS) {
+        const raw = localStorage.getItem(key);
+        if (!raw) continue;
+
+        const oldData = JSON.parse(raw);
+
+        if (Array.isArray(oldData)) {
+          const converted = oldData
+            .map(normalize)
+            .filter(Boolean);
+
+          if (converted.length) return converted;
+        }
+      }
+    } catch (error) {
+      console.error("Could not load local projects:", error);
+    }
+
+    return [];
+  }
+
+  function saveLocalProjects() {
+    try {
+      localStorage.setItem(
+        STORAGE_KEY,
+        JSON.stringify(bots)
+      );
+      return true;
+    } catch (error) {
+      alert("Could not save projects in this browser.");
+      return false;
+    }
+  }
+
+  async function api(path, options = {}) {
+    const headers = {
+      "X-Workspace-ID": getWorkspaceId(),
+      ...(options.body
+        ? { "Content-Type": "application/json" }
+        : {}),
+      ...(options.headers || {})
+    };
+
+    const response = await fetch(API_BASE + path, {
+      ...options,
+      headers
+    });
+
+    const raw = await response.text();
+    let data = {};
+
+    try {
+      data = raw ? JSON.parse(raw) : {};
+    } catch (_) {
+      data = {};
+    }
+
+    if (!response.ok) {
+      throw new Error(
+        data.error || "Request failed: HTTP " +
+        response.status
+      );
+    }
+
+    return data;
+  }
+
+  function letter(platform) {
+    if (platform === "WhatsApp") return "W";
+    if (platform === "Telegram") return "T";
+    return "D";
+  }
+
+  function render() {
+    const list = $("botList");
+    list.replaceChildren();
+
+    $("totalBots").textContent = bots.length;
+    $("runningBots").textContent = bots.filter(
+      b => b.status === "running"
+    ).length;
+
+    $("stoppedBots").textContent =
+      bots.length - Number($("runningBots").textContent);
+
+    $("noBots").hidden = bots.length > 0;
+    $("setupStatus").textContent = bots.length
+      ? "Projects saved"
+      : "No bots yet";
+
+    for (const bot of bots) {
+      const card = document.createElement("div");
+      card.className = "card bot-card";
+
+      const icon = document.createElement("div");
+      icon.className = "bot-icon";
+      icon.textContent = letter(bot.platform);
+
+      const info = document.createElement("div");
+      info.className = "bot-info";
+
+      const name = document.createElement("strong");
+      name.textContent = bot.name;
+
+      const platform = document.createElement("div");
+      platform.className = "muted";
+      platform.textContent = bot.platform + " bot project";
+
+      const description = document.createElement("div");
+      description.className = "muted";
+      description.textContent = bot.status === "running"
+        ? "Reported running"
+        : "Not confirmed running";
+
+      info.append(name, platform, description);
+
+      const status = document.createElement("span");
+      status.className = "status";
+      status.textContent = bot.status === "running"
+        ? "Running"
+        : "Setup required";
+
+      const manage = document.createElement("button");
+      manage.type = "button";
+      manage.className = "secondary";
+      manage.textContent = "Manage";
+      manage.addEventListener(
+        "click",
+        () => openDetails(bot.id)
+      );
+
+      card.append(icon, info, status, manage);
+      list.append(card);
+    }
+  }
+
+  function steps(platform) {
+    if (platform === "Telegram") {
+      return [
+        "Create a bot with BotFather and keep its token private.",
+        "Prepare and test your bot code.",
+        "Add the Telegram token as a private environment variable on your host.",
+        "Deploy to a suitable host and check the logs."
+      ];
+    }
+
+    if (platform === "WhatsApp") {
+      return [
+        "Choose a suitable WhatsApp integration or Business API provider.",
+        "Prepare and test your connection code.",
+        "Store credentials and session secrets privately on your host.",
+        "Deploy and verify the connection logs."
+      ];
+    }
+
+    return [
+      "Create your application and bot in the Discord Developer Portal.",
+      "Prepare and test your bot code.",
+      "Add the Discord token as a private environment variable on your host.",
+      "Deploy to a suitable host and check the logs."
+    ];
+  }
+
+  function showProgress(bot) {
+    $("progress").textContent =
+      bot.checks.filter(Boolean).length +
+      " of 4 steps complete";
+  }
+
+  function renderChecks(bot) {
+    const box = $("checklist");
+    box.replaceChildren();
+
+    while (bot.checks.length < 4) {
+      bot.checks.push(false);
+    }
+    bot.checks = bot.checks.slice(0, 4);
+
+    $("guide").textContent =
+      "Suggested steps for " + bot.platform +
+      ". Tick each item when complete.";
+
+    steps(bot.platform).forEach((text, index) => {
+      const row = document.createElement("label");
+      row.className = "check-row";
+
+      const checkbox = document.createElement("input");
+      checkbox.type = "checkbox";
+      checkbox.checked = Boolean(bot.checks[index]);
+
+      checkbox.addEventListener("change", () => {
+        bot.checks[index] = checkbox.checked;
+        showProgress(bot);
+      });
+
+      const label = document.createElement("span");
+      label.textContent = text;
+
+      row.append(checkbox, label);
+      box.append(row);
+    });
+
+    showProgress(bot);
+  }
+
+  function openDetails(id) {
+    const bot = bots.find(item => item.id === id);
+    if (!bot) return;
+
+    selectedId = id;
+    $("detailTitle").textContent = bot.name;
+    $("detailSub").textContent =
+      bot.platform + " bot project · Hosting preparation";
+    $("editName").value = bot.name;
+    $("editPlatform").value = bot.platform;
+    $("editNotice").textContent = "";
+    $("checkNotice").textContent = "";
+
+    renderChecks(bot);
+
+    $("dashboardView").hidden = true;
+    $("detailsView").hidden = false;
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+  function back() {
+    $("detailsView").hidden = true;
+    $("dashboardView").hidden = false;
+    selectedId = null;
+    render();
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+  function openForm() {
+    lastFocused = document.activeElement;
+    $("botForm").reset();
+    $("formNotice").textContent = "";
+    $("botModal").classList.add("open");
+    document.body.style.overflow = "hidden";
+    $("botName").focus();
+  }
+
+  function closeForm() {
+    $("botModal").classList.remove("open");
+    document.body.style.overflow = "";
+
+    if (lastFocused && lastFocused.focus) {
+      lastFocused.focus();
+    }
+  }
+
+  // Create or update a project in PostgreSQL.
+  async function saveProjectToServer(bot) {
+    if (isServerId(bot.id)) {
+      const data = await api(
+        "/api/projects/" + encodeURIComponent(bot.id),
+        {
+          method: "PATCH",
+          body: JSON.stringify({
+            name: bot.name,
+            platform: bot.platform,
+            checks: bot.checks
+          })
+        }
+      );
+
+      return normalize(data.project, 0);
+    }
+
+    const data = await api("/api/projects", {
+      method: "POST",
+      body: JSON.stringify({
+        name: bot.name,
+        platform: bot.platform,
+        checks: bot.checks
+      })
+    });
+
+    return normalize(data.project, 0);
+  }
+
+  async function checkApi() {
+    const status = $("apiStatus");
+    const message = $("apiMessage");
+
+    status.textContent = "Checking...";
+    status.className = "status";
+    message.textContent = "Contacting BotNest...";
+
+    $("apiAddress").textContent = API_BASE;
+
+    try {
+      const response = await fetch(API_BASE + "/health");
+      const data = await response.json();
+
+      if (!response.ok || data.status !== "ok") {
+        throw new Error("Backend or database unavailable");
+      }
+
+      status.textContent = "Connected";
+      status.className = "status online";
+      message.textContent =
+        "Backend and database are responding. Loading your saved projects...";
+      return true;
+    } catch (error) {
+      status.textContent = "Offline";
+      status.className = "status offline";
+      message.textContent =
+        "Could not connect to the backend. Your existing browser projects are still shown.";
+      return false;
+    }
+  }
+
+  // Load remote projects and migrate this browser's old projects.
+  async function loadServerProjects() {
+    const response = await api("/api/projects");
+    const remote = response.projects
+      .map(normalize)
+      .filter(Boolean);
+
+    const usedRemoteIds = new Set();
+    const merged = [];
+    const localCopy = bots.map(bot => ({
+      ...bot,
+      checks: [...bot.checks]
+    }));
+
+    for (const localBot of localCopy) {
+      let match = remote.find(item =>
+        !usedRemoteIds.has(item.id) &&
+        item.id === localBot.id
+      );
+
+      // Match older browser projects to a previously imported project.
+      if (!match) {
+        match = remote.find(item =>
+          !usedRemoteIds.has(item.id) &&
+          item.name.toLowerCase() ===
+            localBot.name.toLowerCase() &&
+          item.platform === localBot.platform
+        );
+      }
+
+      if (match) {
+        usedRemoteIds.add(match.id);
+
+        const combined = {
+          ...match,
+          checks: localBot.checks
+        };
+
+        merged.push(combined);
+
+        // Preserve this browser's checklist and settings remotely.
+        try {
+          const saved = await api(
+            "/api/projects/" + encodeURIComponent(match.id),
+            {
+              method: "PATCH",
+              body: JSON.stringify({
+                name: combined.name,
+                platform: combined.platform,
+                checks: combined.checks
+              })
+            }
+          );
+
+          Object.assign(
+            combined,
+            normalize(saved.project, 0)
+          );
+        } catch (error) {
+          console.warn("Could not update migrated project:", error);
+        }
+
+        continue;
+      }
+
+      // Import projects that were previously saved only in this browser.
+      try {
+        const created = await api("/api/projects", {
+          method: "POST",
+          body: JSON.stringify({
+            name: localBot.name,
+            platform: localBot.platform,
+            checks: localBot.checks
+          })
+        });
+
+        const savedBot = normalize(created.project, 0);
+        usedRemoteIds.add(savedBot.id);
+        merged.push(savedBot);
+      } catch (error) {
+        // Keep the local copy if this project could not be imported.
+        merged.push(localBot);
+        console.warn("Could not import project:", error);
+      }
+    }
+
+    for (const remoteBot of remote) {
+      if (!usedRemoteIds.has(remoteBot.id)) {
+        merged.push(remoteBot);
+      }
+    }
+
+    bots = merged;
+    saveLocalProjects();
+    render();
+
+    $("apiStatus").textContent = "Connected";
+    $("apiStatus").className = "status online";
+    $("apiMessage").textContent =
+      "Project storage is connected. Saved projects are loaded from PostgreSQL for this browser workspace. Bot execution is not implemented yet.";
+
+    const settingParagraphs =
+      $("settings").querySelectorAll(".card p");
+
+    if (settingParagraphs[1]) {
+      settingParagraphs[1].textContent =
+        "Projects are synced with PostgreSQL for this browser workspace. Keep this browser's local storage; account recovery is not yet implemented.";
+    }
+  }
+
+  $("retryApi").addEventListener("click", async () => {
+    const connected = await checkApi();
+
+    if (connected) {
+      try {
+        await loadServerProjects();
+      } catch (error) {
+        $("apiStatus").textContent = "Storage issue";
+        $("apiStatus").className = "status offline";
+        $("apiMessage").textContent =
+          "Backend responds, but project storage failed: " +
+          error.message;
+      }
+    }
   });
-  const t=document.createElement("span");
-  t.textContent=label;
-  row.append(cb,t);
-  box.append(row);
- });
- progress(b);
-}
-function openDetails(id){
- const b=bots.find(x=>x.id===id);
- if(!b)return;
- selectedId=id;
- $("detailTitle").textContent=b.name;
- $("detailSub").textContent=b.platform+" bot project · Hosting preparation";
- $("editName").value=b.name;
- $("editPlatform").value=b.platform;
- $("editNotice").textContent="";
- $("checkNotice").textContent="";
- renderChecks(b);
- $("dashboardView").hidden=true;
- $("detailsView").hidden=false;
- window.scrollTo({top:0,behavior:"smooth"});
-}
-function back(){
- $("detailsView").hidden=true;
- $("dashboardView").hidden=false;
- selectedId=null;
- render();
- window.scrollTo({top:0,behavior:"smooth"});
-}
-function openForm(){
- lastFocused=document.activeElement;
- $("botForm").reset();
- $("formNotice").textContent="";
- $("botModal").classList.add("open");
- document.body.style.overflow="hidden";
- $("botName").focus();
-}
-function closeForm(){
- $("botModal").classList.remove("open");
- document.body.style.overflow="";
- if(lastFocused&&lastFocused.focus)lastFocused.focus();
-}
 
-/* Check the Render backend health endpoint */
-async function checkApi(){
- const status=$("apiStatus");
- const message=$("apiMessage");
- status.textContent="Checking...";
- status.className="status";
- message.textContent="Contacting the BotNest backend...";
- $("apiAddress").textContent=API_BASE;
+  $("openBotForm").addEventListener("click", openForm);
+  $("emptyAddBot").addEventListener("click", openForm);
+  $("closeBotForm").addEventListener("click", closeForm);
+  $("cancelBotForm").addEventListener("click", closeForm);
 
- try{
-  const response=await fetch(API_BASE+"/health",{method:"GET"});
-  if(!response.ok)throw new Error("HTTP "+response.status);
-  const data=await response.json();
-  if(data.status!=="ok")throw new Error("Unexpected health response");
-  status.textContent="Connected";
-  status.className="status online";
-  message.textContent="The BotNest backend responded successfully. Project storage and bot-running features still need their API endpoints.";
- }catch(error){
-  status.textContent="Offline";
-  status.className="status offline";
-  message.textContent="Could not reach the backend. Check the Render service and CORS settings. "+error.message;
- }
-}
-$("retryApi").addEventListener("click",checkApi);
+  $("botModal").addEventListener("click", event => {
+    if (event.target === $("botModal")) closeForm();
+  });
 
-$("openBotForm").addEventListener("click",openForm);
-$("emptyAddBot").addEventListener("click",openForm);
-$("closeBotForm").addEventListener("click",closeForm);
-$("cancelBotForm").addEventListener("click",closeForm);
-$("botModal").addEventListener("click",e=>{
- if(e.target===$("botModal"))closeForm();
-});
-document.addEventListener("keydown",e=>{
- if(e.key==="Escape"&&$("botModal").classList.contains("open"))closeForm();
-});
+  document.addEventListener("keydown", event => {
+    if (
+      event.key === "Escape" &&
+      $("botModal").classList.contains("open")
+    ) {
+      closeForm();
+    }
+  });
 
-$("botForm").addEventListener("submit",e=>{
- e.preventDefault();
- const name=$("botName").value.trim();
- const platform=$("botPlatform").value;
- if(!name){$("formNotice").textContent="Please enter a bot name.";return}
- if(!validPlatform(platform)){
-  $("formNotice").textContent="Choose Discord, WhatsApp, or Telegram.";
-  return;
- }
- const b={
-  id:makeId(),name:name.slice(0,60),platform,
-  createdAt:new Date().toISOString(),
-  checks:[false,false,false,false]
- };
- bots.push(b);
- if(!save()){bots.pop();return}
- render();
- closeForm();
- openDetails(b.id);
-});
+  $("botForm").addEventListener("submit", async event => {
+    event.preventDefault();
 
-$("editForm").addEventListener("submit",e=>{
- e.preventDefault();
- const b=bots.find(x=>x.id===selectedId);
- if(!b)return;
- const name=$("editName").value.trim();
- const platform=$("editPlatform").value;
- if(!name){$("editNotice").textContent="Please enter a bot name.";return}
- if(!validPlatform(platform)){
-  $("editNotice").textContent="Choose a supported platform.";
-  return;
- }
- const old={name:b.name,platform:b.platform,checks:b.checks.slice()};
- b.name=name.slice(0,60);
- if(b.platform!==platform)b.checks=[false,false,false,false];
- b.platform=platform;
- if(save()){
-  $("detailTitle").textContent=b.name;
-  $("detailSub").textContent=b.platform+" bot project · Hosting preparation";
-  $("editNotice").textContent="Project settings saved in this browser.";
-  renderChecks(b);
+    const name = $("botName").value.trim();
+    const platform = $("botPlatform").value;
+    const notice = $("formNotice");
+
+    if (!name || !validPlatform(platform)) {
+      notice.textContent = "Enter a name and choose a platform.";
+      return;
+    }
+
+    const button = $("botForm").querySelector(
+      'button[type="submit"]'
+    );
+    button.disabled = true;
+    notice.textContent = "Saving project...";
+
+    const localBot = {
+      id: makeId(),
+      name: name.slice(0, 60),
+      platform,
+      status: "setup_required",
+      createdAt: new Date().toISOString(),
+      checks: [false, false, false, false]
+    };
+
+    try {
+      const data = await api("/api/projects", {
+        method: "POST",
+        body: JSON.stringify({
+          name: localBot.name,
+          platform: localBot.platform,
+          checks: localBot.checks
+        })
+      });
+
+      const saved = normalize(data.project, 0);
+      bots.push(saved);
+      saveLocalProjects();
+      render();
+      closeForm();
+      openDetails(saved.id);
+      $("editNotice").textContent =
+        "Project saved to PostgreSQL.";
+    } catch (error) {
+      bots.push(localBot);
+      saveLocalProjects();
+      render();
+      closeForm();
+      openDetails(localBot.id);
+
+      $("editNotice").textContent =
+        "Saved only in this browser; server save failed: " +
+        error.message;
+    } finally {
+      button.disabled = false;
+    }
+  });
+
+  $("editForm").addEventListener("submit", async event => {
+    event.preventDefault();
+
+    const bot = bots.find(item => item.id === selectedId);
+    if (!bot) return;
+
+    const old = { ...bot, checks: [...bot.checks] };
+    const name = $("editName").value.trim();
+    const platform = $("editPlatform").value;
+
+    if (!name || !validPlatform(platform)) {
+      $("editNotice").textContent =
+        "Enter a valid name and platform.";
+      return;
+    }
+
+    bot.name = name.slice(0, 60);
+
+    if (bot.platform !== platform) {
+      bot.checks = [false, false, false, false];
+    }
+
+    bot.platform = platform;
+
+    try {
+      const saved = await saveProjectToServer(bot);
+      Object.assign(bot, saved);
+
+      // Preserve the checklist already held in the UI.
+      selectedId = bot.id;
+      saveLocalProjects();
+      render();
+
+      $("detailTitle").textContent = bot.name;
+      $("detailSub").textContent =
+        bot.platform + " bot project · Hosting preparation";
+      $("editNotice").textContent =
+        "Project settings saved to PostgreSQL.";
+      renderChecks(bot);
+    } catch (error) {
+      // Keep the user's changes locally for later retry.
+      saveLocalProjects();
+      $("editNotice").textContent =
+        "Saved only in this browser. Server update failed: " +
+        error.message;
+    }
+  });
+
+  $("saveChecks").addEventListener("click", async () => {
+    const bot = bots.find(item => item.id === selectedId);
+    if (!bot) return;
+
+    $("checkNotice").textContent = "Saving checklist...";
+
+    try {
+      const saved = await saveProjectToServer(bot);
+      Object.assign(bot, saved);
+      selectedId = bot.id;
+      saveLocalProjects();
+      renderChecks(bot);
+
+      $("checkNotice").textContent =
+        "Checklist saved to PostgreSQL.";
+    } catch (error) {
+      saveLocalProjects();
+
+      $("checkNotice").textContent =
+        "Saved only in this browser. Server save failed: " +
+        error.message;
+    }
+  });
+
+  $("backToDashboard").addEventListener("click", back);
+
+  $("deleteDetail").addEventListener("click", async () => {
+    const bot = bots.find(item => item.id === selectedId);
+
+    if (
+      !bot ||
+      !confirm('Delete "' + bot.name + '"?')
+    ) {
+      return;
+    }
+
+    if (isServerId(bot.id)) {
+      try {
+        await api(
+          "/api/projects/" + encodeURIComponent(bot.id),
+          { method: "DELETE" }
+        );
+      } catch (error) {
+        alert(
+          "The server could not delete this project. " +
+          "It has not been removed from the dashboard.\n\n" +
+          error.message
+        );
+        return;
+      }
+    }
+
+    bots = bots.filter(item => item.id !== selectedId);
+    saveLocalProjects();
+    back();
+  });
+
   render();
- }else{
-  b.name=old.name;
-  b.platform=old.platform;
-  b.checks=old.checks;
- }
-});
-$("saveChecks").addEventListener("click",()=>{
- const b=bots.find(x=>x.id===selectedId);
- if(b&&save())$("checkNotice").textContent="Checklist saved in this browser.";
-});
-$("backToDashboard").addEventListener("click",back);
-$("deleteDetail").addEventListener("click",()=>{
- const b=bots.find(x=>x.id===selectedId);
- if(!b||!confirm('Delete "'+b.name+'" from this browser dashboard?'))return;
- const previous=bots.slice();
- bots=bots.filter(x=>x.id!==selectedId);
- if(save())back();
- else bots=previous;
-});
 
-render();
-checkApi();
+  async function initialize() {
+    const connected = await checkApi();
+
+    if (connected) {
+      try {
+        await loadServerProjects();
+      } catch (error) {
+        $("apiStatus").textContent = "Storage issue";
+        $("apiStatus").className = "status offline";
+        $("apiMessage").textContent =
+          "The backend responds, but project storage could not load. " +
+          error.message;
+      }
+    }
+  }
+
+  initialize();
 })();
-</script>
-</body>
-</html>
