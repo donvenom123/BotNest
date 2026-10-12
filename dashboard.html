@@ -4,210 +4,292 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#0b1020">
-<title>BotNest Dashboard</title>
+<title>BotNest — Dashboard</title>
 <style>
-:root{--bg:#0b1020;--panel:#141c31;--border:#293550;--purple:#9360ff;--text:#f5f6ff;--muted:#a3aec8}
-*{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--text);font-family:Arial,sans-serif}
-button,input,select{font:inherit}
-button,a{cursor:pointer}
-a{color:inherit;text-decoration:none}
-.layout{min-height:100vh}
-.sidebar{padding:22px;background:#0e1528;border-bottom:1px solid var(--border)}
-.brand{font-size:25px;font-weight:800;color:#ad8aff}
-.brand-mark{display:inline-block;width:13px;height:13px;background:var(--purple);transform:rotate(45deg);margin-right:10px;border-radius:3px}
-.nav{display:flex;gap:8px;flex-wrap:wrap;margin-top:24px}
-.nav a{padding:11px 13px;border-radius:10px;color:var(--muted)}
-.nav a.active,.nav a:hover{background:#252044;color:#c8b0ff}
-main{padding:25px 18px 50px;max-width:1100px;margin:auto}
-.topline{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
-h1{font-size:30px;margin:0 0 8px}
-h2{font-size:21px}
-p{color:var(--muted);line-height:1.6}
-.primary,.secondary,.danger{border-radius:11px;padding:12px 16px;font-weight:700}
-.primary{border:0;background:var(--purple);color:white}
-.primary:hover{background:#a27aff}
-.secondary{border:1px solid var(--border);background:#1a2339;color:var(--text)}
-.danger{border:1px solid #754052;background:#351c2a;color:#ffb6c5}
-.stats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:27px 0}
-.card{background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:18px;min-width:0}
-.stat-label{color:var(--muted);font-size:13px}
-.stat-number{font-size:29px;font-weight:800;margin-top:12px}
-.stat-note{color:#a98bff;font-size:12px;margin-top:8px}
-.section-title{font-size:20px;margin:32px 0 15px}
-.bot-list{display:grid;gap:12px}
-.bot-card{display:flex;align-items:center;gap:12px;flex-wrap:wrap;transition:border-color .15s}
-.bot-card:hover{border-color:var(--purple)}
-.bot-icon{width:46px;height:46px;display:grid;place-items:center;border:1px solid #4b3c7c;border-radius:12px;color:#c4aaff;background:#252044;font-weight:800;flex-shrink:0}
-.bot-info{flex:1;min-width:120px;overflow-wrap:anywhere}
-.bot-info strong{display:block;margin-bottom:6px}
-.muted,.hint{color:var(--muted);font-size:13px;line-height:1.6}
-.status{font-size:11px;color:#e4c17a;border:1px solid #725d37;padding:6px 9px;border-radius:20px}
-.status.online{color:#8de8b0;border-color:#286d4b}
-.status.offline{color:#ffb6c5;border-color:#754052}
-.empty{text-align:center;padding:28px 16px;border:1px dashed #3b4560;border-radius:14px}
-.empty-mark{width:38px;height:38px;margin:0 auto 14px;border:2px solid var(--purple);border-radius:12px;transform:rotate(45deg) scale(.7)}
-.footer{color:#75819c;text-align:center;font-size:12px;margin-top:40px}
-.field{margin-top:18px}
-.field label{display:block;margin-bottom:9px;font-weight:700;font-size:14px}
-.field input,.field select{width:100%;min-height:48px;padding:12px;border-radius:10px;border:1px solid #394563;background:#0b1020;color:var(--text)}
-.modal{position:fixed;inset:0;z-index:1000;display:none;align-items:center;justify-content:center;padding:18px;background:#030611d9;overflow-y:auto}
-.modal.open{display:flex}
-.modal-box{width:100%;max-width:460px;background:var(--panel);border:1px solid #394365;border-radius:18px;padding:23px}
-.modal-heading{display:flex;align-items:center;justify-content:space-between;gap:12px}
-.modal-heading h2{margin:0}
-.close-btn{background:#252044;color:#d9ccff;border:1px solid #4b3c7c;border-radius:9px;width:40px;height:40px;font-size:24px}
-.form-actions,.detail-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px}
-.form-actions button,.detail-actions button{flex:1}
-.notice{color:#c8b0ff;font-size:13px;margin-top:12px;line-height:1.5;overflow-wrap:anywhere}
-.detail-grid{display:grid;gap:14px;margin-top:18px}
-.checklist{display:grid;gap:13px;margin-top:16px}
-.check-row{display:flex;align-items:flex-start;gap:10px;color:var(--muted);line-height:1.5}
-.check-row input{margin-top:4px;accent-color:var(--purple);width:18px;height:18px;flex-shrink:0}
-.back-button{margin-bottom:20px}
-[hidden]{display:none!important}
-button:focus-visible,a:focus-visible{outline:2px solid #c8b0ff;outline-offset:3px}
-@media(max-width:520px){
-.bot-card{display:grid;grid-template-columns:46px minmax(0,1fr);gap:12px;padding:16px}
-.bot-icon{grid-column:1;grid-row:1}
-.bot-info{grid-column:2;grid-row:1;min-width:0}
-.bot-card .status{grid-column:2;grid-row:2;justify-self:start}
-.bot-card button{grid-column:1/-1;width:100%;min-height:46px}
+:root {
+  --bg:#0b1020;
+  --panel:#141c31;
+  --border:#293550;
+  --purple:#9360ff;
+  --text:#f5f6ff;
+  --muted:#a3aec8;
+  --green:#8de8b0;
+  --red:#ffb6c5;
 }
-@media(min-width:700px){
-.layout{display:grid;grid-template-columns:220px 1fr}
-.sidebar{border-bottom:0;border-right:1px solid var(--border)}
-.nav{display:grid}
-main{width:100%;padding:38px}
-.stats{grid-template-columns:repeat(4,minmax(0,1fr))}
-.detail-grid{grid-template-columns:1fr 1fr}
+* { box-sizing:border-box }
+body {
+  margin:0;
+  background:var(--bg);
+  color:var(--text);
+  font-family:Arial,sans-serif;
+}
+button,input,select { font:inherit }
+button,a { cursor:pointer }
+a { color:inherit;text-decoration:none }
+button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible {
+  outline:2px solid #c8b0ff;
+  outline-offset:3px;
+}
+[hidden] { display:none!important }
+.primary,.secondary,.danger {
+  border-radius:11px;
+  padding:12px 16px;
+  font-weight:700;
+}
+.primary { border:0;background:var(--purple);color:white }
+.primary:hover { background:#a27aff }
+.secondary { border:1px solid var(--border);background:#1a2339;color:var(--text) }
+.danger { border:1px solid #754052;background:#351c2a;color:var(--red) }
+button:disabled { opacity:.6;cursor:wait }
+p { color:var(--muted);line-height:1.6 }
+h1 { font-size:30px;margin:0 0 8px }
+h2 { font-size:21px }
+.layout { min-height:100vh }
+.sidebar { padding:22px;background:#0e1528;border-bottom:1px solid var(--border) }
+.brand { font-size:25px;font-weight:800;color:#ad8aff }
+.brand-mark {
+  display:inline-block;width:13px;height:13px;background:var(--purple);
+  transform:rotate(45deg);margin-right:10px;border-radius:3px
+}
+.nav { display:flex;gap:8px;flex-wrap:wrap;margin-top:24px }
+.nav a { padding:11px 13px;border-radius:10px;color:var(--muted) }
+.nav a:hover,.nav a.active { background:#252044;color:#c8b0ff }
+main { padding:25px 18px 50px;max-width:1100px;margin:auto }
+.topline { display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap }
+.card { background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:18px;min-width:0 }
+.stats { display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:27px 0 }
+.stat-label { color:var(--muted);font-size:13px }
+.stat-number { font-size:29px;font-weight:800;margin-top:12px }
+.stat-note { color:#a98bff;font-size:12px;margin-top:8px }
+.section-title { font-size:20px;margin:32px 0 15px }
+.bot-list { display:grid;gap:12px }
+.bot-card { display:flex;align-items:center;gap:12px;flex-wrap:wrap;transition:border-color .15s }
+.bot-card:hover { border-color:var(--purple) }
+.bot-icon {
+  width:46px;height:46px;display:grid;place-items:center;
+  border:1px solid #4b3c7c;border-radius:12px;color:#c4aaff;
+  background:#252044;font-weight:800;flex-shrink:0
+}
+.bot-info { flex:1;min-width:120px;overflow-wrap:anywhere }
+.bot-info strong { display:block;margin-bottom:6px }
+.muted,.hint { color:var(--muted);font-size:13px;line-height:1.6 }
+.status { font-size:11px;color:#e4c17a;border:1px solid #725d37;padding:6px 9px;border-radius:20px }
+.status.online { color:var(--green);border-color:#286d4b }
+.status.offline { color:var(--red);border-color:#754052 }
+.empty { text-align:center;padding:28px 16px;border:1px dashed #3b4560;border-radius:14px }
+.empty-mark { width:38px;height:38px;margin:0 auto 14px;border:2px solid var(--purple);border-radius:12px;transform:rotate(45deg) scale(.7) }
+.footer { color:#75819c;text-align:center;font-size:12px;margin-top:40px }
+.field { margin-top:18px }
+.field label { display:block;margin-bottom:9px;font-weight:700;font-size:14px }
+.field input,.field select {
+  width:100%;min-height:48px;padding:12px;border-radius:10px;
+  border:1px solid #394563;background:#0b1020;color:var(--text)
+}
+.modal {
+  position:fixed;inset:0;z-index:1000;display:none;align-items:center;
+  justify-content:center;padding:18px;background:#030611e8;overflow-y:auto
+}
+.modal.open { display:flex }
+.modal-box { width:100%;max-width:460px;background:var(--panel);border:1px solid #394365;border-radius:18px;padding:23px }
+.modal-heading { display:flex;align-items:center;justify-content:space-between;gap:12px }
+.modal-heading h2 { margin:0 }
+.close-btn { background:#252044;color:#d9ccff;border:1px solid #4b3c7c;border-radius:9px;width:40px;height:40px;font-size:24px }
+.form-actions,.detail-actions { display:flex;gap:10px;flex-wrap:wrap;margin-top:20px }
+.form-actions button,.detail-actions button { flex:1 }
+.notice { color:#c8b0ff;font-size:13px;margin-top:12px;line-height:1.5;overflow-wrap:anywhere }
+.detail-grid { display:grid;gap:14px;margin-top:18px }
+.checklist { display:grid;gap:13px;margin-top:16px }
+.check-row { display:flex;align-items:flex-start;gap:10px;color:var(--muted);line-height:1.5 }
+.check-row input { margin-top:4px;accent-color:var(--purple);width:18px;height:18px;flex-shrink:0 }
+.back-button { margin-bottom:20px }
+.auth-screen {
+  min-height:100vh;display:grid;place-items:center;padding:20px;
+  background:radial-gradient(ellipse at top,#211742 0%,var(--bg) 60%)
+}
+.auth-card { width:100%;max-width:430px;padding:26px;background:var(--panel);border:1px solid var(--border);border-radius:20px }
+.auth-card .brand { display:block;margin-bottom:22px }
+.auth-tabs { display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:20px 0 }
+.auth-tab { padding:12px;border-radius:10px;border:1px solid var(--border);background:#0b1020;color:var(--muted) }
+.auth-tab.active { background:#252044;color:#d9ccff;border-color:#7154bb }
+.auth-card .primary { width:100%;margin-top:20px;min-height:48px }
+.auth-note { font-size:12px;color:var(--muted);line-height:1.6 }
+@media(max-width:520px) {
+  .bot-card { display:grid;grid-template-columns:46px minmax(0,1fr);gap:12px;padding:16px }
+  .bot-icon { grid-column:1;grid-row:1 }
+  .bot-info { grid-column:2;grid-row:1;min-width:0 }
+  .bot-card .status { grid-column:2;grid-row:2;justify-self:start }
+  .bot-card button { grid-column:1/-1;width:100%;min-height:46px }
+}
+@media(min-width:700px) {
+  .layout { display:grid;grid-template-columns:220px 1fr }
+  .sidebar { border-bottom:0;border-right:1px solid var(--border) }
+  .nav { display:grid }
+  main { width:100%;padding:38px }
+  .stats { grid-template-columns:repeat(4,minmax(0,1fr)) }
+  .detail-grid { grid-template-columns:1fr 1fr }
 }
 </style>
 </head>
 <body>
-<div class="layout">
-<aside class="sidebar">
-<a class="brand" href="index.html"><span class="brand-mark"></span>BotNest</a>
-<nav class="nav" aria-label="Main navigation">
-<a class="active" href="#overview">Overview</a>
-<a href="#bots">My Bots</a>
-<a href="#deployments">Deployments</a>
-<a href="#settings">Settings</a>
-<a href="index.html">Back to website</a>
-</nav>
-</aside>
 
-<main>
-<div id="dashboardView">
-<section id="overview">
-<div class="topline">
-<div><h1>Dashboard</h1><p>Welcome to your bot workspace.</p></div>
-<button class="primary" id="openBotForm">+ Add a bot</button>
-</div>
+<!-- Authentication screen. Requires backend auth endpoints to function. -->
+<section id="authScreen" class="auth-screen">
+  <div class="auth-card">
+    <a class="brand" href="index.html"><span class="brand-mark"></span>BotNest</a>
+    <h1 id="authHeading">Welcome back</h1>
+    <p id="authDescription">Sign in to access your bot workspace.</p>
 
-<div class="card" style="margin-top:20px">
-<div class="topline">
-<strong>Backend connection</strong>
-<span class="status" id="apiStatus">Checking...</span>
-</div>
-<p id="apiMessage">Checking whether BotNest can reach its backend.</p>
-<button class="secondary" id="retryApi">Check connection again</button>
-</div>
+    <div class="auth-tabs">
+      <button type="button" class="auth-tab active" id="loginTab">Log in</button>
+      <button type="button" class="auth-tab" id="registerTab">Create account</button>
+    </div>
 
-<div class="stats">
-<div class="card"><div class="stat-label">Total bots</div><div class="stat-number" id="totalBots">0</div><div class="stat-note">Saved projects</div></div>
-<div class="card"><div class="stat-label">Running</div><div class="stat-number" id="runningBots">0</div><div class="stat-note">Confirmed running bots</div></div>
-<div class="card"><div class="stat-label">Stopped / setup</div><div class="stat-number" id="stoppedBots">0</div><div class="stat-note">Projects not confirmed running</div></div>
-<div class="card"><div class="stat-label">Deployments</div><div class="stat-number" id="deploymentCount">0</div><div class="stat-note">Reported by backend</div></div>
-</div>
+    <form id="authForm">
+      <div class="field" id="emailField">
+        <label for="authEmail">Email address</label>
+        <input id="authEmail" type="email" autocomplete="email" required maxlength="254" placeholder="you@example.com">
+      </div>
+      <div class="field" id="nameField" hidden>
+        <label for="authName">Your name</label>
+        <input id="authName" type="text" autocomplete="name" maxlength="80" placeholder="Your name">
+      </div>
+      <div class="field">
+        <label for="authPassword">Password</label>
+        <input id="authPassword" type="password" autocomplete="current-password" minlength="8" required maxlength="128" placeholder="At least 8 characters">
+      </div>
+      <div class="field" id="confirmField" hidden>
+        <label for="authConfirm">Confirm password</label>
+        <input id="authConfirm" type="password" autocomplete="new-password" minlength="8" maxlength="128" placeholder="Enter password again">
+      </div>
+      <button class="primary" id="authSubmit" type="submit">Log in</button>
+      <div class="notice" id="authNotice" role="status" aria-live="polite"></div>
+    </form>
+
+    <p class="auth-note">Your password must be verified by the BotNest server. This page does not store your password in browser storage. Account login becomes operational after the backend authentication routes are installed.</p>
+    <p><a href="index.html">← Back to BotNest website</a></p>
+  </div>
 </section>
 
-<section id="bots">
-<div class="topline"><h2 class="section-title">My Bots</h2><span class="status" id="setupStatus">No bots yet</span></div>
-<div class="bot-list" id="botList"></div>
-<div class="card empty" id="noBots">
-<div class="empty-mark"></div><strong>No bots added yet</strong>
-<p>Create your first bot project to see it here.</p>
-<button class="primary" id="emptyAddBot">+ Create your first bot</button>
-</div>
-</section>
+<div class="layout" id="app" hidden>
+  <aside class="sidebar">
+    <a class="brand" href="index.html"><span class="brand-mark"></span>BotNest</a>
+    <nav class="nav" aria-label="Main navigation">
+      <a class="active" href="#overview">Overview</a>
+      <a href="#bots">My Bots</a>
+      <a href="#deployments">Deployments</a>
+      <a href="#settings">Settings</a>
+      <a href="index.html">Back to website</a>
+    </nav>
+  </aside>
 
-<section id="deployments">
-<h2 class="section-title">Recent deployments</h2>
-<div class="card">
-<strong id="deploymentMessage">No deployment information received.</strong>
-<p>Deployment tracking will become available when the backend supports it.</p>
-</div>
-</section>
+  <main>
+    <div id="dashboardView">
+      <section id="overview">
+        <div class="topline">
+          <div><h1>Dashboard</h1><p>Welcome to your bot workspace.</p></div>
+          <button class="primary" id="openBotForm">+ Add a bot</button>
+        </div>
 
-<section id="settings">
-<h2 class="section-title">Workspace settings</h2>
-<div class="card">
-<strong>BotNest workspace</strong>
-<p>Backend: <span id="apiAddress">Not configured</span></p>
-<p>Bot projects currently remain in this browser until a persistent projects API is added.</p>
-<p>Never put bot tokens or WhatsApp session secrets in this page or public GitHub files.</p>
-</div>
-</section>
-<div class="footer">BotNest Dashboard · Built for your bots</div>
-</div>
+        <div class="card" style="margin-top:20px">
+          <div class="topline"><strong>Backend connection</strong><span class="status" id="apiStatus">Checking...</span></div>
+          <p id="apiMessage">Checking whether BotNest can reach its backend.</p>
+          <button class="secondary" id="retryApi">Check connection again</button>
+        </div>
 
-<section id="detailsView" hidden>
-<button class="secondary back-button" id="backToDashboard">← Back to dashboard</button>
-<div class="topline">
-<div><h1 id="detailTitle">Bot details</h1><p id="detailSub">Project settings and hosting preparation.</p></div>
-<span class="status">Setup required</span>
-</div>
+        <div class="stats">
+          <div class="card"><div class="stat-label">Total bots</div><div class="stat-number" id="totalBots">0</div><div class="stat-note">Saved projects</div></div>
+          <div class="card"><div class="stat-label">Running</div><div class="stat-number" id="runningBots">0</div><div class="stat-note">Confirmed running bots</div></div>
+          <div class="card"><div class="stat-label">Stopped / setup</div><div class="stat-number" id="stoppedBots">0</div><div class="stat-note">Not confirmed running</div></div>
+          <div class="card"><div class="stat-label">Deployments</div><div class="stat-number" id="deploymentCount">0</div><div class="stat-note">Reported by backend</div></div>
+        </div>
+      </section>
 
-<div class="detail-grid">
-<div class="card">
-<h2>Project settings</h2>
-<form id="editForm">
-<div class="field"><label for="editName">Bot name</label><input id="editName" maxlength="60" required></div>
-<div class="field"><label for="editPlatform">Platform</label>
-<select id="editPlatform" required>
-<option>Discord</option><option>WhatsApp</option><option>Telegram</option>
-</select></div>
-<div class="form-actions"><button class="primary" type="submit">Save changes</button></div>
-<div class="notice" id="editNotice" role="status"></div>
-</form>
-</div>
+      <section id="bots">
+        <div class="topline"><h2 class="section-title">My Bots</h2><span class="status" id="setupStatus">No bots yet</span></div>
+        <div class="bot-list" id="botList"></div>
+        <div class="card empty" id="noBots">
+          <div class="empty-mark"></div><strong>No bots added yet</strong>
+          <p>Create your first bot project to see it here.</p>
+          <button class="primary" id="emptyAddBot">+ Create your first bot</button>
+        </div>
+      </section>
 
-<div class="card">
-<h2>Prepare for hosting</h2>
-<p id="guide">Complete these steps before deploying.</p>
-<div class="checklist" id="checklist"></div>
-<p class="hint" id="progress">0 of 4 steps complete</p>
-<button class="primary" id="saveChecks">Save checklist</button>
-<div class="notice" id="checkNotice" role="status"></div>
-</div>
-</div>
+      <section id="deployments">
+        <h2 class="section-title">Recent deployments</h2>
+        <div class="card">
+          <strong id="deploymentMessage">No deployment information received.</strong>
+          <p>Actual deployment tracking requires a deployment API and worker runtime.</p>
+        </div>
+      </section>
 
-<div class="card" style="margin-top:14px">
-<h2>Important before deploying</h2>
-<p>A successful backend health check confirms that the API responds. It does not mean a bot is connected or running.</p>
-<p>Keep all platform credentials private. Store secrets in your hosting provider's environment settings, not in this dashboard.</p>
-</div>
-<div class="detail-actions"><button class="danger" id="deleteDetail">Delete this project</button></div>
-</section>
-</main>
+      <section id="settings">
+        <h2 class="section-title">Workspace settings</h2>
+        <div class="card">
+          <strong id="accountLabel">BotNest workspace</strong>
+          <p>Backend: <span id="apiAddress">Not configured</span></p>
+          <p>Project data is stored by the existing projects API and this browser's local storage.</p>
+          <p>Never put bot tokens or WhatsApp session secrets in this page or public GitHub files.</p>
+          <button class="secondary" id="logoutButton">Log out</button>
+        </div>
+      </section>
+      <div class="footer">BotNest Dashboard · Built for your bots</div>
+    </div>
+
+    <section id="detailsView" hidden>
+      <button class="secondary back-button" id="backToDashboard">← Back to dashboard</button>
+      <div class="topline">
+        <div><h1 id="detailTitle">Bot details</h1><p id="detailSub">Project settings and hosting preparation.</p></div>
+        <span class="status">Setup required</span>
+      </div>
+
+      <div class="detail-grid">
+        <div class="card">
+          <h2>Project settings</h2>
+          <form id="editForm">
+            <div class="field"><label for="editName">Bot name</label><input id="editName" maxlength="60" required></div>
+            <div class="field"><label for="editPlatform">Platform</label>
+              <select id="editPlatform" required><option>Discord</option><option>WhatsApp</option><option>Telegram</option></select>
+            </div>
+            <div class="form-actions"><button class="primary" type="submit">Save changes</button></div>
+            <div class="notice" id="editNotice" role="status"></div>
+          </form>
+        </div>
+        <div class="card">
+          <h2>Prepare for hosting</h2>
+          <p id="guide">Complete these steps before deploying.</p>
+          <div class="checklist" id="checklist"></div>
+          <p class="hint" id="progress">0 of 4 steps complete</p>
+          <button class="primary" id="saveChecks">Save checklist</button>
+          <div class="notice" id="checkNotice" role="status"></div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top:14px">
+        <h2>Important before deploying</h2>
+        <p>A successful backend health check does not mean a bot is connected or running.</p>
+        <p>Keep platform credentials private. Store secrets in your hosting provider's environment settings.</p>
+      </div>
+      <div class="detail-actions"><button class="danger" id="deleteDetail">Delete this project</button></div>
+    </section>
+  </main>
 </div>
 
 <div class="modal" id="botModal" role="dialog" aria-modal="true" aria-labelledby="formTitle">
-<div class="modal-box">
-<div class="modal-heading"><h2 id="formTitle">Add a bot</h2><button class="close-btn" id="closeBotForm" aria-label="Close">&times;</button></div>
-<p>Create a project for the bot you want to manage.</p>
-<form id="botForm">
-<div class="field"><label for="botName">Bot name</label><input id="botName" name="botName" placeholder="e.g. My Community Bot" maxlength="60" required></div>
-<div class="field"><label for="botPlatform">Choose a platform</label>
-<select id="botPlatform" name="botPlatform" required>
-<option value="">Select a platform</option><option>Discord</option><option>WhatsApp</option><option>Telegram</option>
-</select></div>
-<p class="hint">This creates a project entry. It does not start a bot process.</p>
-<div class="form-actions"><button class="secondary" type="button" id="cancelBotForm">Cancel</button><button class="primary" type="submit">Save bot</button></div>
-<div class="notice" id="formNotice" role="status"></div>
-</form>
-</div>
+  <div class="modal-box">
+    <div class="modal-heading"><h2 id="formTitle">Add a bot</h2><button class="close-btn" id="closeBotForm" aria-label="Close">&times;</button></div>
+    <p>Create a project for the bot you want to manage.</p>
+    <form id="botForm">
+      <div class="field"><label for="botName">Bot name</label><input id="botName" name="botName" placeholder="e.g. My Community Bot" maxlength="60" required></div>
+      <div class="field"><label for="botPlatform">Choose a platform</label>
+        <select id="botPlatform" name="botPlatform" required>
+          <option value="">Select a platform</option><option>Discord</option><option>WhatsApp</option><option>Telegram</option>
+        </select>
+      </div>
+      <p class="hint">This creates a project entry. It does not start a bot process.</p>
+      <div class="form-actions"><button class="secondary" type="button" id="cancelBotForm">Cancel</button><button class="primary" type="submit">Save bot</button></div>
+      <div class="notice" id="formNotice" role="status"></div>
+    </form>
+  </div>
 </div>
 
 <script>
@@ -217,113 +299,80 @@ main{width:100%;padding:38px}
   const API_BASE = "https://botnest-backend.onrender.com";
   const STORAGE_KEY = "botnest_bots_v1";
   const WORKSPACE_KEY = "botnest_workspace_id_v1";
-  const OLD_KEYS = [
-    "botnestBots",
-    "botnest-bots",
-    "botnest_bots",
-    "botnestBotsData"
-  ];
-
+  const OLD_KEYS = ["botnestBots","botnest-bots","botnest_bots","botnestBotsData"];
   const $ = id => document.getElementById(id);
+
   let bots = loadLocalProjects();
   let selectedId = null;
   let lastFocused = null;
+  let authMode = "login";
+  let authToken = null;
+  let authUser = null;
 
   function makeId() {
-    return Date.now() + "-" +
-      Math.random().toString(36).slice(2, 9);
+    return Date.now() + "-" + Math.random().toString(36).slice(2,9);
   }
 
   function getWorkspaceId() {
     let id = localStorage.getItem(WORKSPACE_KEY);
-
     if (!id) {
       id = typeof crypto.randomUUID === "function"
         ? crypto.randomUUID()
-        : "bn-" + Date.now() + "-" +
-          Math.random().toString(36).slice(2);
-
-      localStorage.setItem(WORKSPACE_KEY, id);
+        : "bn-" + Date.now() + "-" + Math.random().toString(36).slice(2);
+      localStorage.setItem(WORKSPACE_KEY,id);
     }
-
     return id;
   }
 
   function isServerId(id) {
-    return /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i
-      .test(String(id || ""));
+    return /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(String(id || ""));
   }
 
   function validPlatform(platform) {
-    return ["Discord", "WhatsApp", "Telegram"]
-      .includes(platform);
+    return ["Discord","WhatsApp","Telegram"].includes(platform);
   }
 
-  function normalize(project, index) {
-    if (!project || typeof project !== "object") {
-      return null;
-    }
-
-    const name = String(
-      project.name || project.botName || ""
-    ).trim();
-
+  function normalize(project,index) {
+    if (!project || typeof project !== "object") return null;
+    const name = String(project.name || project.botName || "").trim();
     if (!name) return null;
-
     return {
-      id: String(project.id || makeId() + "-" + index),
-      name: name.slice(0, 60),
-      platform: validPlatform(project.platform)
-        ? project.platform
-        : "Discord",
-      status: project.status || "setup_required",
-      createdAt: project.createdAt ||
-        new Date().toISOString(),
-      checks: Array.isArray(project.checks)
-        ? [0, 1, 2, 3].map(i =>
-            Boolean(project.checks[i]))
-        : [false, false, false, false]
+      id:String(project.id || makeId() + "-" + index),
+      name:name.slice(0,60),
+      platform:validPlatform(project.platform) ? project.platform : "Discord",
+      status:project.status || "setup_required",
+      createdAt:project.createdAt || new Date().toISOString(),
+      checks:Array.isArray(project.checks)
+        ? [0,1,2,3].map(i => Boolean(project.checks[i]))
+        : [false,false,false,false]
     };
   }
 
   function loadLocalProjects() {
     try {
       const current = localStorage.getItem(STORAGE_KEY);
-
       if (current) {
         const data = JSON.parse(current);
-        if (Array.isArray(data)) {
-          return data.map(normalize).filter(Boolean);
-        }
+        if (Array.isArray(data)) return data.map(normalize).filter(Boolean);
       }
-
       for (const key of OLD_KEYS) {
         const raw = localStorage.getItem(key);
         if (!raw) continue;
-
         const oldData = JSON.parse(raw);
-
         if (Array.isArray(oldData)) {
-          const converted = oldData
-            .map(normalize)
-            .filter(Boolean);
-
+          const converted = oldData.map(normalize).filter(Boolean);
           if (converted.length) return converted;
         }
       }
     } catch (error) {
-      console.error("Could not load local projects:", error);
+      console.error("Could not load local projects:",error);
     }
-
     return [];
   }
 
   function saveLocalProjects() {
     try {
-      localStorage.setItem(
-        STORAGE_KEY,
-        JSON.stringify(bots)
-      );
+      localStorage.setItem(STORAGE_KEY,JSON.stringify(bots));
       return true;
     } catch (error) {
       alert("Could not save projects in this browser.");
@@ -331,38 +380,125 @@ main{width:100%;padding:38px}
     }
   }
 
-  async function api(path, options = {}) {
+  async function api(path,options = {}) {
     const headers = {
-      "X-Workspace-ID": getWorkspaceId(),
-      ...(options.body
-        ? { "Content-Type": "application/json" }
-        : {}),
+      "X-Workspace-ID":getWorkspaceId(),
+      ...(options.body ? {"Content-Type":"application/json"} : {}),
       ...(options.headers || {})
     };
 
-    const response = await fetch(API_BASE + path, {
-      ...options,
-      headers
-    });
+    // Add a real server-issued token only after backend authentication exists.
+    if (authToken) headers.Authorization = "Bearer " + authToken;
 
+    const response = await fetch(API_BASE + path,{...options,headers});
     const raw = await response.text();
     let data = {};
-
-    try {
-      data = raw ? JSON.parse(raw) : {};
-    } catch (_) {
-      data = {};
-    }
+    try { data = raw ? JSON.parse(raw) : {}; } catch (_) {}
 
     if (!response.ok) {
-      throw new Error(
-        data.error || "Request failed: HTTP " +
-        response.status
-      );
+      throw new Error(data.error || "Request failed: HTTP " + response.status);
     }
-
     return data;
   }
+
+  function setAuthMode(mode) {
+    authMode = mode;
+    const registering = mode === "register";
+    $("loginTab").classList.toggle("active",!registering);
+    $("registerTab").classList.toggle("active",registering);
+    $("authHeading").textContent = registering ? "Create your account" : "Welcome back";
+    $("authDescription").textContent = registering
+      ? "Create an account for your BotNest workspace."
+      : "Sign in to access your bot workspace.";
+    $("nameField").hidden = !registering;
+    $("confirmField").hidden = !registering;
+    $("authName").required = registering;
+    $("authConfirm").required = registering;
+    $("authPassword").autocomplete = registering ? "new-password" : "current-password";
+    $("authSubmit").textContent = registering ? "Create account" : "Log in";
+    $("authNotice").textContent = "";
+  }
+
+  function showDashboard(user) {
+    authUser = user || null;
+    $("authScreen").hidden = true;
+    $("app").hidden = false;
+    $("accountLabel").textContent = authUser
+      ? "Signed in: " + (authUser.name || authUser.email || "BotNest account")
+      : "BotNest workspace";
+    initializeDashboard();
+  }
+
+  $("loginTab").addEventListener("click",() => setAuthMode("login"));
+  $("registerTab").addEventListener("click",() => setAuthMode("register"));
+
+  $("authForm").addEventListener("submit",async event => {
+    event.preventDefault();
+    const email = $("authEmail").value.trim();
+    const password = $("authPassword").value;
+    const registering = authMode === "register";
+    const notice = $("authNotice");
+    const button = $("authSubmit");
+
+    if (!email || password.length < 8) {
+      notice.textContent = "Enter a valid email and a password of at least 8 characters.";
+      return;
+    }
+    if (registering && password !== $("authConfirm").value) {
+      notice.textContent = "The passwords do not match.";
+      return;
+    }
+
+    button.disabled = true;
+    notice.textContent = registering ? "Creating account..." : "Signing in...";
+
+    try {
+      // These endpoints must be implemented on the server.
+      const result = await fetch(API_BASE + (registering ? "/api/auth/register" : "/api/auth/login"),{
+        method:"POST",
+        headers:{"Content-Type":"application/json"},
+        body:JSON.stringify({
+          email,
+          password,
+          ...(registering ? {name:$("authName").value.trim()} : {})
+        })
+      });
+
+      const data = await result.json().catch(() => ({}));
+      if (!result.ok) {
+        throw new Error(data.error || (
+          result.status === 404
+            ? "The backend login route is not installed yet. Your projects are unchanged."
+            : "Authentication failed. Please try again."
+        ));
+      }
+
+      if (!data.token) {
+        throw new Error("The server did not return an authentication token. Contact the backend administrator.");
+      }
+
+      authToken = data.token;
+      authUser = data.user || {email};
+      // A server-issued token is kept only in memory for this page session.
+      // Refreshing the page requires signing in again.
+      showDashboard(authUser);
+      notice.textContent = "";
+    } catch (error) {
+      notice.textContent = error.message || "Could not contact the authentication server.";
+    } finally {
+      button.disabled = false;
+    }
+  });
+
+  $("logoutButton").addEventListener("click",() => {
+    authToken = null;
+    authUser = null;
+    $("app").hidden = true;
+    $("authScreen").hidden = false;
+    $("authPassword").value = "";
+    $("authConfirm").value = "";
+    setAuthMode("login");
+  });
 
   function letter(platform) {
     if (platform === "WhatsApp") return "W";
@@ -375,17 +511,10 @@ main{width:100%;padding:38px}
     list.replaceChildren();
 
     $("totalBots").textContent = bots.length;
-    $("runningBots").textContent = bots.filter(
-      b => b.status === "running"
-    ).length;
-
-    $("stoppedBots").textContent =
-      bots.length - Number($("runningBots").textContent);
-
+    $("runningBots").textContent = bots.filter(b => b.status === "running").length;
+    $("stoppedBots").textContent = bots.length - bots.filter(b => b.status === "running").length;
     $("noBots").hidden = bots.length > 0;
-    $("setupStatus").textContent = bots.length
-      ? "Projects saved"
-      : "No bots yet";
+    $("setupStatus").textContent = bots.length ? "Projects saved" : "No bots yet";
 
     for (const bot of bots) {
       const card = document.createElement("div");
@@ -397,61 +526,44 @@ main{width:100%;padding:38px}
 
       const info = document.createElement("div");
       info.className = "bot-info";
-
       const name = document.createElement("strong");
       name.textContent = bot.name;
-
       const platform = document.createElement("div");
       platform.className = "muted";
       platform.textContent = bot.platform + " bot project";
-
       const description = document.createElement("div");
       description.className = "muted";
-      description.textContent = bot.status === "running"
-        ? "Reported running"
-        : "Not confirmed running";
-
-      info.append(name, platform, description);
+      description.textContent = bot.status === "running" ? "Reported running" : "Not confirmed running";
+      info.append(name,platform,description);
 
       const status = document.createElement("span");
       status.className = "status";
-      status.textContent = bot.status === "running"
-        ? "Running"
-        : "Setup required";
+      status.textContent = bot.status === "running" ? "Running" : "Setup required";
 
       const manage = document.createElement("button");
       manage.type = "button";
       manage.className = "secondary";
       manage.textContent = "Manage";
-      manage.addEventListener(
-        "click",
-        () => openDetails(bot.id)
-      );
+      manage.addEventListener("click",() => openDetails(bot.id));
 
-      card.append(icon, info, status, manage);
+      card.append(icon,info,status,manage);
       list.append(card);
     }
   }
 
   function steps(platform) {
-    if (platform === "Telegram") {
-      return [
-        "Create a bot with BotFather and keep its token private.",
-        "Prepare and test your bot code.",
-        "Add the Telegram token as a private environment variable on your host.",
-        "Deploy to a suitable host and check the logs."
-      ];
-    }
-
-    if (platform === "WhatsApp") {
-      return [
-        "Choose a suitable WhatsApp integration or Business API provider.",
-        "Prepare and test your connection code.",
-        "Store credentials and session secrets privately on your host.",
-        "Deploy and verify the connection logs."
-      ];
-    }
-
+    if (platform === "Telegram") return [
+      "Create a bot with BotFather and keep its token private.",
+      "Prepare and test your bot code.",
+      "Add the Telegram token as a private environment variable on your host.",
+      "Deploy to a suitable host and check the logs."
+    ];
+    if (platform === "WhatsApp") return [
+      "Choose a suitable WhatsApp integration or Business API provider.",
+      "Prepare and test your connection code.",
+      "Store credentials and session secrets privately on your host.",
+      "Deploy and verify the connection logs."
+    ];
     return [
       "Create your application and bot in the Discord Developer Portal.",
       "Prepare and test your bot code.",
@@ -461,65 +573,48 @@ main{width:100%;padding:38px}
   }
 
   function showProgress(bot) {
-    $("progress").textContent =
-      bot.checks.filter(Boolean).length +
-      " of 4 steps complete";
+    $("progress").textContent = bot.checks.filter(Boolean).length + " of 4 steps complete";
   }
 
   function renderChecks(bot) {
     const box = $("checklist");
     box.replaceChildren();
+    while (bot.checks.length < 4) bot.checks.push(false);
+    bot.checks = bot.checks.slice(0,4);
+    $("guide").textContent = "Suggested steps for " + bot.platform + ". Tick each item when complete.";
 
-    while (bot.checks.length < 4) {
-      bot.checks.push(false);
-    }
-    bot.checks = bot.checks.slice(0, 4);
-
-    $("guide").textContent =
-      "Suggested steps for " + bot.platform +
-      ". Tick each item when complete.";
-
-    steps(bot.platform).forEach((text, index) => {
+    steps(bot.platform).forEach((text,index) => {
       const row = document.createElement("label");
       row.className = "check-row";
-
       const checkbox = document.createElement("input");
       checkbox.type = "checkbox";
       checkbox.checked = Boolean(bot.checks[index]);
-
-      checkbox.addEventListener("change", () => {
+      checkbox.addEventListener("change",() => {
         bot.checks[index] = checkbox.checked;
         showProgress(bot);
       });
-
       const label = document.createElement("span");
       label.textContent = text;
-
-      row.append(checkbox, label);
+      row.append(checkbox,label);
       box.append(row);
     });
-
     showProgress(bot);
   }
 
   function openDetails(id) {
     const bot = bots.find(item => item.id === id);
     if (!bot) return;
-
     selectedId = id;
     $("detailTitle").textContent = bot.name;
-    $("detailSub").textContent =
-      bot.platform + " bot project · Hosting preparation";
+    $("detailSub").textContent = bot.platform + " bot project · Hosting preparation";
     $("editName").value = bot.name;
     $("editPlatform").value = bot.platform;
     $("editNotice").textContent = "";
     $("checkNotice").textContent = "";
-
     renderChecks(bot);
-
     $("dashboardView").hidden = true;
     $("detailsView").hidden = false;
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    window.scrollTo({top:0,behavior:"smooth"});
   }
 
   function back() {
@@ -527,7 +622,7 @@ main{width:100%;padding:38px}
     $("dashboardView").hidden = false;
     selectedId = null;
     render();
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    window.scrollTo({top:0,behavior:"smooth"});
   }
 
   function openForm() {
@@ -542,402 +637,235 @@ main{width:100%;padding:38px}
   function closeForm() {
     $("botModal").classList.remove("open");
     document.body.style.overflow = "";
-
-    if (lastFocused && lastFocused.focus) {
-      lastFocused.focus();
-    }
+    if (lastFocused && lastFocused.focus) lastFocused.focus();
   }
 
-  // Create or update a project in PostgreSQL.
   async function saveProjectToServer(bot) {
     if (isServerId(bot.id)) {
-      const data = await api(
-        "/api/projects/" + encodeURIComponent(bot.id),
-        {
-          method: "PATCH",
-          body: JSON.stringify({
-            name: bot.name,
-            platform: bot.platform,
-            checks: bot.checks
-          })
-        }
-      );
-
-      return normalize(data.project, 0);
+      const data = await api("/api/projects/" + encodeURIComponent(bot.id),{
+        method:"PATCH",
+        body:JSON.stringify({name:bot.name,platform:bot.platform,checks:bot.checks})
+      });
+      return normalize(data.project,0);
     }
-
-    const data = await api("/api/projects", {
-      method: "POST",
-      body: JSON.stringify({
-        name: bot.name,
-        platform: bot.platform,
-        checks: bot.checks
-      })
+    const data = await api("/api/projects",{
+      method:"POST",
+      body:JSON.stringify({name:bot.name,platform:bot.platform,checks:bot.checks})
     });
-
-    return normalize(data.project, 0);
+    return normalize(data.project,0);
   }
 
   async function checkApi() {
-    const status = $("apiStatus");
-    const message = $("apiMessage");
-
-    status.textContent = "Checking...";
-    status.className = "status";
-    message.textContent = "Contacting BotNest...";
-
+    $("apiStatus").textContent = "Checking...";
+    $("apiStatus").className = "status";
+    $("apiMessage").textContent = "Contacting BotNest...";
     $("apiAddress").textContent = API_BASE;
-
     try {
       const response = await fetch(API_BASE + "/health");
       const data = await response.json();
-
-      if (!response.ok || data.status !== "ok") {
-        throw new Error("Backend or database unavailable");
-      }
-
-      status.textContent = "Connected";
-      status.className = "status online";
-      message.textContent =
-        "Backend and database are responding. Loading your saved projects...";
+      if (!response.ok || data.status !== "ok") throw new Error("Backend or database unavailable");
+      $("apiStatus").textContent = "Connected";
+      $("apiStatus").className = "status online";
+      $("apiMessage").textContent = "Backend and database are responding.";
       return true;
-    } catch (error) {
-      status.textContent = "Offline";
-      status.className = "status offline";
-      message.textContent =
-        "Could not connect to the backend. Your existing browser projects are still shown.";
+    } catch (_) {
+      $("apiStatus").textContent = "Offline";
+      $("apiStatus").className = "status offline";
+      $("apiMessage").textContent = "Could not connect to the backend. Browser-saved projects remain visible.";
       return false;
     }
   }
 
-  // Load remote projects and migrate this browser's old projects.
   async function loadServerProjects() {
     const response = await api("/api/projects");
-    const remote = response.projects
-      .map(normalize)
-      .filter(Boolean);
-
-    const usedRemoteIds = new Set();
+    const remote = (response.projects || []).map(normalize).filter(Boolean);
+    const used = new Set();
     const merged = [];
-    const localCopy = bots.map(bot => ({
-      ...bot,
-      checks: [...bot.checks]
-    }));
 
-    for (const localBot of localCopy) {
-      let match = remote.find(item =>
-        !usedRemoteIds.has(item.id) &&
-        item.id === localBot.id
-      );
-
-      // Match older browser projects to a previously imported project.
+    for (const localBot of bots) {
+      let match = remote.find(item => !used.has(item.id) && item.id === localBot.id);
       if (!match) {
         match = remote.find(item =>
-          !usedRemoteIds.has(item.id) &&
-          item.name.toLowerCase() ===
-            localBot.name.toLowerCase() &&
+          !used.has(item.id) &&
+          item.name.toLowerCase() === localBot.name.toLowerCase() &&
           item.platform === localBot.platform
         );
       }
-
       if (match) {
-        usedRemoteIds.add(match.id);
-
-        const combined = {
-          ...match,
-          checks: localBot.checks
-        };
-
-        merged.push(combined);
-
-        // Preserve this browser's checklist and settings remotely.
-        try {
-          const saved = await api(
-            "/api/projects/" + encodeURIComponent(match.id),
-            {
-              method: "PATCH",
-              body: JSON.stringify({
-                name: combined.name,
-                platform: combined.platform,
-                checks: combined.checks
-              })
-            }
-          );
-
-          Object.assign(
-            combined,
-            normalize(saved.project, 0)
-          );
-        } catch (error) {
-          console.warn("Could not update migrated project:", error);
-        }
-
+        used.add(match.id);
+        merged.push({...match,checks:localBot.checks});
         continue;
       }
-
-      // Import projects that were previously saved only in this browser.
       try {
-        const created = await api("/api/projects", {
-          method: "POST",
-          body: JSON.stringify({
-            name: localBot.name,
-            platform: localBot.platform,
-            checks: localBot.checks
-          })
+        const created = await api("/api/projects",{
+          method:"POST",
+          body:JSON.stringify({name:localBot.name,platform:localBot.platform,checks:localBot.checks})
         });
-
-        const savedBot = normalize(created.project, 0);
-        usedRemoteIds.add(savedBot.id);
-        merged.push(savedBot);
+        const saved = normalize(created.project,0);
+        used.add(saved.id);
+        merged.push(saved);
       } catch (error) {
-        // Keep the local copy if this project could not be imported.
         merged.push(localBot);
-        console.warn("Could not import project:", error);
+        console.warn("Could not import local project:",error);
       }
     }
 
-    for (const remoteBot of remote) {
-      if (!usedRemoteIds.has(remoteBot.id)) {
-        merged.push(remoteBot);
-      }
-    }
-
+    for (const item of remote) if (!used.has(item.id)) merged.push(item);
     bots = merged;
     saveLocalProjects();
     render();
-
-    $("apiStatus").textContent = "Connected";
-    $("apiStatus").className = "status online";
-    $("apiMessage").textContent =
-      "Project storage is connected. Saved projects are loaded from PostgreSQL for this browser workspace. Bot execution is not implemented yet.";
-
-    const settingParagraphs =
-      $("settings").querySelectorAll(".card p");
-
-    if (settingParagraphs[1]) {
-      settingParagraphs[1].textContent =
-        "Projects are synced with PostgreSQL for this browser workspace. Keep this browser's local storage; account recovery is not yet implemented.";
-    }
+    $("apiMessage").textContent = "Project storage is connected. Bot execution and deployment are not implemented yet.";
   }
 
-  $("retryApi").addEventListener("click", async () => {
-    const connected = await checkApi();
-
-    if (connected) {
+  $("retryApi").addEventListener("click",async () => {
+    if (await checkApi()) {
       try {
         await loadServerProjects();
       } catch (error) {
         $("apiStatus").textContent = "Storage issue";
         $("apiStatus").className = "status offline";
-        $("apiMessage").textContent =
-          "Backend responds, but project storage failed: " +
-          error.message;
+        $("apiMessage").textContent = "Backend responds, but project storage failed: " + error.message;
       }
     }
   });
 
-  $("openBotForm").addEventListener("click", openForm);
-  $("emptyAddBot").addEventListener("click", openForm);
-  $("closeBotForm").addEventListener("click", closeForm);
-  $("cancelBotForm").addEventListener("click", closeForm);
-
-  $("botModal").addEventListener("click", event => {
+  $("openBotForm").addEventListener("click",openForm);
+  $("emptyAddBot").addEventListener("click",openForm);
+  $("closeBotForm").addEventListener("click",closeForm);
+  $("cancelBotForm").addEventListener("click",closeForm);
+  $("botModal").addEventListener("click",event => {
     if (event.target === $("botModal")) closeForm();
   });
-
-  document.addEventListener("keydown", event => {
-    if (
-      event.key === "Escape" &&
-      $("botModal").classList.contains("open")
-    ) {
-      closeForm();
-    }
+  document.addEventListener("keydown",event => {
+    if (event.key === "Escape" && $("botModal").classList.contains("open")) closeForm();
   });
 
-  $("botForm").addEventListener("submit", async event => {
+  $("botForm").addEventListener("submit",async event => {
     event.preventDefault();
-
     const name = $("botName").value.trim();
     const platform = $("botPlatform").value;
     const notice = $("formNotice");
-
     if (!name || !validPlatform(platform)) {
       notice.textContent = "Enter a name and choose a platform.";
       return;
     }
 
-    const button = $("botForm").querySelector(
-      'button[type="submit"]'
-    );
+    const button = $("botForm").querySelector('button[type="submit"]');
     button.disabled = true;
     notice.textContent = "Saving project...";
 
     const localBot = {
-      id: makeId(),
-      name: name.slice(0, 60),
-      platform,
-      status: "setup_required",
-      createdAt: new Date().toISOString(),
-      checks: [false, false, false, false]
+      id:makeId(),name:name.slice(0,60),platform,status:"setup_required",
+      createdAt:new Date().toISOString(),checks:[false,false,false,false]
     };
 
     try {
-      const data = await api("/api/projects", {
-        method: "POST",
-        body: JSON.stringify({
-          name: localBot.name,
-          platform: localBot.platform,
-          checks: localBot.checks
-        })
+      const data = await api("/api/projects",{
+        method:"POST",
+        body:JSON.stringify({name:localBot.name,platform:localBot.platform,checks:localBot.checks})
       });
-
-      const saved = normalize(data.project, 0);
+      const saved = normalize(data.project,0);
       bots.push(saved);
       saveLocalProjects();
       render();
       closeForm();
       openDetails(saved.id);
-      $("editNotice").textContent =
-        "Project saved to PostgreSQL.";
+      $("editNotice").textContent = "Project saved to PostgreSQL.";
     } catch (error) {
       bots.push(localBot);
       saveLocalProjects();
       render();
       closeForm();
       openDetails(localBot.id);
-
-      $("editNotice").textContent =
-        "Saved only in this browser; server save failed: " +
-        error.message;
+      $("editNotice").textContent = "Saved only in this browser; server save failed: " + error.message;
     } finally {
       button.disabled = false;
     }
   });
 
-  $("editForm").addEventListener("submit", async event => {
+  $("editForm").addEventListener("submit",async event => {
     event.preventDefault();
-
     const bot = bots.find(item => item.id === selectedId);
     if (!bot) return;
 
-    const old = { ...bot, checks: [...bot.checks] };
     const name = $("editName").value.trim();
     const platform = $("editPlatform").value;
-
     if (!name || !validPlatform(platform)) {
-      $("editNotice").textContent =
-        "Enter a valid name and platform.";
+      $("editNotice").textContent = "Enter a valid name and platform.";
       return;
     }
 
-    bot.name = name.slice(0, 60);
-
-    if (bot.platform !== platform) {
-      bot.checks = [false, false, false, false];
-    }
-
+    const old = {...bot,checks:[...bot.checks]};
+    bot.name = name.slice(0,60);
+    if (bot.platform !== platform) bot.checks = [false,false,false,false];
     bot.platform = platform;
 
     try {
       const saved = await saveProjectToServer(bot);
-      Object.assign(bot, saved);
-
-      // Preserve the checklist already held in the UI.
-      selectedId = bot.id;
+      Object.assign(bot,saved);
       saveLocalProjects();
       render();
-
       $("detailTitle").textContent = bot.name;
-      $("detailSub").textContent =
-        bot.platform + " bot project · Hosting preparation";
-      $("editNotice").textContent =
-        "Project settings saved to PostgreSQL.";
+      $("detailSub").textContent = bot.platform + " bot project · Hosting preparation";
+      $("editNotice").textContent = "Project settings saved to PostgreSQL.";
       renderChecks(bot);
     } catch (error) {
-      // Keep the user's changes locally for later retry.
+      Object.assign(bot,old);
       saveLocalProjects();
-      $("editNotice").textContent =
-        "Saved only in this browser. Server update failed: " +
-        error.message;
+      $("editNotice").textContent = "Server update failed; previous settings restored: " + error.message;
     }
   });
 
-  $("saveChecks").addEventListener("click", async () => {
+  $("saveChecks").addEventListener("click",async () => {
     const bot = bots.find(item => item.id === selectedId);
     if (!bot) return;
-
     $("checkNotice").textContent = "Saving checklist...";
-
     try {
       const saved = await saveProjectToServer(bot);
-      Object.assign(bot, saved);
-      selectedId = bot.id;
+      Object.assign(bot,saved);
       saveLocalProjects();
       renderChecks(bot);
-
-      $("checkNotice").textContent =
-        "Checklist saved to PostgreSQL.";
+      $("checkNotice").textContent = "Checklist saved.";
     } catch (error) {
       saveLocalProjects();
-
-      $("checkNotice").textContent =
-        "Saved only in this browser. Server save failed: " +
-        error.message;
+      $("checkNotice").textContent = "Saved in this browser; server save failed: " + error.message;
     }
   });
 
-  $("backToDashboard").addEventListener("click", back);
+  $("backToDashboard").addEventListener("click",back);
 
-  $("deleteDetail").addEventListener("click", async () => {
+  $("deleteDetail").addEventListener("click",async () => {
     const bot = bots.find(item => item.id === selectedId);
-
-    if (
-      !bot ||
-      !confirm('Delete "' + bot.name + '"?')
-    ) {
-      return;
-    }
+    if (!bot || !confirm('Delete "' + bot.name + '"?')) return;
 
     if (isServerId(bot.id)) {
       try {
-        await api(
-          "/api/projects/" + encodeURIComponent(bot.id),
-          { method: "DELETE" }
-        );
+        await api("/api/projects/" + encodeURIComponent(bot.id),{method:"DELETE"});
       } catch (error) {
-        alert(
-          "The server could not delete this project. " +
-          "It has not been removed from the dashboard.\n\n" +
-          error.message
-        );
+        alert("The server could not delete this project. It has not been removed.\n\n" + error.message);
         return;
       }
     }
-
     bots = bots.filter(item => item.id !== selectedId);
     saveLocalProjects();
     back();
   });
 
-  render();
-
-  async function initialize() {
+  async function initializeDashboard() {
+    render();
     const connected = await checkApi();
-
     if (connected) {
       try {
         await loadServerProjects();
       } catch (error) {
         $("apiStatus").textContent = "Storage issue";
         $("apiStatus").className = "status offline";
-        $("apiMessage").textContent =
-          "The backend responds, but project storage could not load. " +
-          error.message;
+        $("apiMessage").textContent = "The backend responds, but project storage could not load: " + error.message;
       }
     }
   }
 
-  initialize();
+  setAuthMode("login");
 })();
 </script>
 </body>
