@@ -26,7 +26,8 @@ body {
 button,input,select { font:inherit }
 button,a { cursor:pointer }
 a { color:inherit;text-decoration:none }
-button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible {
+button:focus-visible,a:focus-visible,input:focus-visible,
+select:focus-visible {
   outline:2px solid #c8b0ff;
   outline-offset:3px;
 }
@@ -38,83 +39,173 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible {
 }
 .primary { border:0;background:var(--purple);color:white }
 .primary:hover { background:#a27aff }
-.secondary { border:1px solid var(--border);background:#1a2339;color:var(--text) }
-.danger { border:1px solid #754052;background:#351c2a;color:var(--red) }
+.secondary {
+  border:1px solid var(--border);
+  background:#1a2339;
+  color:var(--text);
+}
+.danger {
+  border:1px solid #754052;
+  background:#351c2a;
+  color:var(--red);
+}
 button:disabled { opacity:.6;cursor:wait }
 p { color:var(--muted);line-height:1.6 }
 h1 { font-size:30px;margin:0 0 8px }
 h2 { font-size:21px }
 .layout { min-height:100vh }
-.sidebar { padding:22px;background:#0e1528;border-bottom:1px solid var(--border) }
-.brand { font-size:25px;font-weight:800;color:#ad8aff }
-.brand-mark {
-  display:inline-block;width:13px;height:13px;background:var(--purple);
-  transform:rotate(45deg);margin-right:10px;border-radius:3px
+.sidebar {
+  padding:22px;
+  background:#0e1528;
+  border-bottom:1px solid var(--border);
 }
-.nav { display:flex;gap:8px;flex-wrap:wrap;margin-top:24px }
-.nav a { padding:11px 13px;border-radius:10px;color:var(--muted) }
-.nav a:hover,.nav a.active { background:#252044;color:#c8b0ff }
+.brand {
+  font-size:25px;
+  font-weight:800;
+  color:#ad8aff;
+}
+.brand-mark {
+  display:inline-block;
+  width:13px;height:13px;
+  background:var(--purple);
+  transform:rotate(45deg);
+  margin-right:10px;
+  border-radius:3px;
+}
+.nav {
+  display:flex;gap:8px;flex-wrap:wrap;margin-top:24px;
+}
+.nav a {
+  padding:11px 13px;
+  border-radius:10px;
+  color:var(--muted);
+}
+.nav a:hover,.nav a.active {
+  background:#252044;color:#c8b0ff;
+}
 main { padding:25px 18px 50px;max-width:1100px;margin:auto }
-.topline { display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap }
-.card { background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:18px;min-width:0 }
-.stats { display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:27px 0 }
+.topline {
+  display:flex;align-items:center;justify-content:space-between;
+  gap:12px;flex-wrap:wrap;
+}
+.card {
+  background:var(--panel);
+  border:1px solid var(--border);
+  border-radius:16px;
+  padding:18px;
+  min-width:0;
+}
+.stats {
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:12px;margin:27px 0;
+}
 .stat-label { color:var(--muted);font-size:13px }
 .stat-number { font-size:29px;font-weight:800;margin-top:12px }
 .stat-note { color:#a98bff;font-size:12px;margin-top:8px }
 .section-title { font-size:20px;margin:32px 0 15px }
 .bot-list { display:grid;gap:12px }
-.bot-card { display:flex;align-items:center;gap:12px;flex-wrap:wrap;transition:border-color .15s }
+.bot-card {
+  display:flex;align-items:center;gap:12px;
+  flex-wrap:wrap;transition:border-color .15s;
+}
 .bot-card:hover { border-color:var(--purple) }
 .bot-icon {
   width:46px;height:46px;display:grid;place-items:center;
-  border:1px solid #4b3c7c;border-radius:12px;color:#c4aaff;
-  background:#252044;font-weight:800;flex-shrink:0
+  border:1px solid #4b3c7c;border-radius:12px;
+  color:#c4aaff;background:#252044;
+  font-weight:800;flex-shrink:0;
 }
 .bot-info { flex:1;min-width:120px;overflow-wrap:anywhere }
 .bot-info strong { display:block;margin-bottom:6px }
 .muted,.hint { color:var(--muted);font-size:13px;line-height:1.6 }
-.status { font-size:11px;color:#e4c17a;border:1px solid #725d37;padding:6px 9px;border-radius:20px }
+.status {
+  font-size:11px;color:#e4c17a;border:1px solid #725d37;
+  padding:6px 9px;border-radius:20px;
+}
 .status.online { color:var(--green);border-color:#286d4b }
 .status.offline { color:var(--red);border-color:#754052 }
-.empty { text-align:center;padding:28px 16px;border:1px dashed #3b4560;border-radius:14px }
-.empty-mark { width:38px;height:38px;margin:0 auto 14px;border:2px solid var(--purple);border-radius:12px;transform:rotate(45deg) scale(.7) }
+.empty {
+  text-align:center;padding:28px 16px;
+  border:1px dashed #3b4560;border-radius:14px;
+}
+.empty-mark {
+  width:38px;height:38px;margin:0 auto 14px;
+  border:2px solid var(--purple);border-radius:12px;
+  transform:rotate(45deg) scale(.7);
+}
 .footer { color:#75819c;text-align:center;font-size:12px;margin-top:40px }
 .field { margin-top:18px }
-.field label { display:block;margin-bottom:9px;font-weight:700;font-size:14px }
+.field label {
+  display:block;margin-bottom:9px;font-weight:700;font-size:14px;
+}
 .field input,.field select {
-  width:100%;min-height:48px;padding:12px;border-radius:10px;
-  border:1px solid #394563;background:#0b1020;color:var(--text)
+  width:100%;min-height:48px;padding:12px;
+  border-radius:10px;border:1px solid #394563;
+  background:#0b1020;color:var(--text);
 }
 .modal {
-  position:fixed;inset:0;z-index:1000;display:none;align-items:center;
-  justify-content:center;padding:18px;background:#030611e8;overflow-y:auto
+  position:fixed;inset:0;z-index:1000;display:none;
+  align-items:center;justify-content:center;padding:18px;
+  background:#030611e8;overflow-y:auto;
 }
 .modal.open { display:flex }
-.modal-box { width:100%;max-width:460px;background:var(--panel);border:1px solid #394365;border-radius:18px;padding:23px }
-.modal-heading { display:flex;align-items:center;justify-content:space-between;gap:12px }
+.modal-box {
+  width:100%;max-width:460px;background:var(--panel);
+  border:1px solid #394365;border-radius:18px;padding:23px;
+}
+.modal-heading {
+  display:flex;align-items:center;justify-content:space-between;gap:12px;
+}
 .modal-heading h2 { margin:0 }
-.close-btn { background:#252044;color:#d9ccff;border:1px solid #4b3c7c;border-radius:9px;width:40px;height:40px;font-size:24px }
-.form-actions,.detail-actions { display:flex;gap:10px;flex-wrap:wrap;margin-top:20px }
+.close-btn {
+  background:#252044;color:#d9ccff;border:1px solid #4b3c7c;
+  border-radius:9px;width:40px;height:40px;font-size:24px;
+}
+.form-actions,.detail-actions {
+  display:flex;gap:10px;flex-wrap:wrap;margin-top:20px;
+}
 .form-actions button,.detail-actions button { flex:1 }
-.notice { color:#c8b0ff;font-size:13px;margin-top:12px;line-height:1.5;overflow-wrap:anywhere }
+.notice {
+  color:#c8b0ff;font-size:13px;margin-top:12px;line-height:1.5;
+  overflow-wrap:anywhere;
+}
 .detail-grid { display:grid;gap:14px;margin-top:18px }
 .checklist { display:grid;gap:13px;margin-top:16px }
-.check-row { display:flex;align-items:flex-start;gap:10px;color:var(--muted);line-height:1.5 }
-.check-row input { margin-top:4px;accent-color:var(--purple);width:18px;height:18px;flex-shrink:0 }
+.check-row {
+  display:flex;align-items:flex-start;gap:10px;
+  color:var(--muted);line-height:1.5;
+}
+.check-row input {
+  margin-top:4px;accent-color:var(--purple);
+  width:18px;height:18px;flex-shrink:0;
+}
 .back-button { margin-bottom:20px }
 .auth-screen {
   min-height:100vh;display:grid;place-items:center;padding:20px;
-  background:radial-gradient(ellipse at top,#211742 0%,var(--bg) 60%)
+  background:radial-gradient(ellipse at top,#211742 0%,var(--bg) 60%);
 }
-.auth-card { width:100%;max-width:430px;padding:26px;background:var(--panel);border:1px solid var(--border);border-radius:20px }
+.auth-card {
+  width:100%;max-width:430px;padding:26px;
+  background:var(--panel);border:1px solid var(--border);
+  border-radius:20px;
+}
 .auth-card .brand { display:block;margin-bottom:22px }
 .auth-tabs { display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:20px 0 }
-.auth-tab { padding:12px;border-radius:10px;border:1px solid var(--border);background:#0b1020;color:var(--muted) }
-.auth-tab.active { background:#252044;color:#d9ccff;border-color:#7154bb }
+.auth-tab {
+  padding:12px;border-radius:10px;border:1px solid var(--border);
+  background:#0b1020;color:var(--muted);
+}
+.auth-tab.active {
+  background:#252044;color:#d9ccff;border-color:#7154bb;
+}
 .auth-card .primary { width:100%;margin-top:20px;min-height:48px }
 .auth-note { font-size:12px;color:var(--muted);line-height:1.6 }
 @media(max-width:520px) {
-  .bot-card { display:grid;grid-template-columns:46px minmax(0,1fr);gap:12px;padding:16px }
+  .bot-card {
+    display:grid;grid-template-columns:46px minmax(0,1fr);
+    gap:12px;padding:16px;
+  }
   .bot-icon { grid-column:1;grid-row:1 }
   .bot-info { grid-column:2;grid-row:1;min-width:0 }
   .bot-card .status { grid-column:2;grid-row:2;justify-self:start }
@@ -132,7 +223,6 @@ main { padding:25px 18px 50px;max-width:1100px;margin:auto }
 </head>
 <body>
 
-<!-- Authentication screen. Requires backend auth endpoints to function. -->
 <section id="authScreen" class="auth-screen">
   <div class="auth-card">
     <a class="brand" href="index.html"><span class="brand-mark"></span>BotNest</a>
@@ -147,25 +237,32 @@ main { padding:25px 18px 50px;max-width:1100px;margin:auto }
     <form id="authForm">
       <div class="field" id="emailField">
         <label for="authEmail">Email address</label>
-        <input id="authEmail" type="email" autocomplete="email" required maxlength="254" placeholder="you@example.com">
+        <input id="authEmail" type="email" autocomplete="email"
+          required maxlength="254" placeholder="you@example.com">
       </div>
       <div class="field" id="nameField" hidden>
         <label for="authName">Your name</label>
-        <input id="authName" type="text" autocomplete="name" maxlength="80" placeholder="Your name">
+        <input id="authName" type="text" autocomplete="name"
+          maxlength="80" placeholder="Your name">
       </div>
       <div class="field">
         <label for="authPassword">Password</label>
-        <input id="authPassword" type="password" autocomplete="current-password" minlength="8" required maxlength="128" placeholder="At least 8 characters">
+        <input id="authPassword" type="password" autocomplete="current-password"
+          minlength="8" required maxlength="128" placeholder="At least 8 characters">
       </div>
       <div class="field" id="confirmField" hidden>
         <label for="authConfirm">Confirm password</label>
-        <input id="authConfirm" type="password" autocomplete="new-password" minlength="8" maxlength="128" placeholder="Enter password again">
+        <input id="authConfirm" type="password" autocomplete="new-password"
+          minlength="8" maxlength="128" placeholder="Enter password again">
       </div>
       <button class="primary" id="authSubmit" type="submit">Log in</button>
       <div class="notice" id="authNotice" role="status" aria-live="polite"></div>
     </form>
 
-    <p class="auth-note">Your password must be verified by the BotNest server. This page does not store your password in browser storage. Account login becomes operational after the backend authentication routes are installed.</p>
+    <p class="auth-note">
+      Your password is sent to the BotNest server for verification.
+      Never share your password or bot tokens with anyone.
+    </p>
     <p><a href="index.html">← Back to BotNest website</a></p>
   </div>
 </section>
@@ -191,7 +288,10 @@ main { padding:25px 18px 50px;max-width:1100px;margin:auto }
         </div>
 
         <div class="card" style="margin-top:20px">
-          <div class="topline"><strong>Backend connection</strong><span class="status" id="apiStatus">Checking...</span></div>
+          <div class="topline">
+            <strong>Backend connection</strong>
+            <span class="status" id="apiStatus">Checking...</span>
+          </div>
           <p id="apiMessage">Checking whether BotNest can reach its backend.</p>
           <button class="secondary" id="retryApi">Check connection again</button>
         </div>
@@ -205,10 +305,14 @@ main { padding:25px 18px 50px;max-width:1100px;margin:auto }
       </section>
 
       <section id="bots">
-        <div class="topline"><h2 class="section-title">My Bots</h2><span class="status" id="setupStatus">No bots yet</span></div>
+        <div class="topline">
+          <h2 class="section-title">My Bots</h2>
+          <span class="status" id="setupStatus">No bots yet</span>
+        </div>
         <div class="bot-list" id="botList"></div>
         <div class="card empty" id="noBots">
-          <div class="empty-mark"></div><strong>No bots added yet</strong>
+          <div class="empty-mark"></div>
+          <strong>No bots added yet</strong>
           <p>Create your first bot project to see it here.</p>
           <button class="primary" id="emptyAddBot">+ Create your first bot</button>
         </div>
@@ -227,8 +331,8 @@ main { padding:25px 18px 50px;max-width:1100px;margin:auto }
         <div class="card">
           <strong id="accountLabel">BotNest workspace</strong>
           <p>Backend: <span id="apiAddress">Not configured</span></p>
-          <p>Project data is stored by the existing projects API and this browser's local storage.</p>
-          <p>Never put bot tokens or WhatsApp session secrets in this page or public GitHub files.</p>
+          <p>Projects shown here are loaded from your authenticated workspace.</p>
+          <p>Never put bot tokens or WhatsApp session secrets in public GitHub files.</p>
           <button class="secondary" id="logoutButton">Log out</button>
         </div>
       </section>
@@ -238,7 +342,10 @@ main { padding:25px 18px 50px;max-width:1100px;margin:auto }
     <section id="detailsView" hidden>
       <button class="secondary back-button" id="backToDashboard">← Back to dashboard</button>
       <div class="topline">
-        <div><h1 id="detailTitle">Bot details</h1><p id="detailSub">Project settings and hosting preparation.</p></div>
+        <div>
+          <h1 id="detailTitle">Bot details</h1>
+          <p id="detailSub">Project settings and hosting preparation.</p>
+        </div>
         <span class="status">Setup required</span>
       </div>
 
@@ -246,9 +353,15 @@ main { padding:25px 18px 50px;max-width:1100px;margin:auto }
         <div class="card">
           <h2>Project settings</h2>
           <form id="editForm">
-            <div class="field"><label for="editName">Bot name</label><input id="editName" maxlength="60" required></div>
-            <div class="field"><label for="editPlatform">Platform</label>
-              <select id="editPlatform" required><option>Discord</option><option>WhatsApp</option><option>Telegram</option></select>
+            <div class="field">
+              <label for="editName">Bot name</label>
+              <input id="editName" maxlength="100" required>
+            </div>
+            <div class="field">
+              <label for="editPlatform">Platform</label>
+              <select id="editPlatform" required>
+                <option>Discord</option><option>WhatsApp</option><option>Telegram</option>
+              </select>
             </div>
             <div class="form-actions"><button class="primary" type="submit">Save changes</button></div>
             <div class="notice" id="editNotice" role="status"></div>
@@ -276,17 +389,28 @@ main { padding:25px 18px 50px;max-width:1100px;margin:auto }
 
 <div class="modal" id="botModal" role="dialog" aria-modal="true" aria-labelledby="formTitle">
   <div class="modal-box">
-    <div class="modal-heading"><h2 id="formTitle">Add a bot</h2><button class="close-btn" id="closeBotForm" aria-label="Close">&times;</button></div>
+    <div class="modal-heading">
+      <h2 id="formTitle">Add a bot</h2>
+      <button class="close-btn" id="closeBotForm" aria-label="Close">&times;</button>
+    </div>
     <p>Create a project for the bot you want to manage.</p>
     <form id="botForm">
-      <div class="field"><label for="botName">Bot name</label><input id="botName" name="botName" placeholder="e.g. My Community Bot" maxlength="60" required></div>
-      <div class="field"><label for="botPlatform">Choose a platform</label>
+      <div class="field">
+        <label for="botName">Bot name</label>
+        <input id="botName" name="botName" placeholder="e.g. My Community Bot" maxlength="100" required>
+      </div>
+      <div class="field">
+        <label for="botPlatform">Choose a platform</label>
         <select id="botPlatform" name="botPlatform" required>
-          <option value="">Select a platform</option><option>Discord</option><option>WhatsApp</option><option>Telegram</option>
+          <option value="">Select a platform</option>
+          <option>Discord</option><option>WhatsApp</option><option>Telegram</option>
         </select>
       </div>
       <p class="hint">This creates a project entry. It does not start a bot process.</p>
-      <div class="form-actions"><button class="secondary" type="button" id="cancelBotForm">Cancel</button><button class="primary" type="submit">Save bot</button></div>
+      <div class="form-actions">
+        <button class="secondary" type="button" id="cancelBotForm">Cancel</button>
+        <button class="primary" type="submit">Save bot</button>
+      </div>
       <div class="notice" id="formNotice" role="status"></div>
     </form>
   </div>
@@ -298,8 +422,9 @@ main { padding:25px 18px 50px;max-width:1100px;margin:auto }
 
   const API_BASE = "https://botnest-backend.onrender.com";
   const STORAGE_KEY = "botnest_bots_v1";
-  const WORKSPACE_KEY = "botnest_workspace_id_v1";
-  const OLD_KEYS = ["botnestBots","botnest-bots","botnest_bots","botnestBotsData"];
+  const TOKEN_KEY = "botnest_session_token_v1";
+  const USER_KEY = "botnest_session_user_v1";
+  const OLD_KEYS = ["botnestBots", "botnest-bots", "botnest_bots", "botnestBotsData"];
   const $ = id => document.getElementById(id);
 
   let bots = loadLocalProjects();
@@ -308,20 +433,10 @@ main { padding:25px 18px 50px;max-width:1100px;margin:auto }
   let authMode = "login";
   let authToken = null;
   let authUser = null;
+  let apiAvailable = false;
 
   function makeId() {
-    return Date.now() + "-" + Math.random().toString(36).slice(2,9);
-  }
-
-  function getWorkspaceId() {
-    let id = localStorage.getItem(WORKSPACE_KEY);
-    if (!id) {
-      id = typeof crypto.randomUUID === "function"
-        ? crypto.randomUUID()
-        : "bn-" + Date.now() + "-" + Math.random().toString(36).slice(2);
-      localStorage.setItem(WORKSPACE_KEY,id);
-    }
-    return id;
+    return Date.now() + "-" + Math.random().toString(36).slice(2, 9);
   }
 
   function isServerId(id) {
@@ -329,22 +444,24 @@ main { padding:25px 18px 50px;max-width:1100px;margin:auto }
   }
 
   function validPlatform(platform) {
-    return ["Discord","WhatsApp","Telegram"].includes(platform);
+    return ["Discord", "WhatsApp", "Telegram"].includes(platform);
   }
 
-  function normalize(project,index) {
+  function normalize(project, index = 0) {
     if (!project || typeof project !== "object") return null;
     const name = String(project.name || project.botName || "").trim();
     if (!name) return null;
+
     return {
-      id:String(project.id || makeId() + "-" + index),
-      name:name.slice(0,60),
-      platform:validPlatform(project.platform) ? project.platform : "Discord",
-      status:project.status || "setup_required",
-      createdAt:project.createdAt || new Date().toISOString(),
-      checks:Array.isArray(project.checks)
-        ? [0,1,2,3].map(i => Boolean(project.checks[i]))
-        : [false,false,false,false]
+      id: String(project.id || makeId() + "-" + index),
+      name: name.slice(0, 100),
+      platform: validPlatform(project.platform) ? project.platform : "Discord",
+      status: "setup_required",
+      createdAt: project.createdAt || project.created_at || new Date().toISOString(),
+      updatedAt: project.updatedAt || project.updated_at || null,
+      checks: Array.isArray(project.checks)
+        ? [0, 1, 2, 3].map(i => project.checks[i] === true)
+        : [false, false, false, false]
     };
   }
 
@@ -355,6 +472,7 @@ main { padding:25px 18px 50px;max-width:1100px;margin:auto }
         const data = JSON.parse(current);
         if (Array.isArray(data)) return data.map(normalize).filter(Boolean);
       }
+
       for (const key of OLD_KEYS) {
         const raw = localStorage.getItem(key);
         if (!raw) continue;
@@ -365,35 +483,72 @@ main { padding:25px 18px 50px;max-width:1100px;margin:auto }
         }
       }
     } catch (error) {
-      console.error("Could not load local projects:",error);
+      console.warn("Could not load local projects.");
     }
     return [];
   }
 
   function saveLocalProjects() {
     try {
-      localStorage.setItem(STORAGE_KEY,JSON.stringify(bots));
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(bots));
       return true;
     } catch (error) {
-      alert("Could not save projects in this browser.");
       return false;
     }
   }
 
-  async function api(path,options = {}) {
+  function saveSession(token, user) {
+    authToken = token;
+    authUser = user || null;
+    try {
+      sessionStorage.setItem(TOKEN_KEY, token);
+      sessionStorage.setItem(USER_KEY, JSON.stringify(authUser));
+    } catch (error) {
+      // Keep the session in memory if browser storage is unavailable.
+    }
+  }
+
+  function restoreSession() {
+    try {
+      authToken = sessionStorage.getItem(TOKEN_KEY);
+      const rawUser = sessionStorage.getItem(USER_KEY);
+      authUser = rawUser ? JSON.parse(rawUser) : null;
+    } catch (error) {
+      authToken = null;
+      authUser = null;
+    }
+  }
+
+  function clearSession() {
+    authToken = null;
+    authUser = null;
+    try {
+      sessionStorage.removeItem(TOKEN_KEY);
+      sessionStorage.removeItem(USER_KEY);
+    } catch (_) {}
+  }
+
+  async function api(path, options = {}) {
     const headers = {
-      "X-Workspace-ID":getWorkspaceId(),
-      ...(options.body ? {"Content-Type":"application/json"} : {}),
+      ...(options.body ? { "Content-Type": "application/json" } : {}),
       ...(options.headers || {})
     };
 
-    // Add a real server-issued token only after backend authentication exists.
     if (authToken) headers.Authorization = "Bearer " + authToken;
 
-    const response = await fetch(API_BASE + path,{...options,headers});
+    const response = await fetch(API_BASE + path, {
+      ...options,
+      headers,
+      cache: "no-store"
+    });
+
     const raw = await response.text();
     let data = {};
     try { data = raw ? JSON.parse(raw) : {}; } catch (_) {}
+
+    if (response.status === 401 && path !== "/api/auth/login") {
+      clearSession();
+    }
 
     if (!response.ok) {
       throw new Error(data.error || "Request failed: HTTP " + response.status);
@@ -404,8 +559,9 @@ main { padding:25px 18px 50px;max-width:1100px;margin:auto }
   function setAuthMode(mode) {
     authMode = mode;
     const registering = mode === "register";
-    $("loginTab").classList.toggle("active",!registering);
-    $("registerTab").classList.toggle("active",registering);
+
+    $("loginTab").classList.toggle("active", !registering);
+    $("registerTab").classList.toggle("active", registering);
     $("authHeading").textContent = registering ? "Create your account" : "Welcome back";
     $("authDescription").textContent = registering
       ? "Create an account for your BotNest workspace."
@@ -420,7 +576,7 @@ main { padding:25px 18px 50px;max-width:1100px;margin:auto }
   }
 
   function showDashboard(user) {
-    authUser = user || null;
+    authUser = user || authUser || null;
     $("authScreen").hidden = true;
     $("app").hidden = false;
     $("accountLabel").textContent = authUser
@@ -429,76 +585,86 @@ main { padding:25px 18px 50px;max-width:1100px;margin:auto }
     initializeDashboard();
   }
 
-  $("loginTab").addEventListener("click",() => setAuthMode("login"));
-  $("registerTab").addEventListener("click",() => setAuthMode("register"));
-
-  $("authForm").addEventListener("submit",async event => {
+  async function submitAuthentication(event) {
     event.preventDefault();
-    const email = $("authEmail").value.trim();
+
+    const email = $("authEmail").value.trim().toLowerCase();
     const password = $("authPassword").value;
     const registering = authMode === "register";
     const notice = $("authNotice");
-    const button = $("authSubmit");
+    const button = $("authSubmit";
 
     if (!email || password.length < 8) {
       notice.textContent = "Enter a valid email and a password of at least 8 characters.";
       return;
     }
-    if (registering && password !== $("authConfirm").value) {
-      notice.textContent = "The passwords do not match.";
-      return;
+
+    if (registering) {
+      if ($("authName").value.trim().length < 1) {
+        notice.textContent = "Enter your name.";
+        return;
+      }
+      if (password !== $("authConfirm").value) {
+        notice.textContent = "The passwords do not match.";
+        return;
+      }
     }
 
     button.disabled = true;
     notice.textContent = registering ? "Creating account..." : "Signing in...";
 
     try {
-      // These endpoints must be implemented on the server.
-      const result = await fetch(API_BASE + (registering ? "/api/auth/register" : "/api/auth/login"),{
-        method:"POST",
-        headers:{"Content-Type":"application/json"},
-        body:JSON.stringify({
+      const data = await api(registering ? "/api/auth/register" : "/api/auth/login", {
+        method: "POST",
+        headers: {},
+        body: JSON.stringify({
           email,
           password,
-          ...(registering ? {name:$("authName").value.trim()} : {})
+          ...(registering ? { name: $("authName").value.trim() } : {})
         })
       });
 
-      const data = await result.json().catch(() => ({}));
-      if (!result.ok) {
-        throw new Error(data.error || (
-          result.status === 404
-            ? "The backend login route is not installed yet. Your projects are unchanged."
-            : "Authentication failed. Please try again."
-        ));
-      }
-
       if (!data.token) {
-        throw new Error("The server did not return an authentication token. Contact the backend administrator.");
+        throw new Error("The server did not return a session token.");
       }
 
-      authToken = data.token;
-      authUser = data.user || {email};
-      // A server-issued token is kept only in memory for this page session.
-      // Refreshing the page requires signing in again.
+      saveSession(data.token, data.user || { email });
+      $("authPassword").value = "";
+      $("authConfirm").value = "";
       showDashboard(authUser);
       notice.textContent = "";
     } catch (error) {
-      notice.textContent = error.message || "Could not contact the authentication server.";
+      notice.textContent = error.message ||
+        "Could not contact the authentication server.";
     } finally {
       button.disabled = false;
     }
-  });
+  }
 
-  $("logoutButton").addEventListener("click",() => {
-    authToken = null;
-    authUser = null;
-    $("app").hidden = true;
-    $("authScreen").hidden = false;
-    $("authPassword").value = "";
-    $("authConfirm").value = "";
-    setAuthMode("login");
-  });
+  $("loginTab").addEventListener("click", () => setAuthMode("login"));
+  $("registerTab").addEventListener("click", () => setAuthMode("register"));
+  $("authForm").addEventListener("submit", submitAuthentication);
+
+  async function logout() {
+    try {
+      if (authToken) {
+        await api("/api/auth/logout", { method: "POST" });
+      }
+    } catch (error) {
+      console.warn("Server logout could not be confirmed.");
+    } finally {
+      clearSession();
+      bots = [];
+      $("botList").replaceChildren();
+      $("app").hidden = true;
+      $("authScreen").hidden = false;
+      $("authPassword").value = "";
+      $("authConfirm").value = "";
+      setAuthMode("login");
+    }
+  }
+
+  $("logoutButton").addEventListener("click", logout);
 
   function letter(platform) {
     if (platform === "WhatsApp") return "W";
@@ -511,8 +677,10 @@ main { padding:25px 18px 50px;max-width:1100px;margin:auto }
     list.replaceChildren();
 
     $("totalBots").textContent = bots.length;
-    $("runningBots").textContent = bots.filter(b => b.status === "running").length;
-    $("stoppedBots").textContent = bots.length - bots.filter(b => b.status === "running").length;
+    // Projects are not marked running until a real runtime confirms it.
+    $("runningBots").textContent = "0";
+    $("stoppedBots").textContent = bots.length;
+    $("deploymentCount").textContent = "0";
     $("noBots").hidden = bots.length > 0;
     $("setupStatus").textContent = bots.length ? "Projects saved" : "No bots yet";
 
@@ -526,27 +694,31 @@ main { padding:25px 18px 50px;max-width:1100px;margin:auto }
 
       const info = document.createElement("div");
       info.className = "bot-info";
+
       const name = document.createElement("strong");
       name.textContent = bot.name;
+
       const platform = document.createElement("div");
       platform.className = "muted";
       platform.textContent = bot.platform + " bot project";
+
       const description = document.createElement("div");
       description.className = "muted";
-      description.textContent = bot.status === "running" ? "Reported running" : "Not confirmed running";
-      info.append(name,platform,description);
+      description.textContent = "Hosting not connected";
+
+      info.append(name, platform, description);
 
       const status = document.createElement("span");
       status.className = "status";
-      status.textContent = bot.status === "running" ? "Running" : "Setup required";
+      status.textContent = "Setup required";
 
       const manage = document.createElement("button");
       manage.type = "button";
       manage.className = "secondary";
       manage.textContent = "Manage";
-      manage.addEventListener("click",() => openDetails(bot.id));
+      manage.addEventListener("click", () => openDetails(bot.id));
 
-      card.append(icon,info,status,manage);
+      card.append(icon, info, status, manage);
       list.append(card);
     }
   }
@@ -573,37 +745,42 @@ main { padding:25px 18px 50px;max-width:1100px;margin:auto }
   }
 
   function showProgress(bot) {
-    $("progress").textContent = bot.checks.filter(Boolean).length + " of 4 steps complete";
+    $("progress").textContent =
+      bot.checks.filter(Boolean).length + " of 4 steps complete";
   }
 
   function renderChecks(bot) {
     const box = $("checklist");
     box.replaceChildren();
-    while (bot.checks.length < 4) bot.checks.push(false);
-    bot.checks = bot.checks.slice(0,4);
-    $("guide").textContent = "Suggested steps for " + bot.platform + ". Tick each item when complete.";
+    bot.checks = [0, 1, 2, 3].map(i => bot.checks[i] === true);
+    $("guide").textContent =
+      "Suggested steps for " + bot.platform + ". Tick each item when complete.";
 
-    steps(bot.platform).forEach((text,index) => {
+    steps(bot.platform).forEach((text, index) => {
       const row = document.createElement("label");
       row.className = "check-row";
+
       const checkbox = document.createElement("input");
       checkbox.type = "checkbox";
-      checkbox.checked = Boolean(bot.checks[index]);
-      checkbox.addEventListener("change",() => {
+      checkbox.checked = bot.checks[index];
+      checkbox.addEventListener("change", () => {
         bot.checks[index] = checkbox.checked;
         showProgress(bot);
       });
+
       const label = document.createElement("span");
       label.textContent = text;
-      row.append(checkbox,label);
+      row.append(checkbox, label);
       box.append(row);
     });
+
     showProgress(bot);
   }
 
   function openDetails(id) {
     const bot = bots.find(item => item.id === id);
     if (!bot) return;
+
     selectedId = id;
     $("detailTitle").textContent = bot.name;
     $("detailSub").textContent = bot.platform + " bot project · Hosting preparation";
@@ -612,9 +789,10 @@ main { padding:25px 18px 50px;max-width:1100px;margin:auto }
     $("editNotice").textContent = "";
     $("checkNotice").textContent = "";
     renderChecks(bot);
+
     $("dashboardView").hidden = true;
     $("detailsView").hidden = false;
-    window.scrollTo({top:0,behavior:"smooth"});
+    window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
   function back() {
@@ -622,7 +800,7 @@ main { padding:25px 18px 50px;max-width:1100px;margin:auto }
     $("dashboardView").hidden = false;
     selectedId = null;
     render();
-    window.scrollTo({top:0,behavior:"smooth"});
+    window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
   function openForm() {
@@ -641,18 +819,29 @@ main { padding:25px 18px 50px;max-width:1100px;margin:auto }
   }
 
   async function saveProjectToServer(bot) {
+    if (!authToken) throw new Error("Please sign in again.");
+
     if (isServerId(bot.id)) {
-      const data = await api("/api/projects/" + encodeURIComponent(bot.id),{
-        method:"PATCH",
-        body:JSON.stringify({name:bot.name,platform:bot.platform,checks:bot.checks})
+      const data = await api("/api/projects/" + encodeURIComponent(bot.id), {
+        method: "PATCH",
+        body: JSON.stringify({
+          name: bot.name,
+          platform: bot.platform,
+          checks: bot.checks
+        })
       });
-      return normalize(data.project,0);
+      return normalize(data.project);
     }
-    const data = await api("/api/projects",{
-      method:"POST",
-      body:JSON.stringify({name:bot.name,platform:bot.platform,checks:bot.checks})
+
+    const data = await api("/api/projects", {
+      method: "POST",
+      body: JSON.stringify({
+        name: bot.name,
+        platform: bot.platform,
+        checks: bot.checks
+      })
     });
-    return normalize(data.project,0);
+    return normalize(data.project);
   }
 
   async function checkApi() {
@@ -660,92 +849,78 @@ main { padding:25px 18px 50px;max-width:1100px;margin:auto }
     $("apiStatus").className = "status";
     $("apiMessage").textContent = "Contacting BotNest...";
     $("apiAddress").textContent = API_BASE;
+
     try {
-      const response = await fetch(API_BASE + "/health");
+      const response = await fetch(API_BASE + "/health", { cache: "no-store" });
       const data = await response.json();
-      if (!response.ok || data.status !== "ok") throw new Error("Backend or database unavailable");
+
+      if (!response.ok || data.status !== "ok") {
+        throw new Error("Backend or database unavailable");
+      }
+
       $("apiStatus").textContent = "Connected";
       $("apiStatus").className = "status online";
       $("apiMessage").textContent = "Backend and database are responding.";
+      apiAvailable = true;
       return true;
     } catch (_) {
       $("apiStatus").textContent = "Offline";
       $("apiStatus").className = "status offline";
-      $("apiMessage").textContent = "Could not connect to the backend. Browser-saved projects remain visible.";
+      $("apiMessage").textContent = "Could not connect to the backend.";
+      apiAvailable = false;
       return false;
     }
   }
 
   async function loadServerProjects() {
     const response = await api("/api/projects");
-    const remote = (response.projects || []).map(normalize).filter(Boolean);
-    const used = new Set();
-    const merged = [];
-
-    for (const localBot of bots) {
-      let match = remote.find(item => !used.has(item.id) && item.id === localBot.id);
-      if (!match) {
-        match = remote.find(item =>
-          !used.has(item.id) &&
-          item.name.toLowerCase() === localBot.name.toLowerCase() &&
-          item.platform === localBot.platform
-        );
-      }
-      if (match) {
-        used.add(match.id);
-        merged.push({...match,checks:localBot.checks});
-        continue;
-      }
-      try {
-        const created = await api("/api/projects",{
-          method:"POST",
-          body:JSON.stringify({name:localBot.name,platform:localBot.platform,checks:localBot.checks})
-        });
-        const saved = normalize(created.project,0);
-        used.add(saved.id);
-        merged.push(saved);
-      } catch (error) {
-        merged.push(localBot);
-        console.warn("Could not import local project:",error);
-      }
-    }
-
-    for (const item of remote) if (!used.has(item.id)) merged.push(item);
-    bots = merged;
+    bots = (response.projects || []).map(normalize).filter(Boolean);
     saveLocalProjects();
     render();
-    $("apiMessage").textContent = "Project storage is connected. Bot execution and deployment are not implemented yet.";
+    $("apiMessage").textContent =
+      "Projects loaded from your authenticated server workspace. Bot execution is not connected.";
   }
 
-  $("retryApi").addEventListener("click",async () => {
+  $("retryApi").addEventListener("click", async () => {
+    if (!authToken) {
+      $("apiMessage").textContent = "Please sign in to load your projects.";
+      return;
+    }
+
     if (await checkApi()) {
       try {
         await loadServerProjects();
       } catch (error) {
         $("apiStatus").textContent = "Storage issue";
         $("apiStatus").className = "status offline";
-        $("apiMessage").textContent = "Backend responds, but project storage failed: " + error.message;
+        $("apiMessage").textContent = error.message;
       }
     }
   });
 
-  $("openBotForm").addEventListener("click",openForm);
-  $("emptyAddBot").addEventListener("click",openForm);
-  $("closeBotForm").addEventListener("click",closeForm);
-  $("cancelBotForm").addEventListener("click",closeForm);
-  $("botModal").addEventListener("click",event => {
+  $("openBotForm").addEventListener("click", openForm);
+  $("emptyAddBot").addEventListener("click", openForm);
+  $("closeBotForm").addEventListener("click", closeForm);
+  $("cancelBotForm").addEventListener("click", closeForm);
+
+  $("botModal").addEventListener("click", event => {
     if (event.target === $("botModal")) closeForm();
   });
-  document.addEventListener("keydown",event => {
-    if (event.key === "Escape" && $("botModal").classList.contains("open")) closeForm();
+
+  document.addEventListener("keydown", event => {
+    if (event.key === "Escape" && $("botModal").classList.contains("open")) {
+      closeForm();
+    }
   });
 
-  $("botForm").addEventListener("submit",async event => {
+  $("botForm").addEventListener("submit", async event => {
     event.preventDefault();
+
     const name = $("botName").value.trim();
     const platform = $("botPlatform").value;
     const notice = $("formNotice");
-    if (!name || !validPlatform(platform)) {
+
+    if (!name || name.length > 100 || !validPlatform(platform)) {
       notice.textContent = "Enter a name and choose a platform.";
       return;
     }
@@ -754,119 +929,136 @@ main { padding:25px 18px 50px;max-width:1100px;margin:auto }
     button.disabled = true;
     notice.textContent = "Saving project...";
 
-    const localBot = {
-      id:makeId(),name:name.slice(0,60),platform,status:"setup_required",
-      createdAt:new Date().toISOString(),checks:[false,false,false,false]
+    const newBot = {
+      id: "",
+      name,
+      platform,
+      status: "setup_required",
+      createdAt: new Date().toISOString(),
+      checks: [false, false, false, false]
     };
 
     try {
-      const data = await api("/api/projects",{
-        method:"POST",
-        body:JSON.stringify({name:localBot.name,platform:localBot.platform,checks:localBot.checks})
-      });
-      const saved = normalize(data.project,0);
+      const saved = await saveProjectToServer(newBot);
       bots.push(saved);
       saveLocalProjects();
       render();
       closeForm();
       openDetails(saved.id);
-      $("editNotice").textContent = "Project saved to PostgreSQL.";
+      $("editNotice").textContent = "Project saved to the server.";
     } catch (error) {
-      bots.push(localBot);
-      saveLocalProjects();
-      render();
-      closeForm();
-      openDetails(localBot.id);
-      $("editNotice").textContent = "Saved only in this browser; server save failed: " + error.message;
+      notice.textContent = "Project was not saved to the server: " + error.message;
     } finally {
       button.disabled = false;
     }
   });
 
-  $("editForm").addEventListener("submit",async event => {
+  $("editForm").addEventListener("submit", async event => {
     event.preventDefault();
+
     const bot = bots.find(item => item.id === selectedId);
     if (!bot) return;
 
     const name = $("editName").value.trim();
     const platform = $("editPlatform").value;
-    if (!name || !validPlatform(platform)) {
+
+    if (!name || name.length > 100 || !validPlatform(platform)) {
       $("editNotice").textContent = "Enter a valid name and platform.";
       return;
     }
 
-    const old = {...bot,checks:[...bot.checks]};
-    bot.name = name.slice(0,60);
-    if (bot.platform !== platform) bot.checks = [false,false,false,false];
+    const old = { ...bot, checks: [...bot.checks] };
+    bot.name = name;
+    if (bot.platform !== platform) bot.checks = [false, false, false, false];
     bot.platform = platform;
 
     try {
       const saved = await saveProjectToServer(bot);
-      Object.assign(bot,saved);
+      Object.assign(bot, saved);
       saveLocalProjects();
       render();
       $("detailTitle").textContent = bot.name;
       $("detailSub").textContent = bot.platform + " bot project · Hosting preparation";
-      $("editNotice").textContent = "Project settings saved to PostgreSQL.";
+      $("editNotice").textContent = "Project settings saved to the server.";
       renderChecks(bot);
     } catch (error) {
-      Object.assign(bot,old);
-      saveLocalProjects();
-      $("editNotice").textContent = "Server update failed; previous settings restored: " + error.message;
+      Object.assign(bot, old);
+      $("editNotice").textContent = "Server update failed: " + error.message;
     }
   });
 
-  $("saveChecks").addEventListener("click",async () => {
+  $("saveChecks").addEventListener("click", async () => {
     const bot = bots.find(item => item.id === selectedId);
     if (!bot) return;
+
     $("checkNotice").textContent = "Saving checklist...";
+
     try {
       const saved = await saveProjectToServer(bot);
-      Object.assign(bot,saved);
+      Object.assign(bot, saved);
       saveLocalProjects();
       renderChecks(bot);
-      $("checkNotice").textContent = "Checklist saved.";
+      $("checkNotice").textContent = "Checklist saved to the server.";
     } catch (error) {
-      saveLocalProjects();
-      $("checkNotice").textContent = "Saved in this browser; server save failed: " + error.message;
+      $("checkNotice").textContent = "Checklist was not saved to the server: " + error.message;
     }
   });
 
-  $("backToDashboard").addEventListener("click",back);
+  $("backToDashboard").addEventListener("click", back);
 
-  $("deleteDetail").addEventListener("click",async () => {
+  $("deleteDetail").addEventListener("click", async () => {
     const bot = bots.find(item => item.id === selectedId);
     if (!bot || !confirm('Delete "' + bot.name + '"?')) return;
 
-    if (isServerId(bot.id)) {
-      try {
-        await api("/api/projects/" + encodeURIComponent(bot.id),{method:"DELETE"});
-      } catch (error) {
-        alert("The server could not delete this project. It has not been removed.\n\n" + error.message);
-        return;
-      }
+    if (!isServerId(bot.id)) {
+      alert("This project has no server ID and cannot be deleted from the server.");
+      return;
     }
-    bots = bots.filter(item => item.id !== selectedId);
-    saveLocalProjects();
-    back();
+
+    try {
+      await api("/api/projects/" + encodeURIComponent(bot.id), {
+        method: "DELETE"
+      });
+      bots = bots.filter(item => item.id !== selectedId);
+      saveLocalProjects();
+      back();
+    } catch (error) {
+      alert("The server could not delete this project.\n\n" + error.message);
+    }
   });
 
   async function initializeDashboard() {
     render();
     const connected = await checkApi();
-    if (connected) {
-      try {
-        await loadServerProjects();
-      } catch (error) {
-        $("apiStatus").textContent = "Storage issue";
-        $("apiStatus").className = "status offline";
-        $("apiMessage").textContent = "The backend responds, but project storage could not load: " + error.message;
-      }
+
+    if (!connected) return;
+
+    try {
+      await loadServerProjects();
+    } catch (error) {
+      $("apiStatus").textContent = "Storage issue";
+      $("apiStatus").className = "status offline";
+      $("apiMessage").textContent = error.message;
     }
   }
 
-  setAuthMode("login");
+  async function start() {
+    setAuthMode("login");
+    restoreSession();
+
+    if (!authToken) return;
+
+    try {
+      const data = await api("/api/auth/me");
+      showDashboard(data.user || authUser);
+    } catch (_) {
+      clearSession();
+      $("authNotice").textContent = "Your session expired. Please sign in again.";
+    }
+  }
+
+  start();
 })();
 </script>
 </body>
-</html>
+          </html>
